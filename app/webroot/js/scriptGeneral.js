@@ -22,9 +22,27 @@ $(document).ready(function () {
             }
         });
     }
+    
+    //Función para guardar usuarios
+    function ajaxAddUsuario(){
+        $("#btnGuaUsu").click(function(){
+             $.ajax({
+                type: "POST",
+                url: base_url + "liders/ajaxGetUbicaciones",
+                data: $("#formUser").serialize(),
+                dataType: "json",
+                cache: false,
+                success: function (data) {
 
+                }
+            });
+            return false;
+ 
+        });
+    }
 
     //Lamados de las funciones
     changeTextBoxes();
     ocultarDivs();
+    ajaxAddUsuario();
 });

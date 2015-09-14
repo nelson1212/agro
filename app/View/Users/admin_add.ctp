@@ -10,7 +10,7 @@
             </div>
 
        
-        <?php echo $this->Form->create('User', array('type' => 'file',"novalidate"=>"novalidate")); ?>
+        <?php echo $this->Form->create('User', array('id'=>"formUser",'type' => 'file',"novalidate"=>"novalidate")); ?>
         <!-- DATOS DE PERFIL -->
         <fieldset class="well the-fieldset"> 
             <legend class="the-legend">
@@ -295,21 +295,17 @@
         
         <div class="col-lg-4">
             <?php
-            $options = array('label' => 'Guardar', 'type'=>"button", 'class' => 'btn btn-primary', 'div' => false);
+            $options = array('label' => 'Guardar', 'type'=>"button", "id"=>"btnGuaUsu",  'class' => 'btn btn-primary', 'div' => false);
             echo $this->Form->end($options);
             ?> 
             <?php
-            $options = array('label' => 'Cancelar', 'class' => 'btn btn-warning', 'div' => false);
+            $options = array('label' => 'Cancelar',"id"=>"btnCanRegUsu", 'class' => 'btn btn-warning', 'div' => false);
             echo $this->Form->end($options);
             ?>
         </div>
     </div>
 </div>
-
-
-</div> <!-- FIN PANEL -->
-
-
+&nbsp;
 
 
 
