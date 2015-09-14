@@ -155,15 +155,15 @@ class UsersController extends AppController {
      *
      * @return void
      */
-    public function admin_add($isAjax=false) {
-        $this->layout="admin";
+    public function admin_add($isAjax = false) {
+        $this->layout = "admin";
         $this->User->recursive = 0; //Recursividad
-        
-        if ($this->request->is('post')) {
-           // debug($this->validationErrors);
-           // debug($this->request->data);
+
+      /*  if ($this->request->is('post')) {
+            // debug($this->validationErrors);
+            // debug($this->request->data);
             $this->User->create();
-            
+
             //exit;
             if ($this->User->save($this->request->data)) {
                 $this->Flash->success(__('El usuario fue registrado.'));
@@ -172,51 +172,60 @@ class UsersController extends AppController {
                 debug($this->User->validationErrors);
                 $this->Flash->error(__('El usuario no fue registrado, intenta de nuevo.'));
             }
-        }
-       
-       // $veredas = $this->User->Vereda->find('list');
+        }*/
+
+        // $veredas = $this->User->Vereda->find('list');
         $departamentos = $this->User->Departamento->find('list');
         $this->unshift($departamentos, 0, "Seleccione una opción");
         //debug($departamentos); exit;
         $paisses = $this->User->Paiss->find('list');
-        
+
         $ciudads = $this->User->Ciudad->find('list');
         $this->unshift($ciudads, 0, "Seleccione una opción");
-        
+
         $corregimientos = $this->User->Corregimiento->find('list');
         $this->unshift($corregimientos, 0, "Seleccione una opción");
-        
+
         $tipoAgriculturas = $this->User->TipoAgricultura->find('list');
         $this->unshift($tipoAgriculturas, 0, "Seleccione una opción");
-        
+
         $rols = $this->User->Rol->find('list');
         $this->unshift($rols, 0, "Seleccione una opción");
-        
+
         //$googleMaps = $this->User->GoogleMap->find('list');
-        $generos = array(0 => "Seleccione una opción", "Femenino"=>"Femenino","Masculino"=>"Masculino","LGTBI"=>"LGTBI");
-        $this->set(compact('veredas', 'generos','departamentos', 'paisses', 'ciudads', 'corregimientos', 'tipoAgriculturas', 'rols', 'googleMaps'));
+        $generos = array(0 => "Seleccione una opción", "Femenino" => "Femenino", "Masculino" => "Masculino", "LGTBI" => "LGTBI");
+        $this->set(compact('veredas', 'generos', 'departamentos', 'paisses', 'ciudads', 'corregimientos', 'tipoAgriculturas', 'rols', 'googleMaps'));
     }
-    
+
     public function ajaxUserAdd() {
-        $this->layout=null;
+        $this->layout = null;
         $this->autoRender = false;
         $this->User->recursive = 0; //Recursividad
-        
+        $data["res"] = "no";
+        $this->debug($this->data);
         if ($this->request->is('post')) {
-           // debug($this->validationErrors);
-           // debug($this->request->data);
+            // debug($this->validationErrors);
+            // debug($this->request->data);
             $this->User->create();
-            
+
             //exit;
             if ($this->User->save($this->request->data)) {
-                $this->Flash->success(__('El usuario fue registrado.'));
-                return $this->redirect(array('action' => 'index'));
+                $data["res"] = "si";
+                $data["msj"] = 'El usuario fue registrado.';
+                // return $this->redirect(array('action' => 'index'));
             } else {
-                debug($this->User->validationErrors);
-                $this->Flash->error(__('El usuario no fue registrado, intenta de nuevo.'));
+                //debug($this->User->validationErrors);
+                foreach ($this->User->validationErrors as $key => $value) {
+                    foreach ($value as $val) {
+                        $data["errores_validacion"][$key]= $value;
+                        //echo $val. "<br>";
+                    }
+                }
+                
+               // debug($data);
+                // $this->Flash->error(__('El usuario no fue registrado, intenta de nuevo.'));
             }
         }
-      
     }
 
     /**

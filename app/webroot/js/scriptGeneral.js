@@ -1,6 +1,6 @@
 $(document).ready(function () {
     //var base_url = 'http://electoral.tecnodes.net/';
-    var base_url = 'http://localhost/electoral/';
+    var base_url = 'http://localhost/agrotic/';
 
     function ocultarDivs() {
         $("#divOtros").hide();
@@ -24,11 +24,11 @@ $(document).ready(function () {
     }
     
     //Función para guardar usuarios
-    function ajaxAddUsuario(){
+    function ajaxUserAdd(){
         $("#btnGuaUsu").click(function(){
              $.ajax({
                 type: "POST",
-                url: base_url + "liders/ajaxGetUbicaciones",
+                url: base_url + "users/ajaxUserAdd",
                 data: $("#formUser").serialize(),
                 dataType: "json",
                 cache: false,
@@ -44,5 +44,5 @@ $(document).ready(function () {
     //Lamados de las funciones
     changeTextBoxes();
     ocultarDivs();
-    ajaxAddUsuario();
+    ajaxUserAdd();
 });
