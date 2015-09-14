@@ -295,11 +295,11 @@
         
         <div class="col-lg-4">
             <?php
-            $options = array('label' => 'Guardar', 'class' => 'btn btn-success', 'div' => false);
+            $options = array('label' => 'Guardar', 'type'=>"button", 'class' => 'btn btn-primary', 'div' => false);
             echo $this->Form->end($options);
             ?> 
             <?php
-            $options = array('label' => 'Cancelar', 'class' => 'btn btn-success', 'div' => false);
+            $options = array('label' => 'Cancelar', 'class' => 'btn btn-warning', 'div' => false);
             echo $this->Form->end($options);
             ?>
         </div>
