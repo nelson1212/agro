@@ -72,9 +72,9 @@
                     <i class="fa fa-angle-left pull-right"></i>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a href="pages/UI/general.html"><i class="fa fa-circle-o"></i> Registrar</a></li>
-                    <li><a href="pages/UI/icons.html"><i class="fa fa-circle-o"></i> Ver listado</a></li>
-                    <li><a href="pages/UI/general.html"><i class="fa fa-circle-o"></i> Pre-registro</a></li>
+                    <li><a href="<?php echo $this->webroot; ?>admin/users/add"><i class="fa fa-circle-o"></i> Agregar</a></li>
+                    <li><a href="<?php echo $this->webroot; ?>admin/users/index"><i class="fa fa-circle-o"></i> Ver listado</a></li>
+                    <li><a href="<?php echo $this->webroot; ?>admin/users/index"><i class="fa fa-circle-o"></i> Pre-registro</a></li>
 
                 </ul>
             </li>
@@ -85,7 +85,7 @@
                     <i class="fa fa-angle-left pull-right"></i>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a href="pages/UI/general.html"><i class="fa fa-circle-o"></i> Registrar</a></li>
+                    <li><a href="pages/UI/general.html"> Registrar</a></li>
                     <li><a href="pages/UI/icons.html"><i class="fa fa-circle-o"></i> Ver listado</a></li>
 
                 </ul>
