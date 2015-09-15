@@ -131,6 +131,7 @@ class UsersController extends AppController {
      * @return void
      */
     public function admin_index() {
+        $this->layout="admin";
         $this->User->recursive = 0;
         $this->set('users', $this->Paginator->paginate());
     }
@@ -155,24 +156,24 @@ class UsersController extends AppController {
      *
      * @return void
      */
-    public function admin_add($isAjax = false) {
+    public function admin_add() {
         $this->layout = "admin";
         $this->User->recursive = 0; //Recursividad
 
-      /*  if ($this->request->is('post')) {
-            // debug($this->validationErrors);
-            // debug($this->request->data);
-            $this->User->create();
+        /*  if ($this->request->is('post')) {
+          // debug($this->validationErrors);
+          // debug($this->request->data);
+          $this->User->create();
 
-            //exit;
-            if ($this->User->save($this->request->data)) {
-                $this->Flash->success(__('El usuario fue registrado.'));
-                return $this->redirect(array('action' => 'index'));
-            } else {
-                debug($this->User->validationErrors);
-                $this->Flash->error(__('El usuario no fue registrado, intenta de nuevo.'));
-            }
-        }*/
+          //exit;
+          if ($this->User->save($this->request->data)) {
+          $this->Flash->success(__('El usuario fue registrado.'));
+          return $this->redirect(array('action' => 'index'));
+          } else {
+          debug($this->User->validationErrors);
+          $this->Flash->error(__('El usuario no fue registrado, intenta de nuevo.'));
+          }
+          } */
 
         // $veredas = $this->User->Vereda->find('list');
         $departamentos = $this->User->Departamento->find('list');
@@ -202,29 +203,26 @@ class UsersController extends AppController {
         $this->autoRender = false;
         $this->User->recursive = 0; //Recursividad
         $data["res"] = "no";
-        $this->debug($this->data);
+        
+        $this->request->data["User"]["departamento_id"] = 31; //Valle del cauca
+        $this->request->data["User"]["vereda_id"] = null; //Vereda
+        $this->request->data["User"]["paiss_id"] = null;//Pais
+        //
+       // debug($this->data);
         if ($this->request->is('post')) {
-            // debug($this->validationErrors);
-            // debug($this->request->data);
             $this->User->create();
-
-            //exit;
             if ($this->User->save($this->request->data)) {
                 $data["res"] = "si";
                 $data["msj"] = 'El usuario fue registrado.';
-                // return $this->redirect(array('action' => 'index'));
             } else {
-                //debug($this->User->validationErrors);
                 foreach ($this->User->validationErrors as $key => $value) {
                     foreach ($value as $val) {
-                        $data["errores_validacion"][$key]= $value;
-                        //echo $val. "<br>";
+                        $data["errores_validacion"][$key] = $val;
                     }
                 }
-                
-               // debug($data);
-                // $this->Flash->error(__('El usuario no fue registrado, intenta de nuevo.'));
+                $data["msj"] = "El usuario no fue registrado, intenta de nuevo.";
             }
+            echo json_encode($data);
         }
     }
 

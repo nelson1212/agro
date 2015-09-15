@@ -1,16 +1,16 @@
-<div class="panel panel-default"> <!-- PANEL -->
+<div class="panel panel-default" id="divPanel"> <!-- PANEL -->
     <div class="panel-heading">
         <h3 class="panel-title"><b>REGISTRO DE USUARIOS </b></h3>
     </div>
     <div class="panel-body">
 
-            <div class="form-group">
-                Los campos marcados con * son obligatorios
+        <div class="form-group">
+            Los campos marcados con * son obligatorios
 
-            </div>
+        </div>
 
-       
-        <?php echo $this->Form->create('User', array('id'=>"formUser",'type' => 'file',"novalidate"=>"novalidate")); ?>
+
+        <?php echo $this->Form->create('User', array('id' => "formUser", 'type' => 'file', "novalidate" => "novalidate")); ?>
         <!-- DATOS DE PERFIL -->
         <fieldset class="well the-fieldset"> 
             <legend class="the-legend">
@@ -19,7 +19,7 @@
             <!-- TIPO DE USUARIO -->
             <div class="col-lg-4">
                 <div class="form-group">
-                    <?php echo $this->Form->input('rol_id', array("div" => false, "id" => "cboRol", "label" => "Tipo de usuario*", "type" => "select", "class" => "form-control")); ?>
+                    <?php echo $this->Form->input('rol_id', array("div" => false, "id" => "cboRol", 'tag' => 'rol_id',  "label" => "Tipo de usuario*", "type" => "select", "class" => "form-control")); ?>
 
                 </div>
 
@@ -28,7 +28,7 @@
             <!-- USERNAME -->
             <div class="col-lg-4">
                 <div class="form-group">
-                    <?php echo $this->Form->input('ciudad_id', array("div" => false, "label" => "Usuario*", "type" => "text", "class" => "form-control")); ?>
+                    <?php echo $this->Form->input('username', array("div" => false, "id" => "txtUsername", "label" => "Usuario*", "maxlength"=>15,'tag' => 'username', "type" => "text", "class" => "form-control")); ?>
 
                 </div>
 
@@ -37,269 +37,38 @@
             <!-- PASSWORD -->
             <div class="col-lg-4">
                 <div class="form-group">
-                    <?php echo $this->Form->input('corregimiento_id', array("div" => false, "label" => "Contraseña*", "type" => "password", "class" => "form-control")); ?>
+                    <?php echo $this->Form->input('password', array("div" => false, "id" => "txtContrasena", "label" => "Contraseña*","maxlength"=>15, 'tag' => 'password', "type" => "password", "class" => "form-control")); ?>
+
+                </div>
+
+            </div>
+            
+            <!-- CONFIRMAR PASSWORD -->
+            <div class="col-lg-4">
+                <div class="form-group">
+                    <?php echo $this->Form->input('password1', array("div" => false, "id" => "txtContrasena", "label" => "Confirmar contraseña*", "maxlength"=>15, 'tag' => 'password1', "type" => "password", "class" => "form-control")); ?>
 
                 </div>
 
             </div>
 
         </fieldset>
-
-        <div id="divOtros">
-            <!-- DATOS BASICOS -->
-            <fieldset class="well the-fieldset"> 
-                <legend class="the-legend">
-                    Datos basicos
-                </legend>
-                <!-- IDENTIFICACIÓN -->
-                <div class="col-lg-4" >
-                    <div class="form-group">
-                        <?php echo $this->Form->input('identificacion', array("div" => false, "label" => "Identificación*", "class" => "form-control")); ?>
-                    </div>
-                </div>
-
-                <!-- NOMBRES -->
-                <div class="col-lg-4">
-                    <div class="form-group">
-                        <?php echo $this->Form->input('nombres', array("div" => false, "label" => "Nombres*", "class" => "form-control")); ?>
-
-                    </div>
-
-                </div>
-
-                <!-- APELLIDOS -->
-                <div class="col-lg-4">
-                    <div class="form-group">
-                        <?php echo $this->Form->input('apellidos', array("div" => false, "label" => "Apellidos*", "class" => "form-control")); ?>
-
-                    </div>
-
-                </div>
-
-                <!-- GENERO -->
-                <div class="col-lg-4">
-                    <div class="form-group">
-                        <?php echo $this->Form->input('genero', array("div" => false, "label" => "Genero*", "type" => "select", "options" => $generos, "class" => "form-control")); ?>
-
-                    </div>
-
-                </div>
-                
-                
-                 <!-- FOTO -->
-                <div class="col-lg-4">
-                    <div class="form-group">
-                        <?php echo $this->Form->input('foto',array('type' => 'file','label'=>'Foto', "class" => "form-control")); ?>
-
-                    </div>
-
-                </div>
-                
-            </fieldset>   
-
-            <!-- DATOS DE UBICACIÓN -->
-            <fieldset class="well the-fieldset"> 
-                <legend class="the-legend">
-                    Datos de ubicación
-                </legend>
-
-                <!-- EMAIL -->
-                <div class="col-lg-4">
-                    <div class="form-group">
-                        <?php echo $this->Form->input('email', array("div" => false, "label" => "Email*", "class" => "form-control")); ?>
-
-                    </div>
-                </div>
-
-                <!-- DIRECCION -->
-                <div class="col-lg-4">
-                    <div class="form-group">
-                        <?php echo $this->Form->input('direccion', array("div" => false, "label" => "Direccion", "class" => "form-control")); ?>
-
-                    </div>
-                </div>
-
-
-                <!-- DEPARTAMENTO -->
-                <!-- <div class="col-lg-4">
-                     <div class="form-group">
-                <?php echo $this->Form->input('departamento_id', array("div" => false, "label" => "Departamento*", "type" => "select", "class" => "form-control")); ?>
-     
-                     </div>
-     
-                 </div> -->
-
-                <!-- CIUDAD -->
-                <div class="col-lg-4">
-                    <div class="form-group">
-                        <?php echo $this->Form->input('ciudad_id', array("div" => false, "label" => "Municipio*", "type" => "select", "class" => "form-control")); ?>
-
-                    </div>
-
-                </div>
-
-                <!-- CORREGIMIENTOS -->
-                <div class="col-lg-4">
-                    <div class="form-group">
-                        <?php echo $this->Form->input('corregimiento_id', array("div" => false, "label" => "Corregimiento, Vereda o Resguardo*", "type" => "select", "class" => "form-control")); ?>
-
-                    </div>
-
-                </div>
-            </fieldset> 
-
-            <!-- DATOS DE UBICACIÓN -->
-            <fieldset class="well the-fieldset"> 
-                <legend class="the-legend">
-                    Datos agricolas
-                </legend>
-                <!-- TIPO DE AGRICULTURA -->
-                <div class="col-lg-4">
-                    <div class="form-group">
-                        <?php echo $this->Form->input('tipo_agricultura_id', array("div" => false, "label" => "Tipo agricultura*", "type" => "select", "class" => "form-control")); ?>
-
-                    </div>
-
-                </div>                   
-            </fieldset>
- 
-        </div> 
         
         <div id="divEmpresas"> 
-      
-            <!-- DATOS BASICOS -->
-            <fieldset class="well the-fieldset"> 
-                <legend class="the-legend">
-                    Datos basicos
-                </legend>
-                <!-- IDENTIFICACIÓN -->
-                <div class="col-lg-4" >
-                    <div class="form-group">
-                        <?php echo $this->Form->input('identificacion', array("div" => false, "label" => "NIT", "class" => "form-control")); ?>
-                    </div>
-                </div>
-
-                <!-- NOMBRES -->
-                <div class="col-lg-4">
-                    <div class="form-group">
-                        <?php echo $this->Form->input('nombres', array("div" => false, "label" => "Nombre o Razon Social", "class" => "form-control")); ?>
-
-                    </div>
-
-                </div>
-     <!-- FOTO -->
-                <div class="col-lg-4">
-                    <div class="form-group">
-                        <?php echo $this->Form->input('foto',array('type' => 'file','label'=>'Logo, Foto o Imagen alusiva', "class" => "form-control")); ?>
-
-                    </div>
-
-                </div>
-               
-            </fieldset>   
-
-            <!-- DATOS DE UBICACIÓN -->
-            <fieldset class="well the-fieldset"> 
-                <legend class="the-legend">
-                    Datos de ubicación
-                </legend>
-                 <!-- Telefono de contacto -->
-                <div class="col-lg-4">
-                    <div class="form-group">
-                        <?php echo $this->Form->input('email', array("div" => false, "label" => "Telefono de contacto", "class" => "form-control")); ?>
-
-                    </div>
-                </div>
-
-                 
-                 <!-- Celular de contacto -->
-                <div class="col-lg-4">
-                    <div class="form-group">
-                        <?php echo $this->Form->input('email', array("div" => false, "label" => "Celular de contacto", "class" => "form-control")); ?>
-
-                    </div>
-                </div>
-
-                 
-                 
-                <!-- EMAIL -->
-                <div class="col-lg-4">
-                    <div class="form-group">
-                        <?php echo $this->Form->input('email', array("div" => false, "label" => "Email", "class" => "form-control")); ?>
-
-                    </div>
-                </div>
-
-                <!-- DIRECCION -->
-                <div class="col-lg-4">
-                    <div class="form-group">
-                        <?php echo $this->Form->input('direccion', array("div" => false, "label" => "Direccion", "class" => "form-control")); ?>
-
-                    </div>
-                </div>
-                
-                 <!-- PERSONA DE CONTACTO -->
-                <div class="col-lg-4">
-                    <div class="form-group">
-                        <?php echo $this->Form->input('persona_contacto', array("div" => false, "label" => "Nombre de la persona de contacto", "class" => "form-control")); ?>
-
-                    </div>
-                </div>
-
-
-                <!-- DEPARTAMENTO -->
-                <!-- <div class="col-lg-4">
-                     <div class="form-group">
-                <?php echo $this->Form->input('departamento_id', array("div" => false, "label" => "Departamento", "type" => "select", "class" => "form-control")); ?>
-     
-                     </div>
-     
-                 </div> -->
-
-                <!-- CIUDAD -->
-                <div class="col-lg-4">
-                    <div class="form-group">
-                        <?php echo $this->Form->input('ciudad_id', array("div" => false, "label" => "Municipio", "type" => "select", "class" => "form-control")); ?>
-
-                    </div>
-
-                </div>
-
-                <!-- CORREGIMIENTOS -->
-                <div class="col-lg-4">
-                    <div class="form-group">
-                        <?php echo $this->Form->input('corregimiento_id', array("div" => false, "label" => "Corregimiento, Vereda o Resguardo", "type" => "select", "class" => "form-control")); ?>
-
-                    </div>
-
-                </div>
-            </fieldset> 
-
-            <!-- DATOS DE UBICACIÓN -->
-            <fieldset class="well the-fieldset"> 
-                <legend class="the-legend">
-                    Datos agricolas
-                </legend>
-                <!-- TIPO DE AGRICULTURA -->
-                <div class="col-lg-4">
-                    <div class="form-group">
-                        <?php echo $this->Form->input('tipo_agricultura_id', array("div" => false, "label" => "Tipo agricultura", "type" => "select", "class" => "form-control")); ?>
-
-                    </div>
-
-                </div>                   
-            </fieldset>
-
-      
-        </div>
+           <?php echo $this->element("empresas"); ?>
+         </div>
         
+        <div id="divOtros">
+            <?php echo $this->element("otros"); ?>
+        </div>
+
         <div class="col-lg-4">
             <?php
-            $options = array('label' => 'Guardar', 'type'=>"button", "id"=>"btnGuaUsu",  'class' => 'btn btn-primary', 'div' => false);
+            $options = array('label' => 'Guardar', 'type' => "button", "id" => "btnGuaUsu", 'class' => 'btn btn-primary', 'div' => false);
             echo $this->Form->end($options);
             ?> 
             <?php
-            $options = array('label' => 'Cancelar',"id"=>"btnCanRegUsu", 'class' => 'btn btn-warning', 'div' => false);
+            $options = array('label' => 'Cancelar', "id" => "btnCanRegUsu", 'class' => 'btn btn-warning', 'div' => false);
             echo $this->Form->end($options);
             ?>
         </div>
