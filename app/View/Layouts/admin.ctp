@@ -75,13 +75,15 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
             <?php echo $this->element("menu"); ?>
 
             <!-- Content Wrapper. Contains page content -->
-            <div class="content-wrapper">
+            <div class="content-wrapper" style="padding-bottom: 0.09%;">
                 <!-- Content Header (Page header) -->
                 <section class="content-header">
                     <?php echo $this->Flash->render(); ?>
                     <?php echo $this->fetch('content'); ?>
+                   
                 </section><!-- /.content -->
-            </div><!-- /.content-wrapper -->
+            </div>
+            <!-- /.content-wrapper -->
             <?php echo $this->element("footer"); ?>
             <!-- Add the sidebar's background. This div must be placed
                  immediately after the control sidebar -->
@@ -89,7 +91,7 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
         </div><!-- ./wrapper -->
 
         <?php
-        echo $this->Html->script('jQuery-2.1.4');
+        echo $this->Html->script('jquery-2.1.4');
         echo $this->Html->script('jquery-ui.min');
         echo $this->Html->script('bootstrap.min');
         echo $this->Html->script('raphael-min');

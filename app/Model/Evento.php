@@ -88,12 +88,6 @@ class Evento extends AppModel {
 			'fields' => '',
 			'order' => ''
 		),
-		'GoogleMap' => array(
-			'className' => 'GoogleMap',
-			'foreignKey' => 'google_map_id',
-			'conditions' => '',
-			'fields' => '',
-			'order' => ''
-		)
+		
 	);
 }

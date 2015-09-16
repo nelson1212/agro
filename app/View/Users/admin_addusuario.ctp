@@ -1,6 +1,6 @@
 <div class="panel panel-default" id="divPanel"> <!-- PANEL -->
     <div class="panel-heading">
-        <h3 class="panel-title"><b>PRE-REGISTRO DE USUARIOS </b></h3>
+        <h3 class="panel-title"><b>REGISTRO DE USUARIOS </b></h3>
     </div>
     <div class="panel-body">
 
@@ -16,7 +16,6 @@
             <legend class="the-legend">
                 Datos de perfil
             </legend>  
-            
             <!-- TIPO DE USUARIO -->
             <div class="col-lg-4">
                 <div class="form-group">
@@ -55,17 +54,15 @@
 
         </fieldset>
         
-        <div id="divEmpresas"> 
-           <?php //echo $this->element("empresas"); ?>
-         </div>
+        
         
         <div id="divOtros">
-            <?php //echo $this->element("otros"); ?>
+            <?php echo $this->element("usuarios"); ?>
         </div>
 
         <div class="col-lg-4">
             <?php
-            $options = array('label' => 'Enviar código', 'type' => "button", "id" => "btnGuaUsu", 'class' => 'btn btn-primary', 'div' => false);
+            $options = array('label' => 'Guardar', 'type' => "button", "id" => "btnGuaUsu", 'class' => 'btn btn-primary', 'div' => false);
             echo $this->Form->end($options);
             ?> 
             <?php
@@ -75,4 +72,6 @@
         </div>
     </div>
 </div>
-&nbsp;
+
+
+

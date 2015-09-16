@@ -19,16 +19,16 @@ $(document).ready(function () {
             }
         });
     }
-    function ocultarDivs() {
+    /*function ocultarDivs() {
         $("#divOtros").hide();
         $("#divEmpresas").hide();
 
         $("#divOtros").attr('disabled', 'disabled');
         $("#divEmpresas").attr('disabled', 'disabled');
-    }
+    } */
 
     //Función para cambiar cajas de texto de acuerdo al rol seleccionado en registrar usuarios
-    function changeTextBoxes() {
+    /*function changeTextBoxes() {
         $("#cboRol").change(function (e) {
             var idRol = $("#cboRol").val();
             var textRol = $("#cboRol option:selected").text();
@@ -78,7 +78,7 @@ $(document).ready(function () {
 
             }
         });
-    }
+    } */
 
     function cboCiudadesChanged() {
         console.log("Entro aqui");
@@ -181,8 +181,8 @@ $(document).ready(function () {
 
     //Lamados de las funciones
 
-    changeTextBoxes();
-    ocultarDivs();
+    //changeTextBoxes();
+    //ocultarDivs();
     ajaxUserAdd();
     cboCiudadesChanged();
 });

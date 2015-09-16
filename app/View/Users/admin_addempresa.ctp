@@ -1,6 +1,6 @@
-<div class="panel panel-default" id="divPanel"> <!-- PANEL -->
+<div class="panel panel-default" id="divPanel" > <!-- PANEL -->
     <div class="panel-heading">
-        <h3 class="panel-title"><b>REGISTRO DE USUARIOS </b></h3>
+        <h3 class="panel-title"><b>REGISTRO DE EMPRESAS </b></h3>
     </div>
     <div class="panel-body">
 
@@ -16,15 +16,7 @@
             <legend class="the-legend">
                 Datos de perfil
             </legend>  
-            <!-- TIPO DE USUARIO -->
-            <div class="col-lg-4">
-                <div class="form-group">
-                    <?php echo $this->Form->input('rol_id', array("div" => false, "id" => "cboRol", 'tag' => 'rol_id',  "label" => "Tipo de usuario*", "type" => "select", "class" => "form-control")); ?>
-
-                </div>
-
-            </div>  
-
+          
             <!-- USERNAME -->
             <div class="col-lg-4">
                 <div class="form-group">
@@ -58,10 +50,7 @@
            <?php echo $this->element("empresas"); ?>
          </div>
         
-        <div id="divOtros">
-            <?php echo $this->element("otros"); ?>
-        </div>
-
+       
         <div class="col-lg-4">
             <?php
             $options = array('label' => 'Guardar', 'type' => "button", "id" => "btnGuaUsu", 'class' => 'btn btn-primary', 'div' => false);
@@ -72,8 +61,14 @@
             echo $this->Form->end($options);
             ?>
         </div>
+    
     </div>
 </div>
-&nbsp;
+
+
+
+
+
+
 
 

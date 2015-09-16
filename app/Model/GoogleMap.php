@@ -16,33 +16,6 @@ class GoogleMap extends AppModel {
  *
  * @var array
  */
-	public $hasMany = array(
-		'Evento' => array(
-			'className' => 'Evento',
-			'foreignKey' => 'google_map_id',
-			'dependent' => false,
-			'conditions' => '',
-			'fields' => '',
-			'order' => '',
-			'limit' => '',
-			'offset' => '',
-			'exclusive' => '',
-			'finderQuery' => '',
-			'counterQuery' => ''
-		),
-		'User' => array(
-			'className' => 'User',
-			'foreignKey' => 'google_map_id',
-			'dependent' => false,
-			'conditions' => '',
-			'fields' => '',
-			'order' => '',
-			'limit' => '',
-			'offset' => '',
-			'exclusive' => '',
-			'finderQuery' => '',
-			'counterQuery' => ''
-		)
-	);
-
+    
+    
 }

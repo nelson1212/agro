@@ -72,10 +72,22 @@
                     <i class="fa fa-angle-left pull-right"></i>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a href="<?php echo $this->webroot; ?>admin/users/add"><i class="fa fa-circle-o"></i> Agregar</a></li>
+                    <li><a href="<?php echo $this->webroot; ?>admin/users/addusuario"><i class="fa fa-circle-o"></i> Agregar</a></li>
                     <li><a href="<?php echo $this->webroot; ?>admin/users/index"><i class="fa fa-circle-o"></i> Ver listado</a></li>
                     <li><a href="<?php echo $this->webroot; ?>admin/users/preregistro"><i class="fa fa-circle-o"></i> Pre-registro</a></li>
 
+                </ul>
+            </li>
+               <li class="treeview">
+                <a href="#">
+                    <i class="fa fa-laptop"></i>
+                    <span>Empresas</span>
+                    <i class="fa fa-angle-left pull-right"></i>
+                </a>
+                <ul class="treeview-menu">
+                    <li><a href="<?php echo $this->webroot; ?>admin/users/addempresa"><i class="fa fa-circle-o"></i> Agregar</a></li>
+                    <li><a href="<?php echo $this->webroot; ?>admin/users/index"><i class="fa fa-circle-o"></i> Ver listado</a></li>
+                    <li><a href="<?php echo $this->webroot; ?>admin/users/preregistro"><i class="fa fa-circle-o"></i> Pre-registro</a></li>
                 </ul>
             </li>
             <li class="treeview">

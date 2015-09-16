@@ -156,7 +156,7 @@ class UsersController extends AppController {
      *
      * @return void
      */
-    public function admin_add() {
+    public function admin_addusuario() {
         $this->layout = "admin";
         $this->User->recursive = 0; //Recursividad
 
@@ -192,6 +192,58 @@ class UsersController extends AppController {
 
         $rols = $this->User->Rol->find('list');
         $this->unshift($rols, 0, "Seleccione una opción");
+        unset($rols[4]); //Removemos empresa
+        //debug($rols);
+
+        //$googleMaps = $this->User->GoogleMap->find('list');
+        
+        $this->loadModel("Certificacion");
+        $this->Certificacion->recursive=0;
+        $certificaciones = $this->Certificacion->find("list");
+        $this->unshift($certificaciones, 0, "Seleccione una opción");
+        
+        $generos = array(0 => "Seleccione una opción", "Femenino" => "Femenino", "Masculino" => "Masculino", "LGTBI" => "LGTBI");
+        $this->set(compact('certificaciones','veredas', 'generos', 'departamentos', 'paisses', 'ciudads', 'corregimientos', 'tipoAgriculturas', 'rols', 'googleMaps'));
+    }
+    
+        public function admin_addempresa() {
+        $this->layout = "admin";
+        $this->User->recursive = 0; //Recursividad
+
+        /*  if ($this->request->is('post')) {
+          // debug($this->validationErrors);
+          // debug($this->request->data);
+          $this->User->create();
+
+          //exit;
+          if ($this->User->save($this->request->data)) {
+          $this->Flash->success(__('El usuario fue registrado.'));
+          return $this->redirect(array('action' => 'index'));
+          } else {
+          debug($this->User->validationErrors);
+          $this->Flash->error(__('El usuario no fue registrado, intenta de nuevo.'));
+          }
+          } */
+
+        // $veredas = $this->User->Vereda->find('list');
+        $departamentos = $this->User->Departamento->find('list');
+        $this->unshift($departamentos, 0, "Seleccione una opción");
+        //debug($departamentos); exit;
+        $paisses = $this->User->Paiss->find('list');
+
+        $ciudads = $this->User->Ciudad->find('list');
+        $this->unshift($ciudads, 0, "Seleccione una opción");
+
+       // $corregimientos = $this->User->Corregimiento->find('list');
+        //$this->unshift($corregimientos, 0, "Seleccione una opción");
+
+        $tipoAgriculturas = $this->User->TipoAgricultura->find('list');
+        $this->unshift($tipoAgriculturas, 0, "Seleccione una opción");
+
+        $rols = $this->User->Rol->find('list');
+        $this->unshift($rols, 0, "Seleccione una opción");
+        unset($rols[4]); //Removemos empresa
+        //debug($rols);
 
         //$googleMaps = $this->User->GoogleMap->find('list');
         
@@ -248,6 +300,33 @@ class UsersController extends AppController {
     
 
     public function ajaxUserAdd() {
+        $this->layout = null;
+        $this->autoRender = false;
+        $this->User->recursive = 0; //Recursividad
+        $data["res"] = "no";
+        
+        $this->request->data["User"]["departamento_id"] = 31; //Valle del cauca
+        $this->request->data["User"]["vereda_id"] = null; //Vereda
+        $this->request->data["User"]["paiss_id"] = null;//Pais
+        //
+       // debug($this->data);
+        if ($this->request->is('post')) {
+            $this->User->create();
+            if ($this->User->save($this->request->data)) {
+                $data["res"] = "si";
+                $data["msj"] = 'El usuario fue registrado.';
+            } else {
+                foreach ($this->User->validationErrors as $key => $value) {
+                    foreach ($value as $val) {
+                        $data["errores_validacion"][$key] = $val;
+                    }
+                }
+                $data["msj"] = "El usuario no fue registrado, intenta de nuevo.";
+            }
+            echo json_encode($data);
+        }
+    }
+       public function ajaxEmpresaAdd() {
         $this->layout = null;
         $this->autoRender = false;
         $this->User->recursive = 0; //Recursividad
