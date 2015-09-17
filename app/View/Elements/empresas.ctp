@@ -20,14 +20,48 @@
     </div>
     <!-- FOTO -->
     <div class="col-lg-4">
-        <div class="form-group">
-            <?php echo $this->Form->input('foto', array('type' => 'file', "id" => "imgFoto", 'label' => 'Logo, Foto o Imagen alusiva', 'tag' => 'foto', "class" => "form-control")); ?>
-
+        <!-- <label>Selecciona una foto (opcional)</label>
+         <div class="form-group">
+             <span class="btn btn-default btn-file">
+                 Buscar foto <input type="file">
+             </span>
+ dasdasd
+       <  </div> -->
+        <label>Selecciona una foto (opcional)</label>
+        <div class="fileinput fileinput-new input-group" tag="foto" data-provides="fileinput">
+            <div class="form-control" data-trigger="fileinput"><i class="glyphicon glyphicon-file fileinput-exists"></i> <span class="fileinput-filename"></span></div>
+            <span class="input-group-addon btn btn-default btn-file"><span class="fileinput-new"><b>Buscar foto</b></span><span class="fileinput-exists"><b>Cambiar</b></span><input type="file"  name="data[User][foto]"></span>
+            <a href="#" class="input-group-addon btn btn-default fileinput-exists" data-dismiss="fileinput"><b>Remover</b></a>
         </div>
-
-    </div>
+    </div> 
 
 </fieldset>   
+
+
+<!-- foto -->
+<fieldset class="well the-fieldset"> 
+  <legend class="the-legend">
+       Foto
+    </legend>
+    <!-- FOTO -->
+    <div class="col-lg-6">
+        <!-- <label>Selecciona una foto (opcional)</label>
+         <div class="form-group">
+             <span class="btn btn-default btn-file">
+                 Buscar foto <input type="file">
+             </span>
+ dasdasd
+       <  </div> -->
+        <label>Selecciona una foto (opcional)</label>
+        <div class="fileinput fileinput-new input-group" tag="foto" data-provides="fileinput">
+            <div class="form-control" data-trigger="fileinput"><i class="glyphicon glyphicon-file fileinput-exists"></i> <span class="fileinput-filename"></span></div>
+            <span class="input-group-addon btn btn-default btn-file"><span class="fileinput-new"><b>Buscar foto</b></span><span class="fileinput-exists"><b>Cambiar</b></span><input type="file"  name="data[User][foto]"></span>
+            <a href="#" class="input-group-addon btn btn-default fileinput-exists" data-dismiss="fileinput"><b>Remover</b></a>
+        </div>
+    </div> 
+
+</fieldset>  
+
 
 <!-- DATOS DE UBICACIÓN -->
 <fieldset class="well the-fieldset"> 
@@ -38,7 +72,7 @@
     <!-- CIUDAD -->
     <div class="col-lg-4">
         <div class="form-group">
-            <?php echo $this->Form->input('ciudad_id', array("div" => false, "id" => "cboCiudad2", "label" => "Municipio", 'tag' => 'ciudad_id', "type" => "select", "class" => "form-control")); ?>
+            <?php echo $this->Form->input('ciudad_id', array("div" => false, "id" => "cboCiudad", "label" => "Municipio", 'tag' => 'ciudad_id', "type" => "select", "class" => "form-control")); ?>
 
         </div>
 
@@ -48,7 +82,7 @@
     <!-- CORREGIMIENTOS -->
     <div class="col-lg-4">
         <div class="form-group">
-            <?php echo $this->Form->input('corregimiento_id', array("div" => false, "id" => "2", 'tag' => 'corregimiento_id', "label" => "Corregimiento, Vereda o Resguardo", "type" => "select", "class" => "form-control")); ?>
+            <?php echo $this->Form->input('corregimiento_id', array("div" => false, "id" => "cboCorregimientos", 'tag' => 'corregimiento_id', "label" => "Corregimiento, Vereda o Resguardo", "type" => "select", "class" => "form-control")); ?>
 
         </div>
 

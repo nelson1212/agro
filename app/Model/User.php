@@ -75,11 +75,20 @@ class User extends AppModel {
             ),
         ),
         'foto' => array(
-          
-            'validarExtension' => array(
-                'rule' => array('validarExtension'),
+            'validarVacia' => array(
+                'rule' => array('validarVacia'),
+                'message' => 'Debes ingresar una foto',
+                ),
+            'validarSize' => array(
+                'rule' => array('validarSize'),
+                'message' => "La foto excede el tamaño permitido (1MB), intenta con una foto mas pequeña",
+            ),
+             
+            'extension' => array(
+                'rule' => array('extension',array('jpg','jpeg','png')),
                 'message' => "Solo puedes subir imagenes con las siguientes extensiones: 'jpg','jpeg','png'",
             ),
+            
         ), 'genero' => array(
             'validarGenero' => array(
                 'rule' => array('validarGenero'),
@@ -200,7 +209,7 @@ class User extends AppModel {
         'email' => array(
             'email' => array(
                 'rule' => array('email'),
-                'message' => 'Debes llenar el campo email',
+                'message' => 'Debes ingresar un email correcto',
             //'allowEmpty' => false,
             //'required' => false,
             //'last' => false, // Stop validation after this rule
@@ -237,7 +246,45 @@ class User extends AppModel {
               ),
               ), */
     );
+    
+       public function validarVacia($opcion) {
+        // Shift the array to easily acces $_POST
+        //debug($opcion);
+        $uploadData = array_shift($opcion);
+        
+       // debug($uploadData);
+        // Basic checks
+        if ($uploadData['size'] == 0 || $uploadData['error'] !== 0) {
+            return false;
+        }
 
+       
+        return true;
+    }
+    
+    
+      public function validarSize($opcion) {
+        // Shift the array to easily acces $_POST
+        //debug($opcion);
+        $uploadData = array_shift($opcion);
+        
+       // debug($uploadData);
+        // Basic checks
+        if ($uploadData['size'] == 0 || $uploadData['error'] !== 0) {
+            return false;
+        }
+
+       
+       //echo $size = $uploadData["size"];
+        
+        if($uploadData["size"] > 1024000) {
+            return false;
+        } 
+     
+       
+        return true;
+    }
+    
     public function validarExtension($opcion) {
         // Shift the array to easily acces $_POST
         $uploadData = array_shift($opcion);

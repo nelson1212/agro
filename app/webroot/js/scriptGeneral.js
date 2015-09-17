@@ -123,6 +123,8 @@ $(document).ready(function () {
                             });
                         }
 
+                    } else if (data.res === "si") {
+                        ocultarDivUsuarios();
                     }
               
                 }

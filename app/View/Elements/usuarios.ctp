@@ -38,8 +38,17 @@
     </div>
 
 
+     
+<!-- <input type="file" id="foto" name="data[User][foto]"> -->
+</fieldset>   
+
+<!-- foto -->
+<fieldset class="well the-fieldset"> 
+  <legend class="the-legend">
+       Foto
+    </legend>
     <!-- FOTO -->
-    <div class="col-lg-4">
+    <div class="col-lg-6">
         <!-- <label>Selecciona una foto (opcional)</label>
          <div class="form-group">
              <span class="btn btn-default btn-file">
@@ -53,10 +62,9 @@
             <span class="input-group-addon btn btn-default btn-file"><span class="fileinput-new"><b>Buscar foto</b></span><span class="fileinput-exists"><b>Cambiar</b></span><input type="file"  name="data[User][foto]"></span>
             <a href="#" class="input-group-addon btn btn-default fileinput-exists" data-dismiss="fileinput"><b>Remover</b></a>
         </div>
-        
-       <!-- <input type="file" id="foto" name="data[User][foto]"> -->
-</fieldset>   
+    </div> 
 
+</fieldset> 
 <!-- DATOS DE UBICACIÓN -->
 <fieldset class="well the-fieldset"> 
     <legend class="the-legend">

@@ -11,6 +11,7 @@
 
 
         <?php echo $this->Form->create('User', array('id' => "formUser", 'type' => 'file', "novalidate" => "novalidate")); ?>
+        <input type="hidden" name="data[User][tipo]" value="otros" />
         <!-- DATOS DE PERFIL -->
         <fieldset class="well the-fieldset"> 
             <legend class="the-legend">

@@ -11,6 +11,7 @@
 
 
         <?php echo $this->Form->create('User', array('id' => "formUser", 'type' => 'file', "novalidate" => "novalidate")); ?>
+        <input type="hidden" name="data[User][tipo]" value="administrador" />
         <!-- DATOS DE PERFIL -->
         <fieldset class="well the-fieldset"> 
             <legend class="the-legend">
@@ -53,7 +54,7 @@
        
         <div class="col-lg-4">
             <?php
-            $options = array('label' => 'Guardar', 'type' => "button", "id" => "btnGuaUsu", 'class' => 'btn btn-primary', 'div' => false);
+            $options = array('label' => 'Guardar', 'type' => "submit", "id" => "btnGuaUsu", 'class' => 'btn btn-primary', 'div' => false);
             echo $this->Form->end($options);
             ?> 
             <?php

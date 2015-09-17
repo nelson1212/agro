@@ -1,5 +1,5 @@
 <?php
-
+ date_default_timezone_set('America/Bogota');
 /**
  * Application level Controller
  *
@@ -81,6 +81,7 @@ class AppController extends Controller {
         $archivo = $formdata["name"];
         $error = $formdata["error"];
         $tmp_name = $formdata["tmp_name"];
+        $size = $formdata["size"];
         $ext = pathinfo($formdata["name"], PATHINFO_EXTENSION);
 
         //echo $tipo;
@@ -129,6 +130,8 @@ class AppController extends Controller {
                         $result['carpeta']= $url;
                         $result['path']= $full_url;
                         $result['archivo'] = $filename;
+                        $result['size']= $size;
+                        $result['ext']= $ext;
                     } else {
                         $result['errors'] = "Error uploaded $filename. Please try again.";
                     }

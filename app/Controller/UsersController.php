@@ -302,16 +302,38 @@ class UsersController extends AppController {
         $this->User->recursive = 0; //Recursividad
         
         $data["res"] = "no";
-
+       // debug($this->request->data);
+        if(!isset($this->request->data["User"]["tipo"])) {
+            goto errorAjaxUserAdd;
+        }
+        
+        $tipo = $this->request->data["User"]["tipo"];
         $this->request->data["User"]["departamento_id"] = 31; //Valle del cauca
         $this->request->data["User"]["vereda_id"] = null; //Vereda
         $this->request->data["User"]["paiss_id"] = null; //Pais
-        //
-       // debug($this->request->data["User"]["foto"]);
-            date_default_timezone_set('America/Bogota');
-       // error_reporting(E_ALL);
+        
+        if($tipo==="administrador") {
+            //echo "Entro aqi";
+            $this->request->data["User"]["rol_id"] = 1;
+           // $this->request->data["User"]["tipo_agricultura_id"];
+            $this->User->validator()->remove('tipo_agricultura_id');
+            $this->request->data["User"]["tipo_agricultura_id"] = null; 
+        }
+       
+        
+ 
+        $this->User->set( $this->request->data ); //Asignar datos al modelo
+        //debug($this->request->data );
         $res = $this->uploadFiles("img/fotos", $this->request->data["User"]["foto"], $this->request->data["User"]["identificacion"] );
-        $this->request->data["User"]["foto"] = $res["archivo"];
+        
+        if($this->User->validates($this->request->data)){
+            //$this->request->data["User"]["foto"] = $res["archivo"];
+             //$this->User->validator()->remove('foto');
+            $this->User->validate = array(); // Stop validation on the model
+            //$this->User->validator()->remove('foto', 'validarSize');
+            //$this->User->validator()->remove('foto', 'validarExtension');
+            $this->request->data["User"]["foto"] = $res["archivo"];
+        }
         
         if ($this->request->is('post')) {
             $this->User->create();
@@ -324,6 +346,7 @@ class UsersController extends AppController {
                         $data["errores_validacion"][$key] = $val;
                     }
                 }
+                errorAjaxUserAdd:
                 $data["msj"] = "El usuario no fue registrado, intenta de nuevo.";
             }
             echo json_encode($data);
