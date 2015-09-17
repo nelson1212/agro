@@ -56,13 +56,13 @@
         
         
         
-        <div id="divOtros">
+        <div id="divUsuarios">
             <?php echo $this->element("usuarios"); ?>
         </div>
 
         <div class="col-lg-4">
             <?php
-            $options = array('label' => 'Guardar', 'type' => "button", "id" => "btnGuaUsu", 'class' => 'btn btn-primary', 'div' => false);
+            $options = array('label' => 'Guardar', 'type' => "submit", "id" => "btnGuaUsu", 'class' => 'btn btn-primary', 'div' => false);
             echo $this->Form->end($options);
             ?> 
             <?php

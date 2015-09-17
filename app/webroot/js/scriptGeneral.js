@@ -1,7 +1,30 @@
 $(document).ready(function () {
     //var base_url = 'http://electoral.tecnodes.net/';
     var base_url = 'http://localhost/agrotic/';
+    
 
+        
+     $('#cboCertificaciones').multiselect({
+            buttonText: function(options, select) {
+                return 'Seleccione una o varias certificaciones';
+            },
+            includeSelectAllOption: true,
+            selectAllText: 'Seleccionar todas',
+            enableCaseInsensitiveFiltering: true,
+             //buttonWidth: '100%',
+            
+        });
+        
+   
+       
+       
+
+//    $('#cboCertificaciones').SumoSelect({ 
+//    okCancelInMulti: true ,
+//    triggerChangeCombined: true,
+//    forceCustomRendering: true
+//});
+    
     function inputSolonumeros() {
         $('#txtNumeric').keyup(function () {
             if (this.value.match(/[^0-9]/g)) {
@@ -19,85 +42,56 @@ $(document).ready(function () {
             }
         });
     }
-    /*function ocultarDivs() {
-        $("#divOtros").hide();
-        $("#divEmpresas").hide();
 
-        $("#divOtros").attr('disabled', 'disabled');
-        $("#divEmpresas").attr('disabled', 'disabled');
-    } */
+    function ocultarDatosAgricolas() {
+        $("#tipoAgr").hide();
+        $("#tipoAgr").attr('disabled', 'disabled');
+    }
+
+    function mostrarDatosAgricolas() {
+        $("#tipoAgr").removeAttr("disabled");
+        $("#tipoAgr").show();
+
+    }
+
+    function ocultarDivUsuarios() {
+        $("#divUsuarios").hide();
+
+    }
+
+    function mostrarDivUsuarios() {
+        $("#divUsuarios").show();
+
+    }
 
     //Función para cambiar cajas de texto de acuerdo al rol seleccionado en registrar usuarios
-    /*function changeTextBoxes() {
+    function changeTextBoxes() {
         $("#cboRol").change(function (e) {
-            var idRol = $("#cboRol").val();
+
+            // var idRol = $("#cboRol").val();
             var textRol = $("#cboRol option:selected").text();
+
+            $("#flashMessage").remove();
             $(".error-message").remove();
-            if (textRol === "Empresa") {
-
-                $("#divOtros").hide();
-                $("#divEmpresas").show();
-
-                //Habilitar elementos del div empresas
-                $('#divEmpresas input').each(function () {
-                    $(this).removeAttr("disabled");
-                });
-                $('#divEmpresas select').each(function () {
-                    $(this).removeAttr("disabled");
-                });
-
-                //DesHabilitar elementos del div otros
-                $('#divOtros input').each(function () {
-                    $(this).attr('disabled', 'disabled');
-                });
-                $('#divOtros select').each(function () {
-                    $(this).attr('disabled', 'disabled');
-                });
-
-
-
+            mostrarDivUsuarios();
+            if (textRol === "Comprador" || textRol === "Administrador") {
+                ocultarDatosAgricolas();
+                //  console.log(textRol);
             } else {
-                $("#divEmpresas").hide();
-                $("#divOtros").show();
-
-                //Habilitar elementos del div otros
-                $('#divOtros input').each(function () {
-                    $(this).removeAttr("disabled");
-                });
-                $('#divOtros select').each(function () {
-                    $(this).removeAttr("disabled");
-                });
-
-                //DesHabilitar elementos del div empresas
-                $('#divEmpresas input').each(function () {
-                    $(this).attr('disabled', 'disabled');
-                });
-                $('#divEmpresas select').each(function () {
-                    $(this).attr('disabled', 'disabled');
-                });
-
+                mostrarDatosAgricolas();
             }
         });
-    } */
+    }
 
     function cboCiudadesChanged() {
-        console.log("Entro aqui");
+      console.log("Entro aqui");
 
-        $('#cboCiudad1, #cboCiudad2').on("change", function (e) {
+        $('#cboCiudad').on("change", function (e) {
             var elemento = $(this).attr("id");
             var _idCiudad = $(this).val();
-            
-            if (elemento === "cboCiudad1") {
-                elemento = "cboCorregimientos1";
-            } else if (elemento === "cboCiudad2") {
-                elemento = "cboCorregimientos2";
-            }
-            
-           
-            //Removemos las opciones de cboComuna
-//            $("#cboCorregimientos option").each(function (index, option) {
-//                $(option).remove();
-//            });
+
+            var elemento = "cboCorregimientos";
+
 
             $("#" + elemento).append('<option value="0">Seleccione una opción</option>');
 
@@ -114,13 +108,13 @@ $(document).ready(function () {
 
 
                         $("#" + elemento + " option").each(function (index, option) {
-                            
+
                             $(option).remove();
                         });
 
                         if (data.res === "si") {
                             $.each(data.corregimientos, function (i, item) {
-                               
+
                                 $("#" + elemento).append('<option value="' + i + '">' + item + '</option>');
                             });
                         } else if (data.res === "no") {
@@ -130,7 +124,7 @@ $(document).ready(function () {
                         }
 
                     }
-                    //as a debugging message.
+              
                 }
             });
 
@@ -143,13 +137,20 @@ $(document).ready(function () {
     }
     //Función para guardar usuarios
     function ajaxUserAdd() {
-        $("#btnGuaUsu").click(function () {
+           
+        $("#formUser").submit(function (e) {
+            e.preventDefault();
+            var formData = new FormData( this );
+              
             $.ajax({
                 type: "POST",
                 url: base_url + "users/ajaxUserAdd",
-                data: $("#formUser").serialize(),
+                data: new FormData( this ),
+                //data: new FormData($("#foto")[0]),
                 dataType: "json",
                 cache: false,
+                processData: false,
+                contentType: false,
                 success: function (data) {
                     if (data.res === "no") {
 
@@ -162,6 +163,7 @@ $(document).ready(function () {
                             // console.log(i)
                             $('input[tag="' + i + '"]').after('<div class="error-message">' + val + '</div>');
                             $('select[tag="' + i + '"]').after('<div class="error-message">' + val + '</div>');
+                            $('div[tag="' + i + '"]').after('<div class="error-message">' + val + '</div>');
                         });
 
                     } else if (data.res === "si") {
@@ -174,6 +176,8 @@ $(document).ready(function () {
                 },
                 error: {}
             });
+           
+            e.preventDefault();
             return false;
 
         });
@@ -181,8 +185,9 @@ $(document).ready(function () {
 
     //Lamados de las funciones
 
-    //changeTextBoxes();
-    //ocultarDivs();
+    changeTextBoxes();
+    ocultarDivUsuarios();
+    ocultarDatosAgricolas();
     ajaxUserAdd();
     cboCiudadesChanged();
 });

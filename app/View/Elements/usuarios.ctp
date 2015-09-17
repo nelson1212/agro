@@ -40,13 +40,21 @@
 
     <!-- FOTO -->
     <div class="col-lg-4">
-        <div class="form-group">
-            <?php echo $this->Form->input('foto', array('type' => 'file', 'label' => 'Foto', "id" => "imgFoto", 'tag' => 'foto', "class" => "form-control")); ?>
-
+        <!-- <label>Selecciona una foto (opcional)</label>
+         <div class="form-group">
+             <span class="btn btn-default btn-file">
+                 Buscar foto <input type="file">
+             </span>
+ dasdasd
+       <  </div> -->
+        <label>Selecciona una foto (opcional)</label>
+        <div class="fileinput fileinput-new input-group" tag="foto" data-provides="fileinput">
+            <div class="form-control" data-trigger="fileinput"><i class="glyphicon glyphicon-file fileinput-exists"></i> <span class="fileinput-filename"></span></div>
+            <span class="input-group-addon btn btn-default btn-file"><span class="fileinput-new"><b>Buscar foto</b></span><span class="fileinput-exists"><b>Cambiar</b></span><input type="file"  name="data[User][foto]"></span>
+            <a href="#" class="input-group-addon btn btn-default fileinput-exists" data-dismiss="fileinput"><b>Remover</b></a>
         </div>
-
-    </div>
-
+        
+       <!-- <input type="file" id="foto" name="data[User][foto]"> -->
 </fieldset>   
 
 <!-- DATOS DE UBICACIÓN -->
@@ -70,7 +78,7 @@
     <!-- CIUDAD -->
     <div class="col-lg-4">
         <div class="form-group">
-            <?php echo $this->Form->input('ciudad_id', array("div" => false, "id" => "cboCiudad1", "label" => "Municipio*", 'tag' => 'ciudad_id', "type" => "select", "class" => "form-control")); ?>
+            <?php echo $this->Form->input('ciudad_id', array("div" => false, "id" => "cboCiudad", "label" => "Municipio*", 'tag' => 'ciudad_id', "type" => "select", "class" => "form-control")); ?>
 
         </div>
 
@@ -79,7 +87,7 @@
     <!-- CORREGIMIENTOS -->
     <div class="col-lg-4">
         <div class="form-group">
-            <?php echo $this->Form->input('corregimiento_id', array("div" => false, "id" => "cboCorregimientos1", 'tag' => 'corregimiento_id', "label" => "Corregimiento, Vereda o Resguardo*", "type" => "select", "class" => "form-control")); ?>
+            <?php echo $this->Form->input('corregimiento_id', array("div" => false, "id" => "cboCorregimientos", 'tag' => 'corregimiento_id', "label" => "Corregimiento, Vereda o Resguardo*", "type" => "select", "class" => "form-control")); ?>
 
         </div>
 
@@ -122,7 +130,7 @@
 </fieldset> 
 
 <!-- DATOS AGRICOLAS -->
-<fieldset class="well the-fieldset"> 
+<fieldset class="well the-fieldset" id="tipoAgr"> 
     <legend class="the-legend">
         Datos agricolas
     </legend>
@@ -135,12 +143,18 @@
 
     </div>      
 
-    <!-- TIPO DE AGRICULTURA -->
-    <!-- <div class="col-lg-4">
-         <div class="form-group">
-    <?php echo $this->Form->input('certificacion', array("options" => $certificaciones, "div" => false, "id" => "cboCertificacion", "label" => "Certificación*", 'tag' => 'certificacion', "type" => "select", "class" => "form-control")); ?>
-</div>
-         </div> -->
+    <!-- CERTIFICACIONES -->
+    <div class="col-lg-4">
+        <label>Certificaciónes</label>
+        <div class="form-group">
+            <?php
+            echo $this->Form->input('certificacion', array("options" => $certificaciones, "id" => "cboCertificaciones",
+                "label" => false, "multiple" => "multiple",
+                'tag' => 'certificacion', "type" => "select", "class" => "multiselect"));
+            ?>
+        </div>
+    </div> 
+
 
 
 </fieldset>

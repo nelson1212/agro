@@ -131,7 +131,7 @@ class UsersController extends AppController {
      * @return void
      */
     public function admin_index() {
-        $this->layout="admin";
+        $this->layout = "admin";
         $this->User->recursive = 0;
         $this->set('users', $this->Paginator->paginate());
     }
@@ -184,7 +184,7 @@ class UsersController extends AppController {
         $ciudads = $this->User->Ciudad->find('list');
         $this->unshift($ciudads, 0, "Seleccione una opción");
 
-       // $corregimientos = $this->User->Corregimiento->find('list');
+        // $corregimientos = $this->User->Corregimiento->find('list');
         //$this->unshift($corregimientos, 0, "Seleccione una opción");
 
         $tipoAgriculturas = $this->User->TipoAgricultura->find('list');
@@ -194,19 +194,18 @@ class UsersController extends AppController {
         $this->unshift($rols, 0, "Seleccione una opción");
         unset($rols[4]); //Removemos empresa
         //debug($rols);
-
         //$googleMaps = $this->User->GoogleMap->find('list');
-        
+
         $this->loadModel("Certificacion");
-        $this->Certificacion->recursive=0;
+        $this->Certificacion->recursive = 0;
         $certificaciones = $this->Certificacion->find("list");
-        $this->unshift($certificaciones, 0, "Seleccione una opción");
-        
+        //$this->unshift($certificaciones, 0, "No ");
+
         $generos = array(0 => "Seleccione una opción", "Femenino" => "Femenino", "Masculino" => "Masculino", "LGTBI" => "LGTBI");
-        $this->set(compact('certificaciones','veredas', 'generos', 'departamentos', 'paisses', 'ciudads', 'corregimientos', 'tipoAgriculturas', 'rols', 'googleMaps'));
+        $this->set(compact('certificaciones', 'veredas', 'generos', 'departamentos', 'paisses', 'ciudads', 'corregimientos', 'tipoAgriculturas', 'rols', 'googleMaps'));
     }
-    
-        public function admin_addempresa() {
+
+    public function admin_addempresa() {
         $this->layout = "admin";
         $this->User->recursive = 0; //Recursividad
 
@@ -234,7 +233,7 @@ class UsersController extends AppController {
         $ciudads = $this->User->Ciudad->find('list');
         $this->unshift($ciudads, 0, "Seleccione una opción");
 
-       // $corregimientos = $this->User->Corregimiento->find('list');
+        // $corregimientos = $this->User->Corregimiento->find('list');
         //$this->unshift($corregimientos, 0, "Seleccione una opción");
 
         $tipoAgriculturas = $this->User->TipoAgricultura->find('list');
@@ -244,19 +243,18 @@ class UsersController extends AppController {
         $this->unshift($rols, 0, "Seleccione una opción");
         unset($rols[4]); //Removemos empresa
         //debug($rols);
-
         //$googleMaps = $this->User->GoogleMap->find('list');
-        
+
         $this->loadModel("Certificacion");
-        $this->Certificacion->recursive=0;
+        $this->Certificacion->recursive = 0;
         $certificaciones = $this->Certificacion->find("list");
         $this->unshift($certificaciones, 0, "Seleccione una opción");
-        
+
         $generos = array(0 => "Seleccione una opción", "Femenino" => "Femenino", "Masculino" => "Masculino", "LGTBI" => "LGTBI");
-        $this->set(compact('certificaciones','veredas', 'generos', 'departamentos', 'paisses', 'ciudads', 'corregimientos', 'tipoAgriculturas', 'rols', 'googleMaps'));
+        $this->set(compact('certificaciones', 'veredas', 'generos', 'departamentos', 'paisses', 'ciudads', 'corregimientos', 'tipoAgriculturas', 'rols', 'googleMaps'));
     }
-    
-     public function admin_preregistro() {
+
+    public function admin_preregistro() {
         $this->layout = "admin";
         $this->User->recursive = 0; //Recursividad
 
@@ -297,19 +295,24 @@ class UsersController extends AppController {
         $generos = array(0 => "Seleccione una opción", "Femenino" => "Femenino", "Masculino" => "Masculino", "LGTBI" => "LGTBI");
         $this->set(compact('veredas', 'generos', 'departamentos', 'paisses', 'ciudads', 'corregimientos', 'tipoAgriculturas', 'rols', 'googleMaps'));
     }
-    
 
     public function ajaxUserAdd() {
         $this->layout = null;
         $this->autoRender = false;
         $this->User->recursive = 0; //Recursividad
-        $data["res"] = "no";
         
+        $data["res"] = "no";
+
         $this->request->data["User"]["departamento_id"] = 31; //Valle del cauca
         $this->request->data["User"]["vereda_id"] = null; //Vereda
-        $this->request->data["User"]["paiss_id"] = null;//Pais
+        $this->request->data["User"]["paiss_id"] = null; //Pais
         //
-       // debug($this->data);
+       // debug($this->request->data["User"]["foto"]);
+            date_default_timezone_set('America/Bogota');
+       // error_reporting(E_ALL);
+        $res = $this->uploadFiles("img/fotos", $this->request->data["User"]["foto"], $this->request->data["User"]["identificacion"] );
+        $this->request->data["User"]["foto"] = $res["archivo"];
+        
         if ($this->request->is('post')) {
             $this->User->create();
             if ($this->User->save($this->request->data)) {
@@ -326,15 +329,16 @@ class UsersController extends AppController {
             echo json_encode($data);
         }
     }
-       public function ajaxEmpresaAdd() {
+
+    public function ajaxEmpresaAdd() {
         $this->layout = null;
         $this->autoRender = false;
         $this->User->recursive = 0; //Recursividad
         $data["res"] = "no";
-        
+
         $this->request->data["User"]["departamento_id"] = 31; //Valle del cauca
         $this->request->data["User"]["vereda_id"] = null; //Vereda
-        $this->request->data["User"]["paiss_id"] = null;//Pais
+        $this->request->data["User"]["paiss_id"] = null; //Pais
         //
        // debug($this->data);
         if ($this->request->is('post')) {
