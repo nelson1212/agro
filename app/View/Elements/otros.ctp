@@ -71,7 +71,7 @@
                 <!-- CIUDAD -->
                 <div class="col-lg-4">
                     <div class="form-group">
-                        <?php echo $this->Form->input('ciudad_id', array("div" => false, "id" => "cboCiudad", "label" => "Municipio*", 'tag' => 'ciudad_id', "type" => "select", "class" => "form-control")); ?>
+                        <?php echo $this->Form->input('ciudad_id', array("div" => false, "id" => "cboCiudad1", "label" => "Municipio*", 'tag' => 'ciudad_id', "type" => "select", "class" => "form-control")); ?>
 
                     </div>
 
@@ -80,7 +80,7 @@
                 <!-- CORREGIMIENTOS -->
                 <div class="col-lg-4">
                     <div class="form-group">
-                        <?php echo $this->Form->input('corregimiento_id', array("div" => false, "id" => "cboCorregimiento", 'tag' => 'corregimiento_id', "label" => "Corregimiento, Vereda o Resguardo*", "type" => "select", "class" => "form-control")); ?>
+                        <?php echo $this->Form->input('corregimiento_id', array("div" => false, "id" => "cboCorregimientos1", 'tag' => 'corregimiento_id', "label" => "Corregimiento, Vereda o Resguardo*", "type" => "select", "class" => "form-control")); ?>
 
                     </div>
 
@@ -134,7 +134,16 @@
 
                     </div>
 
-                </div>                   
+                </div>      
+                
+                 <!-- TIPO DE AGRICULTURA -->
+               <!-- <div class="col-lg-4">
+                    <div class="form-group">
+                        <?php echo $this->Form->input('certificacion', array("options"=>$certificaciones,"div" => false, "id" => "cboCertificacion", "label" => "Certificación*", 'tag' => 'certificacion', "type" => "select", "class" => "form-control")); ?>
+ </div>
+                    </div> -->
+
+                
             </fieldset>
 
 

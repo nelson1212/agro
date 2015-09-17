@@ -17,7 +17,7 @@ $cakeDescription = __d('cake_dev', 'CakePHP: the rapid development php framework
 $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
 ?>
 <!DOCTYPE html>
-<html>
+<html lang="es">
     <head>
         <?php echo $this->Html->charset(); ?>
         <title>
@@ -40,6 +40,7 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
         echo $this->Html->css('datepicker3');
         echo $this->Html->css('daterangepicker-bs3');
         echo $this->Html->css('bootstrap3-wysihtml5.min');
+  
         echo $this->Html->css('general');
 
 
@@ -88,7 +89,7 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
         </div><!-- ./wrapper -->
 
         <?php
-        echo $this->Html->script('jQuery-2.1.4.min');
+        echo $this->Html->script('jQuery-2.1.4');
         echo $this->Html->script('jquery-ui.min');
         echo $this->Html->script('bootstrap.min');
         echo $this->Html->script('raphael-min');
@@ -104,7 +105,7 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
         echo $this->Html->script('jquery.slimscroll.min');
         echo $this->Html->script('fastclick.min');
         echo $this->Html->script('app.min');
-
+       
         echo $this->Html->script('scriptGeneral');
 
 

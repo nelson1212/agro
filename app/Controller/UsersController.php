@@ -184,8 +184,8 @@ class UsersController extends AppController {
         $ciudads = $this->User->Ciudad->find('list');
         $this->unshift($ciudads, 0, "Seleccione una opción");
 
-        $corregimientos = $this->User->Corregimiento->find('list');
-        $this->unshift($corregimientos, 0, "Seleccione una opción");
+       // $corregimientos = $this->User->Corregimiento->find('list');
+        //$this->unshift($corregimientos, 0, "Seleccione una opción");
 
         $tipoAgriculturas = $this->User->TipoAgricultura->find('list');
         $this->unshift($tipoAgriculturas, 0, "Seleccione una opción");
@@ -194,8 +194,14 @@ class UsersController extends AppController {
         $this->unshift($rols, 0, "Seleccione una opción");
 
         //$googleMaps = $this->User->GoogleMap->find('list');
+        
+        $this->loadModel("Certificacion");
+        $this->Certificacion->recursive=0;
+        $certificaciones = $this->Certificacion->find("list");
+        $this->unshift($certificaciones, 0, "Seleccione una opción");
+        
         $generos = array(0 => "Seleccione una opción", "Femenino" => "Femenino", "Masculino" => "Masculino", "LGTBI" => "LGTBI");
-        $this->set(compact('veredas', 'generos', 'departamentos', 'paisses', 'ciudads', 'corregimientos', 'tipoAgriculturas', 'rols', 'googleMaps'));
+        $this->set(compact('certificaciones','veredas', 'generos', 'departamentos', 'paisses', 'ciudads', 'corregimientos', 'tipoAgriculturas', 'rols', 'googleMaps'));
     }
     
      public function admin_preregistro() {

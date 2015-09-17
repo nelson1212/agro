@@ -23,8 +23,8 @@ $(document).ready(function () {
         $("#divOtros").hide();
         $("#divEmpresas").hide();
 
-        $("#divOtros").prop('disabled', true);
-        $("#divEmpresas").prop('disabled', true);
+        $("#divOtros").attr('disabled', 'disabled');
+        $("#divEmpresas").attr('disabled', 'disabled');
     }
 
     //Función para cambiar cajas de texto de acuerdo al rol seleccionado en registrar usuarios
@@ -37,7 +37,7 @@ $(document).ready(function () {
 
                 $("#divOtros").hide();
                 $("#divEmpresas").show();
-                
+
                 //Habilitar elementos del div empresas
                 $('#divEmpresas input').each(function () {
                     $(this).removeAttr("disabled");
@@ -46,7 +46,7 @@ $(document).ready(function () {
                     $(this).removeAttr("disabled");
                 });
 
-                  //DesHabilitar elementos del div otros
+                //DesHabilitar elementos del div otros
                 $('#divOtros input').each(function () {
                     $(this).attr('disabled', 'disabled');
                 });
@@ -68,7 +68,7 @@ $(document).ready(function () {
                     $(this).removeAttr("disabled");
                 });
 
-                  //DesHabilitar elementos del div empresas
+                //DesHabilitar elementos del div empresas
                 $('#divEmpresas input').each(function () {
                     $(this).attr('disabled', 'disabled');
                 });
@@ -80,6 +80,67 @@ $(document).ready(function () {
         });
     }
 
+    function cboCiudadesChanged() {
+        console.log("Entro aqui");
+
+        $('#cboCiudad1, #cboCiudad2').on("change", function (e) {
+            var elemento = $(this).attr("id");
+            var _idCiudad = $(this).val();
+            
+            if (elemento === "cboCiudad1") {
+                elemento = "cboCorregimientos1";
+            } else if (elemento === "cboCiudad2") {
+                elemento = "cboCorregimientos2";
+            }
+            
+           
+            //Removemos las opciones de cboComuna
+//            $("#cboCorregimientos option").each(function (index, option) {
+//                $(option).remove();
+//            });
+
+            $("#" + elemento).append('<option value="0">Seleccione una opción</option>');
+
+            $.ajax({
+                type: "POST",
+                url: base_url + "corregimientos/ajaxGetCorregimientosPorCiu",
+                data: {
+                    idCiu: _idCiudad
+                },
+                dataType: "json",
+                cache: false,
+                success: function (data) {
+                    if (data.res === "si") {
+
+
+                        $("#" + elemento + " option").each(function (index, option) {
+                            
+                            $(option).remove();
+                        });
+
+                        if (data.res === "si") {
+                            $.each(data.corregimientos, function (i, item) {
+                               
+                                $("#" + elemento).append('<option value="' + i + '">' + item + '</option>');
+                            });
+                        } else if (data.res === "no") {
+                            $.each(data.corregimientos, function (i, item) {
+                                $("#" + elemento).append('<option value="' + i + '">' + item + '</option>');
+                            });
+                        }
+
+                    }
+                    //as a debugging message.
+                }
+            });
+
+
+
+
+
+        });
+
+    }
     //Función para guardar usuarios
     function ajaxUserAdd() {
         $("#btnGuaUsu").click(function () {
@@ -119,7 +180,9 @@ $(document).ready(function () {
     }
 
     //Lamados de las funciones
+
     changeTextBoxes();
     ocultarDivs();
     ajaxUserAdd();
+    cboCiudadesChanged();
 });

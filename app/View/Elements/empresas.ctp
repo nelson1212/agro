@@ -39,7 +39,7 @@
                 <!-- CIUDAD -->
                 <div class="col-lg-4">
                     <div class="form-group">
-                        <?php echo $this->Form->input('ciudad_id', array("div" => false,"id" => "cboCiudad", "label" => "Municipio", 'tag' => 'ciudad_id', "type" => "select", "class" => "form-control")); ?>
+                        <?php echo $this->Form->input('ciudad_id', array("div" => false,"id" => "cboCiudad2", "label" => "Municipio", 'tag' => 'ciudad_id', "type" => "select", "class" => "form-control")); ?>
 
                     </div>
 
@@ -49,7 +49,7 @@
                 <!-- CORREGIMIENTOS -->
                 <div class="col-lg-4">
                     <div class="form-group">
-                        <?php echo $this->Form->input('corregimiento_id', array("div" => false,"id" => "cboCorregimiento", 'tag' => 'corregimiento_id', "label" => "Corregimiento, Vereda o Resguardo", "type" => "select", "class" => "form-control")); ?>
+                        <?php echo $this->Form->input('corregimiento_id', array("div" => false,"id" => "2", 'tag' => 'corregimiento_id', "label" => "Corregimiento, Vereda o Resguardo", "type" => "select", "class" => "form-control")); ?>
 
                     </div>
 
