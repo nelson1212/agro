@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: localhost
--- Tiempo de generación: 14-09-2015 a las 05:08:00
+-- Tiempo de generación: 17-09-2015 a las 19:29:27
 -- Versión del servidor: 5.6.25
 -- Versión de PHP: 5.6.11
 
@@ -129,7 +129,15 @@ CREATE TABLE IF NOT EXISTS `categoria_novedads` (
 CREATE TABLE IF NOT EXISTS `certificacions` (
   `id` bigint(20) NOT NULL,
   `nombre` varchar(45) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+
+--
+-- Volcado de datos para la tabla `certificacions`
+--
+
+INSERT INTO `certificacions` (`id`, `nombre`) VALUES
+(1, 'Manejo de frutas rojas'),
+(2, 'Manejo de fresas');
 
 -- --------------------------------------------------------
 
@@ -141,7 +149,7 @@ CREATE TABLE IF NOT EXISTS `ciudads` (
   `id` bigint(20) NOT NULL,
   `nombre` varchar(45) DEFAULT NULL,
   `departamento_id` bigint(20) DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=58 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=43 DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `ciudads`
@@ -730,23 +738,12 @@ CREATE TABLE IF NOT EXISTS `foros` (
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `foro_temas`
---
-
-CREATE TABLE IF NOT EXISTS `foro_temas` (
-  `id` bigint(20) NOT NULL,
-  `tema_id` bigint(20) NOT NULL,
-  `foro_id` bigint(20) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- --------------------------------------------------------
-
---
 -- Estructura de tabla para la tabla `google_maps`
 --
 
 CREATE TABLE IF NOT EXISTS `google_maps` (
   `id` int(11) NOT NULL,
+  `owner_id` bigint(20) DEFAULT NULL,
   `address1` varchar(200) DEFAULT 'Dirección con barrio',
   `latitude1` float DEFAULT NULL,
   `longitude1` float DEFAULT NULL,
@@ -961,6 +958,7 @@ CREATE TABLE IF NOT EXISTS `temas` (
   `id` bigint(20) NOT NULL,
   `user_id` bigint(20) DEFAULT NULL,
   `contenido` varchar(45) DEFAULT NULL,
+  `foro_id` bigint(20) NOT NULL,
   `created` datetime DEFAULT NULL,
   `updated` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -1003,23 +1001,40 @@ CREATE TABLE IF NOT EXISTS `users` (
   `identificacion` varchar(45) DEFAULT NULL,
   `nombres` varchar(45) DEFAULT NULL,
   `apellidos` varchar(45) DEFAULT NULL,
+  `nit` varchar(45) DEFAULT NULL,
+  `razon_social` varchar(45) DEFAULT NULL,
   `foto` varchar(50) DEFAULT NULL,
-  `vereda_id` bigint(20) DEFAULT '0',
-  `departamento_id` bigint(20) DEFAULT '0',
-  `paiss_id` bigint(20) DEFAULT '0',
-  `ciudad_id` bigint(20) DEFAULT '0',
+  `vereda_id` bigint(20) DEFAULT NULL,
+  `departamento_id` bigint(20) DEFAULT NULL,
+  `paiss_id` bigint(20) DEFAULT NULL,
+  `ciudad_id` bigint(20) DEFAULT NULL,
   `corregimiento_id` bigint(20) DEFAULT '0',
-  `tipo_agricultura_id` bigint(20) DEFAULT '0',
+  `tipo_agricultura_id` bigint(20) DEFAULT NULL,
   `username` varchar(45) DEFAULT NULL,
   `password` varchar(45) DEFAULT NULL,
   `email` varchar(45) DEFAULT NULL,
   `telefono_contacto` int(11) DEFAULT NULL,
   `celular_contacto` int(11) DEFAULT NULL,
   `rol_id` bigint(20) NOT NULL,
-  `google_map_id` bigint(20) DEFAULT NULL,
   `created` date DEFAULT NULL,
   `updated` date DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8;
+
+--
+-- Volcado de datos para la tabla `users`
+--
+
+INSERT INTO `users` (`id`, `identificacion`, `nombres`, `apellidos`, `nit`, `razon_social`, `foto`, `vereda_id`, `departamento_id`, `paiss_id`, `ciudad_id`, `corregimiento_id`, `tipo_agricultura_id`, `username`, `password`, `email`, `telefono_contacto`, `celular_contacto`, `rol_id`, `created`, `updated`) VALUES
+(6, '12022529', 'Nelson American Express', NULL, NULL, NULL, NULL, NULL, 31, NULL, 6, 103, 3, 'nelson1212', '12345678', 'nelson.hidalgo1@gmail.com', 54545454, 3177099, 4, '2015-09-15', '2015-09-15'),
+(7, '12022529', 'Nelson American Express', NULL, NULL, NULL, NULL, NULL, 31, NULL, 6, 103, 3, 'nelson1212', '12345678', 'nelson.hidalgo1@gmail.com', 54545454, 3177099, 4, '2015-09-15', '2015-09-15'),
+(8, '12022529', 'Nelson American Express', NULL, NULL, NULL, NULL, NULL, 31, NULL, 6, 103, 3, 'nelson1212', '12345678', 'nelson.hidalgo1@gmail.com', 54545454, 3177099, 4, '2015-09-15', '2015-09-15'),
+(9, '12022529', 'nelson', 'lopez', NULL, NULL, NULL, NULL, 31, NULL, 1, 1, 4, 'nelson1212', '123456789', 'nelson.hidalgo1@gmail.com', 3255656, 31454542, 2, '2015-09-17', '2015-09-17'),
+(10, '12022529', 'nelson', 'lopez', NULL, NULL, NULL, NULL, 31, NULL, 1, 1, 4, 'nelson1212', '123456789', 'nelson.hidalgo1@gmail.com', 3255656, 31454542, 2, '2015-09-17', '2015-09-17'),
+(11, '12022529', 'nelson', 'lopez', NULL, NULL, NULL, NULL, 31, NULL, 1, 1, 4, 'nelson1212', '123456789', 'nelson.hidalgo1@gmail.com', 3255656, 31454542, 2, '2015-09-17', '2015-09-17'),
+(12, '2323', '2323', '2323', NULL, NULL, '2323.png', NULL, 31, NULL, 10, 1, 2, '232', '123456789', 'nelson.hidalgo2@gmail.com', 2147483647, 312565656, 2, '2015-09-17', '2015-09-17'),
+(13, '120225292', 'nelson', 'lopez', NULL, NULL, '120225292.png', NULL, 31, NULL, 10, 24, 2, '12121212', '123456789', 'nelson.hidalgo12@gmail.com', NULL, NULL, 2, '2015-09-17', '2015-09-17'),
+(19, '152121', 'carlos', NULL, NULL, NULL, '152121.jpg', NULL, 31, NULL, 10, 1, NULL, 'nelson211', '123456789', 'nelson.hidalgo122@gmail.com', 656566, 365656, 1, '2015-09-17', '2015-09-17'),
+(20, '15212122', 'carlos', NULL, NULL, NULL, '15212122.jpg', NULL, 31, NULL, 10, 1, NULL, 'nelson21122', '123456789', 'nelson.hidalgo2122@gmail.com', 656566, 365656, 1, '2015-09-17', '2015-09-17');
 
 -- --------------------------------------------------------
 
@@ -1161,14 +1176,6 @@ ALTER TABLE `foros`
   ADD KEY `fk_temas_categorias1_idx` (`categoria_id`);
 
 --
--- Indices de la tabla `foro_temas`
---
-ALTER TABLE `foro_temas`
-  ADD PRIMARY KEY (`id`,`tema_id`,`foro_id`),
-  ADD KEY `fk_temas_has_posts_posts1_idx` (`foro_id`),
-  ADD KEY `fk_temas_has_posts_temas1_idx` (`tema_id`);
-
---
 -- Indices de la tabla `google_maps`
 --
 ALTER TABLE `google_maps`
@@ -1265,7 +1272,8 @@ ALTER TABLE `sanidads`
 -- Indices de la tabla `temas`
 --
 ALTER TABLE `temas`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_temas_foros1_idx` (`foro_id`);
 
 --
 -- Indices de la tabla `tipoAgriculturas`
@@ -1333,12 +1341,12 @@ ALTER TABLE `categoria_novedads`
 -- AUTO_INCREMENT de la tabla `certificacions`
 --
 ALTER TABLE `certificacions`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT de la tabla `ciudads`
 --
 ALTER TABLE `ciudads`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=58;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=43;
 --
 -- AUTO_INCREMENT de la tabla `colors`
 --
@@ -1393,11 +1401,6 @@ ALTER TABLE `formas`
 -- AUTO_INCREMENT de la tabla `foros`
 --
 ALTER TABLE `foros`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT de la tabla `foro_temas`
---
-ALTER TABLE `foro_temas`
   MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT de la tabla `google_maps`
@@ -1473,7 +1476,7 @@ ALTER TABLE `tipoAgriculturas`
 -- AUTO_INCREMENT de la tabla `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=21;
 --
 -- AUTO_INCREMENT de la tabla `user_certificacions`
 --
@@ -1505,13 +1508,6 @@ ALTER TABLE `directorios`
 --
 ALTER TABLE `foros`
   ADD CONSTRAINT `fk_temas_categorias1` FOREIGN KEY (`categoria_id`) REFERENCES `categorias` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
-
---
--- Filtros para la tabla `foro_temas`
---
-ALTER TABLE `foro_temas`
-  ADD CONSTRAINT `fk_temas_has_posts_posts1` FOREIGN KEY (`foro_id`) REFERENCES `temas` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `fk_temas_has_posts_temas1` FOREIGN KEY (`tema_id`) REFERENCES `foros` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
 -- Filtros para la tabla `interaccions`
@@ -1552,6 +1548,12 @@ ALTER TABLE `productos`
 ALTER TABLE `productos_usuarios`
   ADD CONSTRAINT `fk_productos_usuarios_productos1` FOREIGN KEY (`producto_id`) REFERENCES `productos` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `fk_productos_usuarios_users1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Filtros para la tabla `temas`
+--
+ALTER TABLE `temas`
+  ADD CONSTRAINT `fk_temas_foros1` FOREIGN KEY (`foro_id`) REFERENCES `foros` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
 -- Filtros para la tabla `users`
