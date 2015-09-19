@@ -57,10 +57,27 @@
         
         
         
-        <div id="divUsuarios">
-            <?php echo $this->element("usuarios"); ?>
+        <div id="divAgricultores">
+            <?php echo $this->element("agricultores"); ?>
         </div>
-
+        
+        <div id="divCompradores">
+            <?php echo $this->element("compradores"); ?>
+        </div>
+        
+        <div id="divEmpresas">
+            <?php echo $this->element("empresas"); ?>
+        </div>
+        
+        <div id="divAdministradores">
+            <?php echo $this->element("administradores"); ?>
+        </div>
+        
+        <div id="divSubAdministradores">
+            <?php echo $this->element("subadministradores"); ?>
+        </div>
+        
+        
         <div class="col-lg-4">
             <?php
             $options = array('label' => 'Guardar', 'type' => "submit", "id" => "btnGuaUsu", 'class' => 'btn btn-primary', 'div' => false);
