@@ -192,7 +192,7 @@ class UsersController extends AppController {
 
         $rols = $this->User->Rol->find('list');
         $this->unshift($rols, 0, "Seleccione una opción");
-        unset($rols[4]); //Removemos empresa
+       // unset($rols[4]); //Removemos empresa
         //debug($rols);
         //$googleMaps = $this->User->GoogleMap->find('list');
 
@@ -200,9 +200,13 @@ class UsersController extends AppController {
         $this->Certificacion->recursive = 0;
         $certificaciones = $this->Certificacion->find("list");
         //$this->unshift($certificaciones, 0, "No ");
+        $ubicaciones = array("Internacional" => "Internacional", "Nacional" => "Nacional");
+        $this->unshift($ubicaciones, 0, "Seleccione una opción");
 
         $generos = array(0 => "Seleccione una opción", "Femenino" => "Femenino", "Masculino" => "Masculino", "LGTBI" => "LGTBI");
-        $this->set(compact('certificaciones', 'veredas', 'generos', 'departamentos', 'paisses', 'ciudads', 'corregimientos', 'tipoAgriculturas', 'rols', 'googleMaps'));
+
+
+        $this->set(compact('ubicaciones', 'certificaciones', 'veredas', 'generos', 'departamentos', 'paisses', 'ciudads', 'corregimientos', 'tipoAgriculturas', 'rols', 'googleMaps'));
     }
 
     public function admin_addempresa() {
@@ -300,41 +304,53 @@ class UsersController extends AppController {
         $this->layout = null;
         $this->autoRender = false;
         $this->User->recursive = 0; //Recursividad
-        
+
         $data["res"] = "no";
-       // debug($this->request->data);
-        if(!isset($this->request->data["User"]["tipo"])) {
+        //  debug($this->request->data);
+        if (!isset($this->request->data["User"]["tipo"]) || !isset($this->request->data["User"]["rol_id"])) {
             goto errorAjaxUserAdd;
         }
-        
-        $tipo = $this->request->data["User"]["tipo"];
+
+        //Campos deshabilitados
         $this->request->data["User"]["departamento_id"] = 31; //Valle del cauca
         $this->request->data["User"]["vereda_id"] = null; //Vereda
         $this->request->data["User"]["paiss_id"] = null; //Pais
+
+        $this->User->Rol->recursive = -1;
+        $codRol = $this->User->Rol->find("first", array("conditions" => array("Rol.id" => $this->request->data["User"]["rol_id"])));
         
-        if($tipo==="administrador") {
-            //echo "Entro aqi";
-            $this->request->data["User"]["rol_id"] = 1;
-           // $this->request->data["User"]["tipo_agricultura_id"];
-            $this->User->validator()->remove('tipo_agricultura_id');
-            $this->request->data["User"]["tipo_agricultura_id"] = null; 
+       // debug($codRol);
+        
+        switch ($codRol["Rol"]["abr"]) {
+            case "adm":
+                //echo "Entro aqi";
+                $this->request->data["User"]["rol_id"] = 1;
+            
+                $this->User->validator()->remove('tipo_agricultura_id');
+                $this->User->validator()->remove('ciudad_id');
+                $this->User->validator()->remove('corregimiento_id');
+                $this->User->validator()->remove('ubicacion');
+
+                $this->request->data["User"]["tipo_agricultura_id"] = null;
+                $this->request->data["User"]["ciudad_id"] = null;
+                $this->request->data["User"]["corregimiento_id"] = null;
+                $this->request->data["User"]["ubicacion"] = null;
+                break;
         }
-       
-        
- 
-        $this->User->set( $this->request->data ); //Asignar datos al modelo
+
+        $this->User->set($this->request->data); //Asignar datos al modelo
         //debug($this->request->data );
-        $res = $this->uploadFiles("img/fotos", $this->request->data["User"]["foto"], $this->request->data["User"]["identificacion"] );
-        
-        if($this->User->validates($this->request->data)){
+        $res = $this->uploadFiles("img/fotos", $this->request->data["User"]["foto"], $this->request->data["User"]["identificacion"]);
+
+        if ($this->User->validates($this->request->data)) {
             //$this->request->data["User"]["foto"] = $res["archivo"];
-             //$this->User->validator()->remove('foto');
+            //$this->User->validator()->remove('foto');
             $this->User->validate = array(); // Stop validation on the model
             //$this->User->validator()->remove('foto', 'validarSize');
             //$this->User->validator()->remove('foto', 'validarExtension');
             $this->request->data["User"]["foto"] = $res["archivo"];
         }
-        
+
         if ($this->request->is('post')) {
             $this->User->create();
             if ($this->User->save($this->request->data)) {

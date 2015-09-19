@@ -38,69 +38,6 @@
     </div>
 
 
-     
-<!-- <input type="file" id="foto" name="data[User][foto]"> -->
-</fieldset>   
-
-<!-- foto -->
-<fieldset class="well the-fieldset"> 
-  <legend class="the-legend">
-       Foto
-    </legend>
-    <!-- FOTO -->
-    <div class="col-lg-6">
-        <!-- <label>Selecciona una foto (opcional)</label>
-         <div class="form-group">
-             <span class="btn btn-default btn-file">
-                 Buscar foto <input type="file">
-             </span>
- dasdasd
-       <  </div> -->
-        <label>Selecciona una foto (opcional)</label>
-        <div class="fileinput fileinput-new input-group" tag="foto" data-provides="fileinput">
-            <div class="form-control" data-trigger="fileinput"><i class="glyphicon glyphicon-file fileinput-exists"></i> <span class="fileinput-filename"></span></div>
-            <span class="input-group-addon btn btn-default btn-file"><span class="fileinput-new"><b>Buscar foto</b></span><span class="fileinput-exists"><b>Cambiar</b></span><input type="file"  name="data[User][foto]"></span>
-            <a href="#" class="input-group-addon btn btn-default fileinput-exists" data-dismiss="fileinput"><b>Remover</b></a>
-        </div>
-    </div> 
-
-</fieldset> 
-<!-- DATOS DE UBICACIÓN -->
-<fieldset class="well the-fieldset"> 
-    <legend class="the-legend">
-        Datos de ubicación
-    </legend>
-
-
-
-
-    <!-- DEPARTAMENTO -->
-    <!-- <div class="col-lg-4">
-         <div class="form-group">
-    <?php echo $this->Form->input('departamento_id', array("div" => false, "id" => "cboDepartamento", "label" => "Departamento*", 'tag' => 'departamento_id', "type" => "select", "class" => "form-control")); ?>
-
-         </div>
-
-     </div> -->
-
-    <!-- CIUDAD -->
-    <div class="col-lg-4">
-        <div class="form-group">
-            <?php echo $this->Form->input('ciudad_id', array("div" => false, "id" => "cboCiudad", "label" => "Municipio*", 'tag' => 'ciudad_id', "type" => "select", "class" => "form-control")); ?>
-
-        </div>
-
-    </div>
-
-    <!-- CORREGIMIENTOS -->
-    <div class="col-lg-4">
-        <div class="form-group">
-            <?php echo $this->Form->input('corregimiento_id', array("div" => false, "id" => "cboCorregimientos", 'tag' => 'corregimiento_id', "label" => "Corregimiento, Vereda o Resguardo*", "type" => "select", "class" => "form-control")); ?>
-
-        </div>
-
-    </div>
-
     <!-- EMAIL -->
     <div class="col-lg-4">
         <div class="form-group">
@@ -110,7 +47,7 @@
     </div>
 
     <!-- DIRECCION -->
-    <!-- <div class="col-lg-4">
+    <!--<div class="col-lg-4">
         <div class="form-group">
     <?php //echo $this->Form->input('direccion', array("div" => false, 'tag'=>'direccion',"label" => "Direccion", "class" => "form-control")); ?>
 
@@ -133,15 +70,68 @@
 
         </div>
     </div>
+    
+    <!-- UBICACIÓN (LOCAL O INTERNACIONAL -->
+    <div class="col-lg-4" id="divUbicacion">
+        <div class="form-group">
+            <?php echo $this->Form->input('ubicacion', array("div" => false, "options"=>$ubicaciones, "id" => "cboUbicacion", 'tag' => 'ubicacion', "label" => "Ubicación*", "type"=>"select", "class" => "form-control")); ?>
 
+        </div>
+    </div>
+
+<!-- <input type="file" id="foto" name="data[User][foto]"> -->
+</fieldset>   
+
+<!-- foto -->
+<fieldset class="well the-fieldset"> 
+    <legend class="the-legend">
+        Foto
+    </legend>
+    <!-- FOTO -->
+    <div class="col-lg-6">
+        <!-- <label>Selecciona una foto (opcional)</label>
+         <div class="form-group">
+             <span class="btn btn-default btn-file">
+                 Buscar foto <input type="file">
+             </span>
+ dasdasd
+       <  </div> -->
+        <label>Selecciona una foto (opcional)</label>
+        <div class="fileinput fileinput-new input-group" tag="foto" data-provides="fileinput">
+            <div class="form-control" data-trigger="fileinput"><i class="glyphicon glyphicon-file fileinput-exists"></i> <span class="fileinput-filename"></span></div>
+            <span class="input-group-addon btn btn-default btn-file"><span class="fileinput-new"><b>Buscar foto</b></span><span class="fileinput-exists"><b>Cambiar</b></span><input type="file"  name="data[User][foto]"></span>
+            <a href="#" class="input-group-addon btn btn-default fileinput-exists" data-dismiss="fileinput"><b>Remover</b></a>
+        </div>
+    </div> 
 
 </fieldset> 
+
 
 <!-- DATOS AGRICOLAS -->
 <fieldset class="well the-fieldset" id="tipoAgr"> 
     <legend class="the-legend">
         Datos agricolas
     </legend>
+    
+        <!-- CIUDAD -->
+    <div class="col-lg-4">
+        <div class="form-group">
+            <?php echo $this->Form->input('ciudad_id', array("div" => false, "id" => "cboCiudad", "label" => "Municipio*", 'tag' => 'ciudad_id', "type" => "select", "class" => "form-control")); ?>
+
+        </div>
+
+    </div>
+
+    <!-- CORREGIMIENTOS -->
+    <div class="col-lg-4" id="">
+        <div class="form-group">
+            <?php echo $this->Form->input('corregimiento_id', array("div" => false, "id" => "cboCorregimientos", 'tag' => 'corregimiento_id', "label" => "Corregimiento, Vereda o Resguardo*", "type" => "select", "class" => "form-control")); ?>
+
+        </div>
+
+    </div>
+    
+    
     <!-- TIPO DE AGRICULTURA -->
     <div class="col-lg-4">
         <div class="form-group">
@@ -150,6 +140,15 @@
         </div>
 
     </div>      
+
+    <!-- ASOCIACIONES -->
+    <div class="col-lg-4">
+        <div class="form-group">
+            <?php echo $this->Form->input('asociacion_id', array("div" => false, "id" => "cboTipAgr", "label" => "Asociación (opcional)", 'tag' => 'tipo_agricultura_id', "type" => "select", "class" => "form-control")); ?>
+
+        </div>
+
+    </div>   
 
     <!-- CERTIFICACIONES -->
     <div class="col-lg-4">
@@ -162,6 +161,8 @@
             ?>
         </div>
     </div> 
+
+
 
 
 

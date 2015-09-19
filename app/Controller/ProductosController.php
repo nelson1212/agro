@@ -159,6 +159,7 @@ class ProductosController extends AppController {
  * @return void
  */
 	public function admin_add() {
+                $this->layout="admin";
 		if ($this->request->is('post')) {
 			$this->Producto->create();
 			if ($this->Producto->save($this->request->data)) {

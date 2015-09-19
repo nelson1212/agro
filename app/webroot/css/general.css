@@ -115,22 +115,30 @@ p.error em {
     white-space: normal;
 }
 
-.btn-file {
-    position: relative;
-    overflow: hidden;
-}
-.btn-file input[type=file] {
+input[type="file" i] {
     position: absolute;
-    top: 0;
-    right: 0;
+    top: 0px;
+    right: 0px;
     min-width: 100%;
     min-height: 100%;
     font-size: 100px;
     text-align: right;
-    filter: alpha(opacity=0);
     opacity: 0;
-    outline: none;
-    background: white;
+    outline: medium none;
+    background: #0C0B0B none repeat scroll 0% 0%;
     cursor: inherit;
     display: block;
+}
+
+#divPanel label, h3 {
+    font-weight: bold;
+    color:black;
+}
+
+#divPanel h3 {
+    font-weight: bold;
+}
+
+#divPanel > div.panel-heading > h3 > b {
+    border-bottom: 0 none;
 }

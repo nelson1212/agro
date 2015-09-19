@@ -235,6 +235,17 @@ class User extends AppModel {
         //'last' => false, // Stop validation after this rule
         //'on' => 'create', // Limit validation to 'create' or 'update' operations
         ),
+        
+        'ubicacion' => array(
+            
+            'validarUbicacion' => array(
+                'rule' => array('validarUbicacion'),
+                'message' => 'Debes seleccionar una ubicación'),
+        //'allowEmpty' => false,
+        //'required' => false,
+        //'last' => false, // Stop validation after this rule
+        //'on' => 'create', // Limit validation to 'create' or 'update' operations
+        ),
             /* 'google_map_id' => array(
               'numeric' => array(
               'rule' => array('numeric'),
@@ -323,6 +334,16 @@ class User extends AppModel {
     public function validarCiudad($opcion = array()) {
         //debug($opcion);
         if ($opcion["ciudad_id"] === 0 || empty($opcion["ciudad_id"])) {
+
+            return false;
+        }
+        //echo "Entro aqio";
+        return true;
+    }
+    
+     public function validarUbicacion($opcion = array()) {
+        //debug($opcion);
+        if ($opcion["ubicacion"] === 0 || empty($opcion["ubicacion"])) {
 
             return false;
         }
