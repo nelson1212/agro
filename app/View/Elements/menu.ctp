@@ -73,11 +73,7 @@
                 </a>
                 <ul class="treeview-menu">
                     <li><a href="<?php echo $this->webroot; ?>admin/users/addusuario"><i class="fa fa-circle-o"></i> Agregar</a></li>
-                    <li><a href="<?php echo $this->webroot; ?>admin/users/index"><i class="fa fa-circle-o"></i> Ver agricultores</a></li>
-                    <li><a href="<?php echo $this->webroot; ?>admin/users/index"><i class="fa fa-circle-o"></i> Ver empresas</a></li>
-                    <li><a href="<?php echo $this->webroot; ?>admin/users/index"><i class="fa fa-circle-o"></i> Ver administradores</a></li>
-                    <li><a href="<?php echo $this->webroot; ?>admin/users/index"><i class="fa fa-circle-o"></i> Ver sub-administradores</a></li>
-                    <li><a href="<?php echo $this->webroot; ?>admin/users/index"><i class="fa fa-circle-o"></i> Ver compradores</a></li>
+                    <li><a href="<?php echo $this->webroot; ?>admin/users/index"><i class="fa fa-circle-o"></i> Ver usuarios</a></li>
                     <li><a href="<?php echo $this->webroot; ?>admin/users/preregistro"><i class="fa fa-circle-o"></i> Pre-registro</a></li>
 
                 </ul>

@@ -42,6 +42,7 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
         echo $this->Html->css('bootstrap3-wysihtml5.min');
         echo $this->Html->css('bootstrap-multiselect');
         echo $this->Html->css('jasny-bootstrap');
+        echo $this->Html->css('jquery-confirm');
         echo $this->Html->css('general');
 
 
@@ -100,6 +101,7 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
         echo $this->Html->script('jquery-ui.min');
        
         echo $this->Html->script('bootstrap.min');
+        echo $this->Html->script('jquery-confirm');
         echo $this->Html->script('raphael-min');
 
         echo $this->Html->script('jquery.sparkline.min');
@@ -115,6 +117,7 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
         echo $this->Html->script('app.min');
         echo $this->Html->script('bootstrap-multiselect');
         echo $this->Html->script('jasny-bootstrap');
+        
   
         echo $this->Html->script('scriptGeneral');
 

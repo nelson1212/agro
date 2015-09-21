@@ -256,7 +256,20 @@ class User extends AppModel {
               //'on' => 'create', // Limit validation to 'create' or 'update' operations
               ),
               ), */
-    );
+    
+         
+        
+            'celular_contacto' => array(
+            'notBlank' => array(
+                'rule' => array('notBlank'),
+                'message' => 'Debes ingresar un número de celular',
+            //'allowEmpty' => false,
+            //'required' => false,
+            //'last' => false, // Stop validation after this rule
+            //'on' => 'create', // Limit validation to 'create' or 'update' operations
+            ),
+        ),
+        );
     
        public function validarVacia($opcion) {
         // Shift the array to easily acces $_POST

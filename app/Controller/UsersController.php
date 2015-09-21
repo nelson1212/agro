@@ -1,6 +1,7 @@
 <?php
 
 App::uses('AppController', 'Controller');
+App::import('Vendor', 'FormValidator', array('file' => 'sanitize.php'));
 
 /**
  * Users Controller
@@ -132,8 +133,47 @@ class UsersController extends AppController {
      */
     public function admin_index() {
         $this->layout = "admin";
-        $this->User->recursive = 0;
-        $this->set('users', $this->Paginator->paginate());
+        $this->User->recursive = -1;
+        $rols = $this->User->Rol->find('list');
+        $this->unshift($rols, 0, "Seleccione una opción");
+        $this->set(compact('rols'));
+        //$this->set('users', $this->Paginator->paginate());
+    }
+
+    public function getTables() {
+
+        $this->User->recursive = 0; //Recursividad
+
+        if ($this->request->is('ajax')) {
+            $janitor = new janitor();
+            $cleanString = $janitor->sanitizeString($_POST["element"]);
+            $elemento = $this->cleanString($cleanString);
+
+            $this->set('users', $this->Paginator->paginate());
+            $this->autoRender = false;
+            $this->layout = false;
+            $this->viewPath = 'Elements';
+
+            $cleanString = $janitor->sanitizeString($_POST["element"]);
+            $elemento = $this->cleanString($cleanString);
+
+            switch ($elemento) {
+                case "Administrador":
+                    return $this->render("lst_administradores")->body();
+
+                case "Comprador":
+                    return $this->render("lst_compradores")->body();
+
+                case "Agricultor":
+                    return $this->render("lst_agricultores")->body();
+
+                case "Empresa":
+                    return $this->render("lst_empresas")->body();
+
+                case "Sub-Administrador":
+                    return $this->render("lst_subadministradores")->body();
+            }
+        }
     }
 
     /**
@@ -157,23 +197,15 @@ class UsersController extends AppController {
      * @return void
      */
     public function admin_addusuario() {
-        $this->layout = "admin";
+        // $this->request->onlyAllow('ajax');
+        //$this->autoRender = false;
         $this->User->recursive = 0; //Recursividad
-
-        /*  if ($this->request->is('post')) {
-          // debug($this->validationErrors);
-          // debug($this->request->data);
-          $this->User->create();
-
-          //exit;
-          if ($this->User->save($this->request->data)) {
-          $this->Flash->success(__('El usuario fue registrado.'));
-          return $this->redirect(array('action' => 'index'));
-          } else {
-          debug($this->User->validationErrors);
-          $this->Flash->error(__('El usuario no fue registrado, intenta de nuevo.'));
-          }
-          } */
+        if ($this->request->is('ajax')) {
+            $this->autoRender = false;
+            $this->layout = false;
+        } else {
+            $this->layout = 'admin';
+        }
 
         // $veredas = $this->User->Vereda->find('list');
         $departamentos = $this->User->Departamento->find('list');
@@ -192,70 +224,47 @@ class UsersController extends AppController {
 
         $rols = $this->User->Rol->find('list');
         $this->unshift($rols, 0, "Seleccione una opción");
-       // unset($rols[4]); //Removemos empresa
+        // unset($rols[4]); //Removemos empresa
         //debug($rols);
         //$googleMaps = $this->User->GoogleMap->find('list');
 
         $this->loadModel("Certificacion");
         $this->Certificacion->recursive = 0;
         $certificaciones = $this->Certificacion->find("list");
-        //$this->unshift($certificaciones, 0, "No ");
+
+        $this->loadModel("Asociacion");
+        $this->Asociacion->recursive = 0;
+        $asociaciones = $this->Asociacion->find("list", array("fields" => array("id", "razon_social")));
+        $this->unshift($asociaciones, 0, "Seleccione una opción");
+
         $ubicaciones = array("Internacional" => "Internacional", "Nacional" => "Nacional");
         $this->unshift($ubicaciones, 0, "Seleccione una opción");
 
         $generos = array(0 => "Seleccione una opción", "Femenino" => "Femenino", "Masculino" => "Masculino", "LGTBI" => "LGTBI");
 
 
-        $this->set(compact('ubicaciones', 'certificaciones', 'veredas', 'generos', 'departamentos', 'paisses', 'ciudads', 'corregimientos', 'tipoAgriculturas', 'rols', 'googleMaps'));
-    }
+        $this->set(compact('asociaciones', 'ubicaciones', 'certificaciones', 'veredas', 'generos', 'departamentos', 'paisses', 'ciudads', 'corregimientos', 'tipoAgriculturas', 'rols', 'googleMaps'));
 
-    public function admin_addempresa() {
-        $this->layout = "admin";
-        $this->User->recursive = 0; //Recursividad
 
-        /*  if ($this->request->is('post')) {
-          // debug($this->validationErrors);
-          // debug($this->request->data);
-          $this->User->create();
+        if ($this->request->is('ajax')) {
 
-          //exit;
-          if ($this->User->save($this->request->data)) {
-          $this->Flash->success(__('El usuario fue registrado.'));
-          return $this->redirect(array('action' => 'index'));
-          } else {
-          debug($this->User->validationErrors);
-          $this->Flash->error(__('El usuario no fue registrado, intenta de nuevo.'));
-          }
-          } */
-
-        // $veredas = $this->User->Vereda->find('list');
-        $departamentos = $this->User->Departamento->find('list');
-        $this->unshift($departamentos, 0, "Seleccione una opción");
-        //debug($departamentos); exit;
-        $paisses = $this->User->Paiss->find('list');
-
-        $ciudads = $this->User->Ciudad->find('list');
-        $this->unshift($ciudads, 0, "Seleccione una opción");
-
-        // $corregimientos = $this->User->Corregimiento->find('list');
-        //$this->unshift($corregimientos, 0, "Seleccione una opción");
-
-        $tipoAgriculturas = $this->User->TipoAgricultura->find('list');
-        $this->unshift($tipoAgriculturas, 0, "Seleccione una opción");
-
-        $rols = $this->User->Rol->find('list');
-        $this->unshift($rols, 0, "Seleccione una opción");
-        unset($rols[4]); //Removemos empresa
-        //debug($rols);
-        //$googleMaps = $this->User->GoogleMap->find('list');
-
-        $this->loadModel("Certificacion");
-        $this->Certificacion->recursive = 0;
-        $certificaciones = $this->Certificacion->find("list");
-        $this->unshift($certificaciones, 0, "Seleccione una opción");
-
-        $generos = array(0 => "Seleccione una opción", "Femenino" => "Femenino", "Masculino" => "Masculino", "LGTBI" => "LGTBI");
-        $this->set(compact('certificaciones', 'veredas', 'generos', 'departamentos', 'paisses', 'ciudads', 'corregimientos', 'tipoAgriculturas', 'rols', 'googleMaps'));
+            //Clean String
+            if (isset($_POST["element"])) {
+                $janitor = new janitor();
+                $cleanString = $janitor->sanitizeString($_POST["element"]);
+                $elemento = $this->cleanString($cleanString);
+                if (!empty($elemento)) {
+                    $this->autoRender = false;
+                    $this->viewPath = 'Elements';
+                    return $this->render($elemento)->body();
+                } else {
+                    echo "<br><b>Error al intentar cargar la vista !!!</b><br>";
+                }
+            } else {
+                echo "<br><b>Error al intentar cargar la vista !!!</b><br>";
+            }
+        }
+        //return $data;
     }
 
     public function admin_preregistro() {
@@ -306,9 +315,17 @@ class UsersController extends AppController {
         $this->User->recursive = 0; //Recursividad
 
         $data["res"] = "no";
-        //  debug($this->request->data);
-        if (!isset($this->request->data["User"]["tipo"]) || !isset($this->request->data["User"]["rol_id"])) {
-            goto errorAjaxUserAdd;
+        //debug($this->request->data);
+        if (!isset($this->request->data["User"]["rol_id"])) {
+            $data["msj"] = "Debes seleccionar un tipo de usuario";
+            echo json_encode($data);
+            return;
+        }
+
+        if (intval($this->request->data["User"]["rol_id"]) === 0) {
+            $data["msj"] = "Debes seleccionar un tipo de usuario";
+            echo json_encode($data);
+            return;
         }
 
         //Campos deshabilitados
@@ -318,14 +335,17 @@ class UsersController extends AppController {
 
         $this->User->Rol->recursive = -1;
         $codRol = $this->User->Rol->find("first", array("conditions" => array("Rol.id" => $this->request->data["User"]["rol_id"])));
-        
-       // debug($codRol);
-        
+
+        //Sino subio foto
+        if (!isset($this->request->data["User"]["foto"]["name"]) || empty($this->request->data["User"]["foto"]["name"]) || empty($this->request->data["User"]["foto"])) {
+            $this->User->validator()->remove('foto');
+        }
+
         switch ($codRol["Rol"]["abr"]) {
             case "adm":
                 //echo "Entro aqi";
-                $this->request->data["User"]["rol_id"] = 1;
-            
+                //$this->request->data["User"]["rol_id"] = $codRol["Rol"]["id"];
+
                 $this->User->validator()->remove('tipo_agricultura_id');
                 $this->User->validator()->remove('ciudad_id');
                 $this->User->validator()->remove('corregimiento_id');
@@ -336,12 +356,38 @@ class UsersController extends AppController {
                 $this->request->data["User"]["corregimiento_id"] = null;
                 $this->request->data["User"]["ubicacion"] = null;
                 break;
+
+            case "agr":
+                break;
+
+            case "subadm":
+                break;
+
+            case "com":
+                $this->User->validator()->remove('tipo_agricultura_id');
+                $this->User->validator()->remove('ciudad_id');
+                $this->User->validator()->remove('corregimiento_id');
+
+
+                $this->request->data["User"]["tipo_agricultura_id"] = null;
+                $this->request->data["User"]["ciudad_id"] = null;
+                $this->request->data["User"]["corregimiento_id"] = null;
+
+                break;
+
+            case "emp":
+                break;
         }
+
+        //  debug($this->request->data);
 
         $this->User->set($this->request->data); //Asignar datos al modelo
         //debug($this->request->data );
+
+
         $res = $this->uploadFiles("img/fotos", $this->request->data["User"]["foto"], $this->request->data["User"]["identificacion"]);
 
+        // debug($res);
         if ($this->User->validates($this->request->data)) {
             //$this->request->data["User"]["foto"] = $res["archivo"];
             //$this->User->validator()->remove('foto');
@@ -362,7 +408,7 @@ class UsersController extends AppController {
                         $data["errores_validacion"][$key] = $val;
                     }
                 }
-                errorAjaxUserAdd:
+
                 $data["msj"] = "El usuario no fue registrado, intenta de nuevo.";
             }
             echo json_encode($data);

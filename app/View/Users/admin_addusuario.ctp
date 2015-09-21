@@ -20,7 +20,7 @@
             <!-- TIPO DE USUARIO -->
             <div class="col-lg-4">
                 <div class="form-group">
-                    <?php echo $this->Form->input('rol_id', array("div" => false, "id" => "cboRol", 'tag' => 'rol_id',  "label" => "Tipo de usuario*", "type" => "select", "class" => "form-control")); ?>
+                    <?php echo $this->Form->input('rol_id', array("div" => false, "id" => "cboRol", 'tag' => 'rol_id', "label" => "Tipo de usuario*", "type" => "select", "class" => "form-control")); ?>
 
                 </div>
 
@@ -29,7 +29,7 @@
             <!-- USERNAME -->
             <div class="col-lg-4">
                 <div class="form-group">
-                    <?php echo $this->Form->input('username', array("div" => false, "id" => "txtUsername", "label" => "Usuario*", "maxlength"=>15,'tag' => 'username', "type" => "text", "class" => "form-control")); ?>
+                    <?php echo $this->Form->input('username', array("div" => false, "id" => "txtUsername", "label" => "Usuario*", "maxlength" => 15, 'tag' => 'username', "type" => "text", "class" => "form-control")); ?>
 
                 </div>
 
@@ -38,46 +38,33 @@
             <!-- PASSWORD -->
             <div class="col-lg-4">
                 <div class="form-group">
-                    <?php echo $this->Form->input('password', array("div" => false, "id" => "txtContrasena", "label" => "Contraseña*","maxlength"=>15, 'tag' => 'password', "type" => "password", "class" => "form-control")); ?>
+                    <?php echo $this->Form->input('password', array("div" => false, "id" => "txtContrasena", "label" => "Contraseña*", "maxlength" => 15, 'tag' => 'password', "type" => "password", "class" => "form-control")); ?>
 
                 </div>
 
             </div>
-            
+
             <!-- CONFIRMAR PASSWORD -->
             <div class="col-lg-4">
                 <div class="form-group">
-                    <?php echo $this->Form->input('password1', array("div" => false, "id" => "txtContrasena", "label" => "Confirmar contraseña*", "maxlength"=>15, 'tag' => 'password1', "type" => "password", "class" => "form-control")); ?>
+                    <?php echo $this->Form->input('password1', array("div" => false, "id" => "txtContrasena1", "label" => "Confirmar contraseña*", "maxlength" => 15, 'tag' => 'password1', "type" => "password", "class" => "form-control")); ?>
 
                 </div>
 
             </div>
 
+            
         </fieldset>
-        
-        
-        
-        <div id="divAgricultores">
-            <?php echo $this->element("agricultores"); ?>
+
+        <div id="divElementos">
+            <div id="divContenido">
+
+            </div>
         </div>
-        
-        <div id="divCompradores">
-            <?php echo $this->element("compradores"); ?>
-        </div>
-        
-        <div id="divEmpresas">
-            <?php echo $this->element("empresas"); ?>
-        </div>
-        
-        <div id="divAdministradores">
-            <?php echo $this->element("administradores"); ?>
-        </div>
-        
-        <div id="divSubAdministradores">
-            <?php echo $this->element("subadministradores"); ?>
-        </div>
-        
-        
+
+
+
+
         <div class="col-lg-4">
             <?php
             $options = array('label' => 'Guardar', 'type' => "submit", "id" => "btnGuaUsu", 'class' => 'btn btn-primary', 'div' => false);

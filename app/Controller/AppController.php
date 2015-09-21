@@ -1,5 +1,6 @@
 <?php
- date_default_timezone_set('America/Bogota');
+
+date_default_timezone_set('America/Bogota');
 /**
  * Application level Controller
  *
@@ -49,7 +50,18 @@ class AppController extends Controller {
         return $array;
     }
 
+    function cleanString($string) {
+        $string = str_replace(' ', '-', $string); // Replaces all spaces with hyphens.
+        $string = preg_replace('/[^A-Za-z0-9\-]/', '', $string); // Removes special chars.
+
+        return preg_replace('/-+/', '-', $string); // Replaces multiple hyphens with single one.
+    }
+
     function uploadFiles($folder, $formdata, $nombreFoto = null) {
+        if (!isset($formdata["name"]) or empty($formdata["name"]) or empty($formdata)) {
+            return null;
+        }
+        //error_reporting(0);
         // setup dir names absolute and relative
         $folder_url = WWW_ROOT . $folder;
         $rel_url = $folder;
@@ -60,18 +72,18 @@ class AppController extends Controller {
         }
 
         // if itemId is set create an item folder
-        /*if ($itemId) {
-            // set new absolute folder
-            $folder_url = WWW_ROOT . $folder . DS . $itemId;
-            // set new relative folder
-            $rel_url = $folder . DS . $itemId;
-            // create directory
-            if (!is_dir($folder_url)) {
-                mkdir($folder_url);
-            }
-        }*/ 
-        
-        
+        /* if ($itemId) {
+          // set new absolute folder
+          $folder_url = WWW_ROOT . $folder . DS . $itemId;
+          // set new relative folder
+          $rel_url = $folder . DS . $itemId;
+          // create directory
+          if (!is_dir($folder_url)) {
+          mkdir($folder_url);
+          }
+          } */
+
+
         // list of permitted file types, this is only images but documents can be added
         $permitted = array('image/gif', 'image/jpeg', 'image/pjpeg', 'image/png');
 
@@ -90,7 +102,7 @@ class AppController extends Controller {
         if ($nombreFoto == null) {
             $filename = str_replace(' ', '_', $archivo);
         } else {
-            $filename = $nombreFoto.".".$ext;
+            $filename = $nombreFoto . "." . $ext;
         }
         // assume filetype is false
         $typeOK = false;
@@ -127,11 +139,11 @@ class AppController extends Controller {
                     // if upload was successful
                     if ($success) {
                         // save the url of the file
-                        $result['carpeta']= $url;
-                        $result['path']= $full_url;
+                        $result['carpeta'] = $url;
+                        $result['path'] = $full_url;
                         $result['archivo'] = $filename;
-                        $result['size']= $size;
-                        $result['ext']= $ext;
+                        $result['size'] = $size;
+                        $result['ext'] = $ext;
                     } else {
                         $result['errors'] = "Error uploaded $filename. Please try again.";
                     }

@@ -6,14 +6,14 @@
     <!-- IDENTIFICACIÓN -->
     <div class="col-lg-4" >
         <div class="form-group">
-            <?php echo $this->Form->input('identificacion', array("div" => false, "id" => "txtIdentificacion", "label" => "Identificación*", "maxlength" => 25, 'tag' => 'identificacion', "class" => "form-control")); ?>
+            <?php echo $this->Form->input('identificacion', array('name'=>'data[User][identificacion]', "div" => false, "id" => "txtIdentificacion", "label" => "Identificación*", "maxlength" => 25, 'tag' => 'identificacion', "class" => "form-control")); ?>
         </div>
     </div>
 
     <!-- NOMBRES -->
     <div class="col-lg-4">
         <div class="form-group">
-            <?php echo $this->Form->input('nombres', array("div" => false, "id" => "txtNombres", "label" => "Nombres*", 'tag' => 'nombres', "maxlength" => 80, "class" => "form-control")); ?>
+            <?php echo $this->Form->input('nombres', array('name'=>'data[User][nombres]', "div" => false, "id" => "txtNombres", "label" => "Nombres*", 'tag' => 'nombres', "maxlength" => 80, "class" => "form-control")); ?>
 
         </div>
 
@@ -92,7 +92,7 @@
         <label>Selecciona una foto (opcional)</label>
         <div class="fileinput fileinput-new input-group" tag="foto" data-provides="fileinput">
             <div class="form-control" data-trigger="fileinput"><i class="glyphicon glyphicon-file fileinput-exists"></i> <span class="fileinput-filename"></span></div>
-            <span class="input-group-addon btn btn-default btn-file"><span class="fileinput-new"><b>Buscar foto</b></span><span class="fileinput-exists"><b>Cambiar</b></span><input type="file"  name="data[User][foto]"></span>
+            <span class="input-group-addon btn btn-default btn-file"><span class="fileinput-new"><b>Buscar foto</b></span><span class="fileinput-exists"><b>Cambiar</b></span><input type="file" name="data[User][foto]"></span>
             <a href="#" class="input-group-addon btn btn-default fileinput-exists" data-dismiss="fileinput"><b>Remover</b></a>
         </div>
     </div> 

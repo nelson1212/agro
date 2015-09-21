@@ -122,14 +122,14 @@
     <!-- ASOCIACIONES -->
     <div class="col-lg-4">
         <div class="form-group">
-            <?php echo $this->Form->input('asociacion_id', array("div" => false, "id" => "cboTipAgr", "label" => "Asociación (opcional)", 'tag' => 'tipo_agricultura_id', "type" => "select", "class" => "form-control")); ?>
+            <?php echo $this->Form->input('asociacion_id', array("options"=>$asociaciones, "div" => false, "id" => "cboTipAgr", "label" => "Asociación (opcional)", 'tag' => 'tipo_agricultura_id', "type" => "select", "class" => "form-control")); ?>
         </div>
 
     </div>   
 
     <!-- CERTIFICACIONES -->
     <div class="col-lg-4">
-        <label>Certificaciónes</label>
+        <label>Certificaciónes (opcional)</label>
         <div class="form-group">
             <?php
             echo $this->Form->input('certificacion', array("options" => $certificaciones, "id" => "cboCertificaciones",
