@@ -16,7 +16,7 @@
                 </div>
             </div>
             <div class="row" id="divBusqueda">
-
+                <div id="divTabla"></div>
             </div>
         </div>
         <br>

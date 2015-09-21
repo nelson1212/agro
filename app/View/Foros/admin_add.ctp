@@ -1,27 +1,70 @@
-<div class="foros form">
-<?php echo $this->Form->create('Foro'); ?>
-	<fieldset>
-		<legend><?php echo __('Admin Add Foro'); ?></legend>
-	<?php
-		echo $this->Form->input('nombre');
-		echo $this->Form->input('descripcion');
-		echo $this->Form->input('user_id');
-		echo $this->Form->input('estado');
-		echo $this->Form->input('categoria_id');
-	?>
-	</fieldset>
-<?php echo $this->Form->end(__('Submit')); ?>
-</div>
-<div class="actions">
-	<h3><?php echo __('Actions'); ?></h3>
-	<ul>
+<div class="panel panel-default" id="divPanel"> <!-- PANEL -->
+    <div class="panel-heading">
+        <h3 class="panel-title"><b> CREAR FOROS </b></h3>
+    </div>
+    <div class="panel-body">
 
-		<li><?php echo $this->Html->link(__('List Foros'), array('action' => 'index')); ?></li>
-		<li><?php echo $this->Html->link(__('List Users'), array('controller' => 'users', 'action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(__('New User'), array('controller' => 'users', 'action' => 'add')); ?> </li>
-		<li><?php echo $this->Html->link(__('List Categorias'), array('controller' => 'categorias', 'action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(__('New Categoria'), array('controller' => 'categorias', 'action' => 'add')); ?> </li>
-		<li><?php echo $this->Html->link(__('List Foro Temas'), array('controller' => 'foro_temas', 'action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(__('New Foro Tema'), array('controller' => 'foro_temas', 'action' => 'add')); ?> </li>
-	</ul>
+        <div class="form-group">
+            Los campos marcados con * son obligatorios
+
+        </div>
+
+
+        <?php echo $this->Form->create('Foro', array('id' => "formForo", 'type' => 'file', "novalidate" => "novalidate")); ?>
+        <input type="hidden" name="data[User][tipo]" value="otros" />
+        <!-- DATOS DE PERFIL -->
+        <fieldset class="well the-fieldset"> 
+            <legend class="the-legend">
+                Datos basicos del foro
+            </legend>  
+
+            <div class="row">
+                <!-- NOMBRE CIENTIFICO -->
+                <div class="col-lg-4">
+                    <div class="form-group">
+                        <?php echo $this->Form->input('titulo', array("div" => false, "id" => "txtTitulo", 'tag' => 'titulo', "label" => "Titulo del foro *", "type" => "text", "class" => "form-control")); ?>
+
+                    </div>
+
+                </div>  
+                
+                 <!-- NOMBRE COMUN -->
+                <div class="col-lg-4">
+                    <div class="form-group">
+                        <?php echo $this->Form->input('texto', array("div" => false, "id" => "txtTexto", 'tag' => 'texo', "label" => "Breve descripción *", "type" => "text", "class" => "form-control")); ?>
+
+                    </div>
+
+                </div> 
+
+                <!-- VARIEDADES -->
+                <div class="col-lg-4">
+                    <label>Variedades*</label>
+                    <div class="form-group">
+                        <?php echo $this->Form->input('categoria_id', array("div" => "Categoria *", "id" => "cboCategorias", "label" => false, "maxlength" => 15, 'tag' => 'categoria_id', "type" => "select", "class" => "form-control")); ?>
+
+                    </div>
+
+                </div>
+
+               
+            </div>
+            
+        </fieldset>
+
+
+
+
+
+        <div class="col-lg-4">
+            <?php
+            $options = array('label' => 'Guardar', 'type' => "submit", "id" => "btnGuaPro", 'class' => 'btn btn-primary', 'div' => false);
+            echo $this->Form->end($options);
+            ?> 
+            <?php
+            $options = array('label' => 'Cancelar', "id" => "btnCanRegPro", 'class' => 'btn btn-warning', 'div' => false);
+            echo $this->Form->end($options);
+            ?>
+        </div>
+    </div>
 </div>

@@ -43,6 +43,9 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
         echo $this->Html->css('bootstrap-multiselect');
         echo $this->Html->css('jasny-bootstrap');
         echo $this->Html->css('jquery-confirm');
+        echo $this->Html->css('bootstrap-tagsinput');
+        echo $this->Html->css('jquery-ui.css');
+        echo $this->Html->css('evol.colorpicker.min');
         echo $this->Html->css('general');
 
 
@@ -69,12 +72,27 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
                 background-color: transparent;
             }
         </style>
+
         <!--[if lt IE 9]>
             <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
             <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
           <![endif]-->
     </head>
-    <body class="hold-transition skin-blue sidebar-mini">
+    <!-- 
+    "skin-blue",
+"skin-black",
+"skin-red",
+"skin-yellow",
+"skin-purple",
+"skin-green",
+"skin-blue-light",
+"skin-black-light",
+"skin-red-light",
+"skin-yellow-light",
+"skin-purple-light",
+"skin-green-light"
+    -->
+    <body class="hold-transition skin-green sidebar-mini">
         <div class="wrapper">
 
             <?php echo $this->element("header"); ?>
@@ -86,7 +104,7 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
                 <section class="content-header">
                     <?php echo $this->Flash->render(); ?>
                     <?php echo $this->fetch('content'); ?>
-                   
+
                 </section><!-- /.content -->
             </div>
             <!-- /.content-wrapper -->
@@ -99,7 +117,7 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
         <?php
         echo $this->Html->script('jquery-2.1.4');
         echo $this->Html->script('jquery-ui.min');
-       
+
         echo $this->Html->script('bootstrap.min');
         echo $this->Html->script('jquery-confirm');
         echo $this->Html->script('raphael-min');
@@ -117,8 +135,9 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
         echo $this->Html->script('app.min');
         echo $this->Html->script('bootstrap-multiselect');
         echo $this->Html->script('jasny-bootstrap');
-        
-  
+        echo $this->Html->script('bootstrap-tagsinput');
+        echo $this->Html->script('jquery-ui.min');
+        echo $this->Html->script('evol.colorpicker.min.js');
         echo $this->Html->script('scriptGeneral');
 
 
@@ -127,5 +146,6 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
         //echo $this->fetch('css');
         //echo $this->fetch('script');
         ?>
+
     </body>
 </html>

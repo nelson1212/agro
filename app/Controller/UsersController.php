@@ -18,7 +18,10 @@ class UsersController extends AppController {
      *
      * @var array
      */
-    public $components = array('Paginator', 'Flash', 'Session');
+    public $components = array('Paginator', 'Flash', 'Session','RequestHandler');
+    
+    var $helpers = array('Js'); //*** IMPORTANT 
+
 
     /**
      * index method
@@ -140,21 +143,40 @@ class UsersController extends AppController {
         //$this->set('users', $this->Paginator->paginate());
     }
 
-    public function getTables() {
+    public function getTables($page=null) {
 
         $this->User->recursive = 0; //Recursividad
 
         if ($this->request->is('ajax')) {
             $janitor = new janitor();
-            $cleanString = $janitor->sanitizeString($_POST["element"]);
-            $elemento = $this->cleanString($cleanString);
-
+       
+            echo $page;
+            
+            $settings = array('order' => array('User.id' => 'DESC'),
+                //            'joins' => array(
+                //                array(
+                //                    'alias' => 'c',
+                //                    'table' => 'ciudads',
+                //                    'type' => 'INNER',
+                //                    'conditions' => '`c`.`id` = `Barrio`.`ciudad_id`'
+                //                ), array(
+                //                    'alias' => 'com',
+                //                    'table' => 'comunas',
+                //                    'type' => 'LEFT',
+                //                    'conditions' => '`com`.`id` = `Barrio`.`comuna_id`'
+                //                ), array(
+                //                    'alias' => 'dep',
+                //                    'table' => 'departamentos',
+                //                    'type' => 'INNER',
+                //                    'conditions' => '`dep`.`id` = `c`.`departamento_id`'
+                'limit' => 10);
+            $this->Paginator->settings = $settings;
             $this->set('users', $this->Paginator->paginate());
             $this->autoRender = false;
             $this->layout = false;
             $this->viewPath = 'Elements';
 
-            $cleanString = $janitor->sanitizeString($_POST["element"]);
+            $cleanString = "Administrador";
             $elemento = $this->cleanString($cleanString);
 
             switch ($elemento) {

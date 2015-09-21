@@ -1,11 +1,11 @@
 /** Notices and Errors **/
 .message {
-	clear: both;
-	color: #fff;
-	font-size: 140%;
-	font-weight: bold;
-	margin: 0 0 1em 0;
-	padding: 5px;
+    clear: both;
+    color: #fff;
+    font-size: 140%;
+    font-weight: bold;
+    margin: 0 0 1em 0;
+    padding: 5px;
 }
 
 .success,
@@ -30,82 +30,82 @@ p.error,
     border-radius: 4px;
 }
 .success {
-	clear: both;
-	color: #fff;
-	border: 1px solid rgba(0, 0, 0, 0.5);
-	background: #3B8230;
-	background-repeat: repeat-x;
-	background-image: -webkit-gradient(linear, left top, left bottom, from(#76BF6B), to(#3B8230));
-	background-image: -webkit-linear-gradient(top, #76BF6B, #3B8230);
-	background-image: -moz-linear-gradient(top, #76BF6B, #3B8230);
-	background-image: -ms-linear-gradient(top, #76BF6B, #3B8230);
-	background-image: -o-linear-gradient(top, #76BF6B, #3B8230);
-	background-image: linear-gradient(top, #76BF6B, #3B8230);
-	text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.3);
+    clear: both;
+    color: #fff;
+    border: 1px solid rgba(0, 0, 0, 0.5);
+    background: #3B8230;
+    background-repeat: repeat-x;
+    background-image: -webkit-gradient(linear, left top, left bottom, from(#76BF6B), to(#3B8230));
+    background-image: -webkit-linear-gradient(top, #76BF6B, #3B8230);
+    background-image: -moz-linear-gradient(top, #76BF6B, #3B8230);
+    background-image: -ms-linear-gradient(top, #76BF6B, #3B8230);
+    background-image: -o-linear-gradient(top, #76BF6B, #3B8230);
+    background-image: linear-gradient(top, #76BF6B, #3B8230);
+    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.3);
 }
 p.error {
-	font-family: Monaco, Consolas, Courier, monospace;
-	font-size: 120%;
-	padding: 0.8em;
-	margin: 1em 0;
+    font-family: Monaco, Consolas, Courier, monospace;
+    font-size: 120%;
+    padding: 0.8em;
+    margin: 1em 0;
 }
 p.error em {
-	font-weight: normal;
-	line-height: 140%;
+    font-weight: normal;
+    line-height: 140%;
 }
 .notice {
-	color: #000;
-	display: block;
-	font-size: 120%;
-	padding: 0.8em;
-	margin: 1em 0;
+    color: #000;
+    display: block;
+    font-size: 120%;
+    padding: 0.8em;
+    margin: 1em 0;
 }
 .success {
-	color: #fff;
+    color: #fff;
 }
 
 
 .paging {
-	background:#fff;
-	color: #ccc;
-	margin-top: 1em;
-	clear:both;
+    background:#fff;
+    color: #ccc;
+    margin-top: 1em;
+    clear:both;
 }
 .paging .current,
 .paging .disabled,
 .paging a {
-	text-decoration: none;
-	padding: 5px 8px;
-	display: inline-block
+    text-decoration: none;
+    padding: 5px 8px;
+    display: inline-block
 }
 .paging > span {
-	display: inline-block;
-	border: 1px solid #ccc;
-	border-left: 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-left: 0;
 }
 .paging > span:hover {
-	background: #efefef;
+    background: #efefef;
 }
 .paging .prev {
-	border-left: 1px solid #ccc;
-	-moz-border-radius: 4px 0 0 4px;
-	-webkit-border-radius: 4px 0 0 4px;
-	border-radius: 4px 0 0 4px;
+    border-left: 1px solid #ccc;
+    -moz-border-radius: 4px 0 0 4px;
+    -webkit-border-radius: 4px 0 0 4px;
+    border-radius: 4px 0 0 4px;
 }
 .paging .next {
-	-moz-border-radius: 0 4px 4px 0;
-	-webkit-border-radius: 0 4px 4px 0;
-	border-radius: 0 4px 4px 0;
+    -moz-border-radius: 0 4px 4px 0;
+    -webkit-border-radius: 0 4px 4px 0;
+    border-radius: 0 4px 4px 0;
 }
 .paging .disabled {
-	color: #ddd;
+    color: #ddd;
 }
 .paging .disabled:hover {
-	background: transparent;
+    background: transparent;
 }
 .paging .current {
-	background: #efefef;
-	color: #c73e14;
+    background: #efefef;
+    color: #c73e14;
 }
 
 .mid-width .multiselect-container {
@@ -115,20 +115,7 @@ p.error em {
     white-space: normal;
 }
 
-input[type="file" i] {
-    position: absolute;
-    top: 0px;
-    right: 0px;
-    min-width: 100%;
-    min-height: 100%;
-    font-size: 100px;
-    text-align: right;
-    opacity: 0;
-    outline: medium none;
-    background: #0C0B0B none repeat scroll 0% 0%;
-    cursor: inherit;
-    display: block;
-}
+
 
 #divPanel label, h3 {
     font-weight: bold;
@@ -141,4 +128,23 @@ input[type="file" i] {
 
 #divPanel > div.panel-heading > h3 > b {
     border-bottom: 0 none;
+}
+
+.bootstrap-tagsinput{
+
+    font-size: 12px;
+    width: 100% !important;
+
+    -webkit-transition: border-color ease-in-out .15s,-webkit-box-shadow;
+    border-radius: 0;
+    box-shadow: none;
+    border-color: #d2d6de;
+    display: block;
+
+}
+
+.bootstrap-tagsinput .tag {
+    margin-right: 2px;
+    color: white;
+    font-size: 13px;
 }

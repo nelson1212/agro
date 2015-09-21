@@ -78,18 +78,7 @@
 
                 </ul>
             </li>
-               <li class="treeview">
-                <a href="#">
-                    <i class="fa fa-laptop"></i>
-                    <span>Empresas</span>
-                    <i class="fa fa-angle-left pull-right"></i>
-                </a>
-                <ul class="treeview-menu">
-                    <li><a href="<?php echo $this->webroot; ?>admin/users/addempresa"><i class="fa fa-circle-o"></i> Agregar</a></li>
-                    <li><a href="<?php echo $this->webroot; ?>admin/users/index"><i class="fa fa-circle-o"></i> Ver listado</a></li>
-                    <li><a href="<?php echo $this->webroot; ?>admin/users/preregistro"><i class="fa fa-circle-o"></i> Pre-registro</a></li>
-                </ul>
-            </li>
+
             <li class="treeview">
                 <a href="#">
                     <i class="fa fa-laptop"></i>
@@ -97,7 +86,7 @@
                     <i class="fa fa-angle-left pull-right"></i>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a href="pages/UI/general.html"> Registrar</a></li>
+                    <li><a href="<?php echo $this->webroot; ?>admin/productos/add"><i class="fa fa-circle-o"></i>  Registrar</a></li>
                     <li><a href="pages/UI/icons.html"><i class="fa fa-circle-o"></i> Ver listado</a></li>
 
                 </ul>
@@ -110,7 +99,7 @@
                     <i class="fa fa-angle-left pull-right"></i>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a href="pages/forms/general.html"><i class="fa fa-circle-o"></i> Crear</a></li>
+                    <li><a href="<?php echo $this->webroot; ?>admin/foros/add"><i class="fa fa-circle-o"></i> Crear</a></li>
                     <li><a href="pages/forms/advanced.html"><i class="fa fa-circle-o"></i> Ver listado</a></li>
 
                 </ul>
@@ -173,7 +162,7 @@
 
                 </ul>
             </li>
-             <li class="treeview">
+            <li class="treeview">
                 <a href="#">
                     <i class="fa fa-table"></i> <span>Herramientas</span>
                     <i class="fa fa-angle-left pull-right"></i>

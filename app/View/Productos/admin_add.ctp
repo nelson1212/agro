@@ -1,65 +1,216 @@
-<div class="productos form">
-<?php echo $this->Form->create('Producto'); ?>
-	<fieldset>
-		<legend><?php echo __('Admin Add Producto'); ?></legend>
-	<?php
-		echo $this->Form->input('nombre_cientifico');
-		echo $this->Form->input('foto');
-		echo $this->Form->input('lavado_id');
-		echo $this->Form->input('embalaje_id');
-		echo $this->Form->input('perido_cosecha');
-		echo $this->Form->input('estado_id');
-		echo $this->Form->input('peso_gr');
-		echo $this->Form->input('peso_lb');
-		echo $this->Form->input('peso_kg');
-		echo $this->Form->input('precio');
-		echo $this->Form->input('cotactado');
-		echo $this->Form->input('cantidad');
-		echo $this->Form->input('color_id');
-		echo $this->Form->input('temperatura');
-		echo $this->Form->input('altura_msnm');
-		echo $this->Form->input('imagen');
-		echo $this->Form->input('calidad_id');
-		echo $this->Form->input('forma_id');
-		echo $this->Form->input('firmeza_id');
-		echo $this->Form->input('presentacion_id');
-		echo $this->Form->input('brillo_id');
-		echo $this->Form->input('sanidad_id');
-		echo $this->Form->input('madurez_id');
-	?>
-	</fieldset>
-<?php echo $this->Form->end(__('Submit')); ?>
-</div>
-<div class="actions">
-	<h3><?php echo __('Actions'); ?></h3>
-	<ul>
+<div class="panel panel-default" id="divPanel"> <!-- PANEL -->
+    <div class="panel-heading">
+        <h3 class="panel-title"><b>REGISTRO DE PRODUCTOS </b></h3>
+    </div>
+    <div class="panel-body">
 
-		<li><?php echo $this->Html->link(__('List Productos'), array('action' => 'index')); ?></li>
-		<li><?php echo $this->Html->link(__('List Lavados'), array('controller' => 'lavados', 'action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(__('New Lavado'), array('controller' => 'lavados', 'action' => 'add')); ?> </li>
-		<li><?php echo $this->Html->link(__('List Embalajes'), array('controller' => 'embalajes', 'action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(__('New Embalaje'), array('controller' => 'embalajes', 'action' => 'add')); ?> </li>
-		<li><?php echo $this->Html->link(__('List Estados'), array('controller' => 'estados', 'action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(__('New Estado'), array('controller' => 'estados', 'action' => 'add')); ?> </li>
-		<li><?php echo $this->Html->link(__('List Colors'), array('controller' => 'colors', 'action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(__('New Color'), array('controller' => 'colors', 'action' => 'add')); ?> </li>
-		<li><?php echo $this->Html->link(__('List Calidads'), array('controller' => 'calidads', 'action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(__('New Calidad'), array('controller' => 'calidads', 'action' => 'add')); ?> </li>
-		<li><?php echo $this->Html->link(__('List Formas'), array('controller' => 'formas', 'action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(__('New Forma'), array('controller' => 'formas', 'action' => 'add')); ?> </li>
-		<li><?php echo $this->Html->link(__('List Firmezas'), array('controller' => 'firmezas', 'action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(__('New Firmeza'), array('controller' => 'firmezas', 'action' => 'add')); ?> </li>
-		<li><?php echo $this->Html->link(__('List Presentacions'), array('controller' => 'presentacions', 'action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(__('New Presentacion'), array('controller' => 'presentacions', 'action' => 'add')); ?> </li>
-		<li><?php echo $this->Html->link(__('List Brillos'), array('controller' => 'brillos', 'action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(__('New Brillo'), array('controller' => 'brillos', 'action' => 'add')); ?> </li>
-		<li><?php echo $this->Html->link(__('List Sanidads'), array('controller' => 'sanidads', 'action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(__('New Sanidad'), array('controller' => 'sanidads', 'action' => 'add')); ?> </li>
-		<li><?php echo $this->Html->link(__('List Madurezs'), array('controller' => 'madurezs', 'action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(__('New Madurez'), array('controller' => 'madurezs', 'action' => 'add')); ?> </li>
-		<li><?php echo $this->Html->link(__('List Interaccions'), array('controller' => 'interaccions', 'action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(__('New Interaccion'), array('controller' => 'interaccions', 'action' => 'add')); ?> </li>
-		<li><?php echo $this->Html->link(__('List Nombres Comuns'), array('controller' => 'nombres_comuns', 'action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(__('New Nombres Comun'), array('controller' => 'nombres_comuns', 'action' => 'add')); ?> </li>
-	</ul>
+        <div class="form-group">
+            Los campos marcados con * son obligatorios
+
+        </div>
+
+
+        <?php echo $this->Form->create('Producto', array('id' => "formProducto", 'type' => 'file', "novalidate" => "novalidate")); ?>
+        <input type="hidden" name="data[User][tipo]" value="otros" />
+        <!-- DATOS DE PERFIL -->
+        <fieldset class="well the-fieldset"> 
+            <legend class="the-legend">
+                Datos basicos del producto
+            </legend>  
+
+            <div class="row">
+                <!-- NOMBRE CIENTIFICO -->
+                <div class="col-lg-4">
+                    <div class="form-group">
+                        <?php echo $this->Form->input('nombre_cientifico', array("div" => false, "id" => "txtNombreCientifico", 'tag' => 'nombre_cientifico', "label" => "Nombre cientifico *", "type" => "text", "class" => "form-control")); ?>
+
+                    </div>
+
+                </div>  
+                
+                 <!-- NOMBRE COMUN -->
+                <div class="col-lg-4">
+                    <div class="form-group">
+                        <?php echo $this->Form->input('nombre_comun', array("div" => false, "id" => "txtNombreComun", 'tag' => 'nombre_comun', "label" => "Nombre comun *", "type" => "text", "class" => "form-control")); ?>
+
+                    </div>
+
+                </div> 
+
+                <!-- VARIEDADES -->
+                <div class="col-lg-4">
+                    <label>Variedades*</label>
+                    <div class="form-group">
+                        <?php echo $this->Form->input('variedades', array("div" => false, "id" => "txtVariedades", "label" => false, "maxlength" => 15, 'tag' => 'variedades', "data-role" => "tagsinput", "type" => "text", "class" => "form-control")); ?>
+
+                    </div>
+
+                </div>
+
+               
+            </div>
+            <div class="row">
+                <!-- EMBALAJE -->
+                <div class="col-lg-4">
+                    <div class="form-group">
+                        <?php echo $this->Form->input('embalaje_id', array("div" => false, "id" => "cboEmbalajes", "label" => "Tipo de embalaje*", "maxlength" => 15, 'tag' => 'embalaje_id', "type" => "select", "class" => "form-control")); ?>
+
+                    </div>
+
+                </div>
+
+
+                <!-- FECHA DE COSECHA -->
+                <div class="col-lg-4">
+                    <div class="form-group">
+                        <?php echo $this->Form->input('fecha_cosecha', array("div" => false, "id" => "txtFechaCosecha", "label" => "Fecha de cosecha*", "maxlength" => 15, 'tag' => 'fecha_cosecha', "type" => "text", "class" => "form-control")); ?>
+
+                    </div>
+
+                </div>
+
+                <!-- FECHA DE SIEMBRA -->
+                <div class="col-lg-4">
+                    <div class="form-group">
+                        <?php echo $this->Form->input('fecha_siembra', array("div" => false, "id" => "txtFechaSiembra", "label" => "Fecha de siembra*", "maxlength" => 15, 'tag' => 'fecha_siembra', "type" => "text", "class" => "form-control")); ?>
+
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="row">
+                <!-- ESTADO -->
+                <div class="col-lg-4">
+                    <div class="form-group">
+                        <?php echo $this->Form->input('estado_id', array("div" => false, "id" => "cboEstados", "label" => "Estados*", "maxlength" => 15, 'tag' => 'estado_id', "type" => "select", "class" => "form-control")); ?>
+
+                    </div>
+
+                </div>
+
+                <!-- PESO -->
+                <div class="col-lg-4">
+                    <div class="form-group">
+                        <?php echo $this->Form->input('peso_gr', array("div" => false, "id" => "txtPeso", "label" => "Peso (en gramos) *", "maxlength" => 15, 'tag' => 'peso_gr', "type" => "text", "class" => "form-control")); ?>
+
+                    </div>
+
+                </div>
+
+                <!-- PRECIO -->
+                <div class="col-lg-4">
+                    <div class="form-group">
+                        <?php echo $this->Form->input('precio', array("div" => false, "id" => "txtPrecio", "label" => "Precio *", "maxlength" => 15, 'tag' => 'precio', "type" => "text", "class" => "form-control")); ?>
+
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="row">
+                <!-- CANTIDAD -->
+                <div class="col-lg-4">
+                    <div class="form-group">
+                        <?php echo $this->Form->input('cantidad', array("div" => false, "id" => "txtCantidad", "label" => "Cantidad *", "maxlength" => 15, 'tag' => 'precio', "type" => "text", "class" => "form-control")); ?>
+
+                    </div>
+
+                </div>
+
+                <!-- COLOR -->
+                <div class="col-lg-4">
+                    <div class="form-group">
+                        <?php echo $this->Form->input('color_id', array("div" => false, "id" => "txtColor", "label" => "Color *", "maxlength" => 15, 'tag' => 'precio', "type" => "text", "class" => "form-control")); ?>
+
+                    </div>
+
+                </div>
+
+
+                <!-- ALTURA -->
+                <div class="col-lg-4">
+                    <div class="form-group">
+                        <?php echo $this->Form->input('altura_msnm', array("div" => false, "id" => "txtAltura", "label" => "Altura *", "maxlength" => 15, 'tag' => 'altura', "type" => "text", "class" => "form-control")); ?>
+
+                    </div>
+
+                </div>
+            </div>
+            <div class="row">
+                <!-- CALIDAD -->
+                <div class="col-lg-4">
+                    <div class="form-group">
+                        <?php echo $this->Form->input('calidad_id', array("div" => false, "id" => "txtCalidad", "label" => "Calidad *", "maxlength" => 15, 'tag' => 'calidad_id', "type" => "text", "class" => "form-control")); ?>
+
+                    </div>
+
+                </div>
+                <!-- PRESENTACIÓN -->
+                <div class="col-lg-4">
+                    <div class="form-group">
+                        <?php echo $this->Form->input('presentacion_id', array("div" => false, "id" => "cboPresentaciones", "label" => "Presentacion *", "maxlength" => 15, 'tag' => 'presentacion_id', "type" => "select", "class" => "form-control")); ?>
+
+                    </div>
+
+                </div>
+                <!-- BRILLO -->
+                <div class="col-lg-4">
+                    <div class="form-group">
+                        <?php echo $this->Form->input('brillo_id', array("div" => false, "id" => "cboBrillos", "label" => "Brillo *", "maxlength" => 15, 'tag' => 'brillo_id', "type" => "select", "class" => "form-control")); ?>
+
+                    </div>
+
+                </div>
+            </div>
+             <div class="row">
+              
+                <!-- SANIDAD -->
+                <div class="col-lg-4">
+                    <div class="form-group">
+                        <?php echo $this->Form->input('sanidad_id', array("div" => false, "id" => "cboSanidades", "label" => "Sanidad *", "maxlength" => 15, 'tag' => 'sanidad_id', "type" => "select", "class" => "form-control")); ?>
+
+                    </div>
+
+                </div>
+                
+                 <!-- LAVADO -->
+                <div class="col-lg-4">
+                    <div class="form-group">
+                        <?php echo $this->Form->input('lavado_id', array("div" => false, "id" => "cboLavados", "label" => "Tipo de lavado*", "maxlength" => 15, 'tag' => 'lavado_id', "type" => "select", "class" => "form-control")); ?>
+
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="row">
+                 <!-- FOTO -->
+    <div class="col-lg-6">
+        <label>Selecciona una foto (opcional)</label>
+        <div class="fileinput fileinput-new input-group" tag="foto" data-provides="fileinput">
+            <div class="form-control" data-trigger="fileinput"><i class="glyphicon glyphicon-file fileinput-exists"></i> <span class="fileinput-filename"></span></div>
+            <span class="input-group-addon btn btn-default btn-file"><span class="fileinput-new"><b>Buscar foto</b></span><span class="fileinput-exists"><b>Cambiar</b></span><input type="file"  name="data[User][foto]"></span>
+            <a href="#" class="input-group-addon btn btn-default fileinput-exists" data-dismiss="fileinput"><b>Remover</b></a>
+        </div>
+    </div> 
+            </div>
+
+        </fieldset>
+
+
+
+
+
+        <div class="col-lg-4">
+            <?php
+            $options = array('label' => 'Guardar', 'type' => "submit", "id" => "btnGuaPro", 'class' => 'btn btn-primary', 'div' => false);
+            echo $this->Form->end($options);
+            ?> 
+            <?php
+            $options = array('label' => 'Cancelar', "id" => "btnCanRegPro", 'class' => 'btn btn-warning', 'div' => false);
+            echo $this->Form->end($options);
+            ?>
+        </div>
+    </div>
 </div>

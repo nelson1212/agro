@@ -213,15 +213,18 @@ $(document).ready(function () {
                     dataType: 'html',
                     success: function (data) {
 
-                        $('#divBusqueda').html(data);
-                        $('#divBusqueda').find('input, select').each(function (i, item) {
-                            var tag = $(item).attr("tag");
-                            //Si posee el atributo tag siempre sera diferente de undefined
-                            if ('' + tag !== 'undefined') {
-                                // $(item).attr("name", "data[" + modelo + "][" + tag + "]");
-                                // console.log($(item).attr("name"));
-                            }
-                        });
+                        $('#data_table').html("");
+                        $('#divBusqueda #divTabla').remove();
+                        $('#divBusqueda').prepend('<div id="divTabla"></div>');
+                        $('#divBusqueda #divTabla').html(data);
+//                        $('#divBusqueda #divTabla').find('input, select').each(function (i, item) {
+//                            var tag = $(item).attr("tag");
+//                            //Si posee el atributo tag siempre sera diferente de undefined
+//                            if ('' + tag !== 'undefined') {
+//                                // $(item).attr("name", "data[" + modelo + "][" + tag + "]");
+//                                // console.log($(item).attr("name"));
+//                            }
+//                        });
 
                         selectUserForSearch("#btnRealizarBusqueda");
 
@@ -246,6 +249,13 @@ $(document).ready(function () {
         });
     }
 
+  
+    
+    $("#txtColor").colorpicker();
+    $("#txtFechaCosecha").datepicker();
+    $("#txtFechaSiembra").datepicker();
+    
+    
     selectUserForSearch("#btnMostrarTabla");
     cboCiudadesChanged();
     changeTextBoxes();

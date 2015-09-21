@@ -46,8 +46,18 @@
 </div>
 </form>
 <br>
+<!-- ADD SOME OPTIONS TO CAKEPHP PAGINATOR OBJECT-->
+<?php 
+  $this->Paginator->options(array(
+    'update'=>'#data_table', //*** ELEMENT WITH ID #data_table WILL BE UPDATED
+    'before'=>$this->Js->get('#loader')->effect('fadeIn'), //*** DISPLAY ELEMENT WITH ID #loader BEFORE JQUERY EXECUTED
+    'after' =>$this->Js->get('#loader')->effect('fadeOut') //*** HIDE ELEMENT WITH ID #loader BEFORE JQUERY EXECUTED
+    ));
+  
+?>
 <div class="" id="">
-    <div class="form-group">
+    <div class="form-group" id="data_table">
+        <div id ="loader" style="display: none;">Loading</div>
 
         <div class="dataTable_wrapper" style="overflow: scroll;">
             <table style="max-width:100%;white-space:nowrap;" class="table table-striped table-bordered table-hover">
@@ -119,7 +129,11 @@
 <br>
 
 
+<?php 
+//*** IMPORTANT FOR JQUERY PAGINATION
+echo $this->Js->writeBuffer();
 
+?>
 
 </div>
 </div>
