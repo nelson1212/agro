@@ -22,7 +22,7 @@
                 <!-- NOMBRE CIENTIFICO -->
                 <div class="col-lg-4">
                     <div class="form-group">
-                        <?php echo $this->Form->input('titulo', array("div" => false, "id" => "txtTitulo", 'tag' => 'titulo', "label" => "Titulo del foro *", "type" => "text", "class" => "form-control")); ?>
+                        <?php echo $this->Form->input('nombre', array("div" => false, "id" => "txtTitulo", 'tag' => 'titulo', "label" => "Titulo del foro *", "type" => "text", "class" => "form-control")); ?>
 
                     </div>
 
@@ -31,7 +31,7 @@
                  <!-- NOMBRE COMUN -->
                 <div class="col-lg-4">
                     <div class="form-group">
-                        <?php echo $this->Form->input('texto', array("div" => false, "id" => "txtTexto", 'tag' => 'texo', "label" => "Breve descripción *", "type" => "text", "class" => "form-control")); ?>
+                        <?php echo $this->Form->input('descripcion', array("div" => false, "id" => "txtTexto", 'tag' => 'texo', "label" => "Breve descripción *", "type" => "text", "class" => "form-control")); ?>
 
                     </div>
 
