@@ -71,6 +71,14 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
                 box-shadow: 0px 0px 0px 0px #000;
                 background-color: transparent;
             }
+
+            body {
+
+                -webkit-transform:translate3d(0,0,0);
+                -webkit-perspective: 1000;
+                -webkit-backface-visibility: hidden;
+            
+            }
         </style>
 
         <!--[if lt IE 9]>

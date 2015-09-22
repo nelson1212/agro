@@ -18,16 +18,15 @@ class UsersController extends AppController {
      *
      * @var array
      */
-    public $components = array('Paginator', 'Flash', 'Session','RequestHandler');
-    
+    public $components = array('Paginator', 'Flash', 'Session', 'RequestHandler');
     var $helpers = array('Js'); //*** IMPORTANT 
-
 
     /**
      * index method
      *
      * @return void
      */
+
     public function index() {
         $this->layout = "admin";
         $this->User->recursive = 0;
@@ -136,67 +135,186 @@ class UsersController extends AppController {
      */
     public function admin_index() {
         $this->layout = "admin";
-        $this->User->recursive = -1;
+        //$this->User->recursive = -1;
+        //$url = $this->webroot . "admin/index";
+        $rolSeleccionado = 0;
+        $element = "";
+        //$conditions = array();
+        //debug($this->request->params);
+        if ($this->request->is('post')) {
+
+            //debug($this->request->data);
+
+            if (isset($this->request->data["User"]["busqueda"])) {
+                $filter_url['controller'] = $this->request->params['controller'];
+                $filter_url['action'] = $this->request->params['action'];
+                // We need to overwrite the page every time we change the parameters
+                $filter_url['page'] = 1;
+
+                // for each filter we will add a GET parameter for the generated url
+                foreach ($this->request->data as $name => $value) {
+                    if ($value) {
+                        // You might want to sanitize the $value here
+                        // or even do a urlencode to be sure
+                        $filter_url[$name] = urlencode($value);
+                    }
+                }
+                return $this->redirect($filter_url);
+            }
+
+            if (isset($this->request->data["User"]["busIndex"])) {
+                $this->Session->write("rolSeleccionado", $this->request->data["User"]["rol_id"]);
+            }
+
+            if (!isset($this->request->data["User"]["rol_id"])) {
+
+                $this->Flash->error(__('Debes seleccionar un tipo de usuario'));
+
+                goto finAdminIndex;
+            }
+
+            if ($this->request->data["User"]["rol_id"] === 0 || empty($this->request->data["User"]["rol_id"])) {
+
+                $this->Flash->error(__('Debes seleccionar un tipo de usuario'));
+
+                goto finAdminIndex;
+            }
+
+            //     debug($this->request->data);
+            $this->User->Rol->recursive = -1;
+            $codRol = $this->User->Rol->find("first", array("conditions" => array("Rol.id" => $this->request->data["User"]["rol_id"])));
+            $titulo = "";
+            //debug($codRol);
+            //$this->set();
+            //$this->viewPath = 'Elements';
+            //  $this->render("Elements/lst_administradores");
+            switch ($codRol["Rol"]["abr"]) {
+                case "adm":
+                    $titulo = "Listado de administradores";
+                    $element = "lst_administradores";
+                    break;
+                // $this->render("lst_administradores");
+
+                case "com":
+                    $titulo = "Listado de compradores";
+                    $element = "lst_compradores";
+                    break;
+                // return $this->render("lst_compradores")->body();
+
+                case "agr":
+                    $titulo = "Listado de agricultores";
+                    $element = "lst_agricultores";
+                    break;
+                //return $this->render("lst_agricultores")->body();
+
+                case "emp":
+                    $titulo = "Listado de empresas";
+                    $element = "lst_empresas";
+                    break;
+                //return $this->render("lst_empresas")->body();
+
+                case "subadm":
+                    $titulo = "Listado de Sub-Administradores";
+                    $element = "lst_subadministradores";
+                    break;
+                //return $this->render("lst_subadministradores")->body();
+            }
+
+            $this->Session->write("elemento", $element);
+            $this->Session->write("titulo", $titulo);
+        } else {
+            // debug($this->request->params);
+            //if (count($this->request->params["named"]) > 0) {
+            $element = $this->Session->read("elemento");
+            $titulo = $this->Session->read("titulo");
+//            } else {
+//            $element = $this->Session->read("elemento");
+//            $titulo = $this->Session->read("titulo");
+            ///}
+        }
+        //$rol=1;
+        
+       // $res = $this->getRolCodeAndTitle();
+        $filtros = array("filIde" => "identificacion", 
+                         "filNom" => "nombres", 
+                         "filApe" => "apellidos", 
+                        "filEmail" => "email");
+        
+        $conditions = $this->adminSearchParameters("User", $filtros);
+        
+        $settings = array('order' => array('User.id' => 'DESC'),
+            'limit' => 10, 'conditions' => $conditions);
+
+        $this->Paginator->settings = $settings;
+
+        $users = $this->Paginator->paginate();
+
+        finAdminIndex:
         $rols = $this->User->Rol->find('list');
         $this->unshift($rols, 0, "Seleccione una opción");
-        $this->set(compact('rols'));
-        //$this->set('users', $this->Paginator->paginate());
-    }
 
-    public function getTables($page=null) {
-
-        $this->User->recursive = 0; //Recursividad
-
-        if ($this->request->is('ajax')) {
-            $janitor = new janitor();
-       
-            echo $page;
-            
-            $settings = array('order' => array('User.id' => 'DESC'),
-                //            'joins' => array(
-                //                array(
-                //                    'alias' => 'c',
-                //                    'table' => 'ciudads',
-                //                    'type' => 'INNER',
-                //                    'conditions' => '`c`.`id` = `Barrio`.`ciudad_id`'
-                //                ), array(
-                //                    'alias' => 'com',
-                //                    'table' => 'comunas',
-                //                    'type' => 'LEFT',
-                //                    'conditions' => '`com`.`id` = `Barrio`.`comuna_id`'
-                //                ), array(
-                //                    'alias' => 'dep',
-                //                    'table' => 'departamentos',
-                //                    'type' => 'INNER',
-                //                    'conditions' => '`dep`.`id` = `c`.`departamento_id`'
-                'limit' => 10);
-            $this->Paginator->settings = $settings;
-            $this->set('users', $this->Paginator->paginate());
-            $this->autoRender = false;
-            $this->layout = false;
-            $this->viewPath = 'Elements';
-
-            $cleanString = "Administrador";
-            $elemento = $this->cleanString($cleanString);
-
-            switch ($elemento) {
-                case "Administrador":
-                    return $this->render("lst_administradores")->body();
-
-                case "Comprador":
-                    return $this->render("lst_compradores")->body();
-
-                case "Agricultor":
-                    return $this->render("lst_agricultores")->body();
-
-                case "Empresa":
-                    return $this->render("lst_empresas")->body();
-
-                case "Sub-Administrador":
-                    return $this->render("lst_subadministradores")->body();
-            }
+        if (!($this->Session->read("rolSeleccionado") === null)) {
+            $rolSeleccionado = $this->Session->read("rolSeleccionado");
         }
+
+        $this->set(compact('rols', 'users', 'rolSeleccionado', 'element', 'titulo'));
     }
+
+//    
+//    public function getTables($page = null) {
+//
+//        $this->User->recursive = 0; //Recursividad
+//
+//        if ($this->request->is('ajax')) {
+//            $janitor = new janitor();
+//
+//            echo $page;
+//
+//            $settings = array('order' => array('User.id' => 'DESC'),
+//                //            'joins' => array(
+//                //                array(
+//                //                    'alias' => 'c',
+//                //                    'table' => 'ciudads',
+//                //                    'type' => 'INNER',
+//                //                    'conditions' => '`c`.`id` = `Barrio`.`ciudad_id`'
+//                //                ), array(
+//                //                    'alias' => 'com',
+//                //                    'table' => 'comunas',
+//                //                    'type' => 'LEFT',
+//                //                    'conditions' => '`com`.`id` = `Barrio`.`comuna_id`'
+//                //                ), array(
+//                //                    'alias' => 'dep',
+//                //                    'table' => 'departamentos',
+//                //                    'type' => 'INNER',
+//                //                    'conditions' => '`dep`.`id` = `c`.`departamento_id`'
+//                'limit' => 10);
+//            $this->Paginator->settings = $settings;
+//            $this->set('users', $this->Paginator->paginate());
+//            $this->autoRender = false;
+//            $this->layout = false;
+//            $this->viewPath = 'Elements';
+//
+//            $cleanString = "Administrador";
+//            $elemento = $this->cleanString($cleanString);
+//
+//            switch ($elemento) {
+//                case "Administrador":
+//                    return $this->render("lst_administradores")->body();
+//
+//                case "Comprador":
+//                    return $this->render("lst_compradores")->body();
+//
+//                case "Agricultor":
+//                    return $this->render("lst_agricultores")->body();
+//
+//                case "Empresa":
+//                    return $this->render("lst_empresas")->body();
+//
+//                case "Sub-Administrador":
+//                    return $this->render("lst_subadministradores")->body();
+//            }
+//        }
+//    }
 
     /**
      * admin_view method
@@ -205,29 +323,99 @@ class UsersController extends AppController {
      * @param string $id
      * @return void
      */
-    public function admin_view($id = null) {
-        if (!$this->User->exists($id)) {
-            throw new NotFoundException(__('Invalid user'));
-        }
-        $options = array('conditions' => array('User.' . $this->User->primaryKey => $id));
-        $this->set('user', $this->User->find('first', $options));
-    }
+//    public function admin_view($id = null) {
+//        if (!$this->User->exists($id)) {
+//            throw new NotFoundException(__('Invalid user'));
+//        }
+//        $options = array('conditions' => array('User.' . $this->User->primaryKey => $id));
+//        $this->set('user', $this->User->find('first', $options));
+//    }
+//
+//    /**
+//     * admin_add method
+//     *
+//     * @return void
+//     */
+//    public function admin_addusuario() {
+//        // $this->request->onlyAllow('ajax');
+//        //$this->autoRender = false;
+//        $this->User->recursive = 0; //Recursividad
+//        if ($this->request->is('ajax')) {
+//            $this->autoRender = false;
+//            $this->layout = false;
+//        } else {
+//            $this->layout = 'admin';
+//        }
+//
+//        // $veredas = $this->User->Vereda->find('list');
+//        $departamentos = $this->User->Departamento->find('list');
+//        $this->unshift($departamentos, 0, "Seleccione una opción");
+//        //debug($departamentos); exit;
+//        $paisses = $this->User->Paiss->find('list');
+//
+//        $ciudads = $this->User->Ciudad->find('list');
+//        $this->unshift($ciudads, 0, "Seleccione una opción");
+//
+//        // $corregimientos = $this->User->Corregimiento->find('list');
+//        //$this->unshift($corregimientos, 0, "Seleccione una opción");
+//
+//        $tipoAgriculturas = $this->User->TipoAgricultura->find('list');
+//        $this->unshift($tipoAgriculturas, 0, "Seleccione una opción");
+//
+//        $rols = $this->User->Rol->find('list');
+//        $this->unshift($rols, 0, "Seleccione una opción");
+//        // unset($rols[4]); //Removemos empresa
+//        //debug($rols);
+//        //$googleMaps = $this->User->GoogleMap->find('list');
+//
+//        $this->loadModel("Certificacion");
+//        $this->Certificacion->recursive = 0;
+//        $certificaciones = $this->Certificacion->find("list");
+//
+//        $this->loadModel("Asociacion");
+//        $this->Asociacion->recursive = 0;
+//        $asociaciones = $this->Asociacion->find("list", array("fields" => array("id", "razon_social")));
+//        $this->unshift($asociaciones, 0, "Seleccione una opción");
+//
+//        $ubicaciones = array("Internacional" => "Internacional", "Nacional" => "Nacional");
+//        $this->unshift($ubicaciones, 0, "Seleccione una opción");
+//
+//        $generos = array(0 => "Seleccione una opción", "Femenino" => "Femenino", "Masculino" => "Masculino", "LGTBI" => "LGTBI");
+//
+//
+//        $this->set(compact('asociaciones', 'ubicaciones', 'certificaciones', 'veredas', 'generos', 'departamentos', 'paisses', 'ciudads', 'corregimientos', 'tipoAgriculturas', 'rols', 'googleMaps'));
+//
+//
+//        if ($this->request->is('ajax')) {
+//
+//            //Clean String
+//            if (isset($_POST["element"])) {
+//                $janitor = new janitor();
+//                $cleanString = $janitor->sanitizeString($_POST["element"]);
+//                $elemento = $this->cleanString($cleanString);
+//                if (!empty($elemento)) {
+//                    $this->autoRender = false;
+//                    $this->viewPath = 'Elements';
+//                    return $this->render($elemento)->body();
+//                } else {
+//                    echo "<br><b>Error al intentar cargar la vista !!!</b><br>";
+//                }
+//            } else {
+//                echo "<br><b>Error al intentar cargar la vista !!!</b><br>";
+//            }
+//        }
+//        //return $data;
+//    }
 
-    /**
-     * admin_add method
-     *
-     * @return void
-     */
     public function admin_addusuario() {
         // $this->request->onlyAllow('ajax');
         //$this->autoRender = false;
         $this->User->recursive = 0; //Recursividad
-        if ($this->request->is('ajax')) {
-            $this->autoRender = false;
-            $this->layout = false;
-        } else {
-            $this->layout = 'admin';
-        }
+        $this->layout = 'admin';
+
+        $elemento = "";
+        $titulo = "";
+        $nombre = "";
 
         // $veredas = $this->User->Vereda->find('list');
         $departamentos = $this->User->Departamento->find('list');
@@ -265,28 +453,48 @@ class UsersController extends AppController {
         $generos = array(0 => "Seleccione una opción", "Femenino" => "Femenino", "Masculino" => "Masculino", "LGTBI" => "LGTBI");
 
 
-        $this->set(compact('asociaciones', 'ubicaciones', 'certificaciones', 'veredas', 'generos', 'departamentos', 'paisses', 'ciudads', 'corregimientos', 'tipoAgriculturas', 'rols', 'googleMaps'));
+        if ($this->request->is('post')) {
 
+            //debug($this->request->data);
+            if (!isset($this->request->data["User"]["rol_id"])) {
+                $this->Flash->error(__('Debes seleccionar un tipo de usuario'));
+                $this->set(compact('rols'));
+                return;
+            }
 
-        if ($this->request->is('ajax')) {
+            if ($this->request->data["User"]["rol_id"] === 0 || empty($this->request->data["User"]["rol_id"])) {
+                $this->Flash->error(__('Debes seleccionar un tipo de usuario'));
+                $this->set(compact('rols'));
+                return;
+            }
 
-            //Clean String
-            if (isset($_POST["element"])) {
-                $janitor = new janitor();
-                $cleanString = $janitor->sanitizeString($_POST["element"]);
-                $elemento = $this->cleanString($cleanString);
-                if (!empty($elemento)) {
-                    $this->autoRender = false;
-                    $this->viewPath = 'Elements';
-                    return $this->render($elemento)->body();
-                } else {
-                    echo "<br><b>Error al intentar cargar la vista !!!</b><br>";
-                }
-            } else {
-                echo "<br><b>Error al intentar cargar la vista !!!</b><br>";
+            $response = $this->getRolCodeAndTitle($this->request->data["User"]["rol_id"]);
+
+            $rolId = 0;
+            // debug($response);
+            if ($response !== null) {
+                $this->request->data["User"]["rol_id"];
+                $rolId = $this->request->data["User"]["rol_id"];
+                $elemento = $response["element"];
+                $titulo = $response["title"];
+                $nombre = $response["name"];
+                $abr = $response["abr"];
+
+//                switch ($abr) {
+//                    case "adm":
+//
+//
+//                        break;
+//
+//                    default:
+//                        break;
+//                
+//                }
             }
         }
-        //return $data;
+
+
+        $this->set(compact('asociaciones', 'rolId', 'elemento', 'ubicaciones', 'certificaciones', 'veredas', 'generos', 'departamentos', 'paisses', 'ciudads', 'corregimientos', 'tipoAgriculturas', 'rols', 'googleMaps'));
     }
 
     public function admin_preregistro() {
@@ -519,4 +727,172 @@ class UsersController extends AppController {
         return $this->redirect(array('action' => 'index'));
     }
 
+    function getRolCodeAndTitle($code = null) {
+
+        if ($code === null) {
+            return null;
+        }
+
+        $element = "";
+        $this->User->Rol->recursive = -1;
+        $codRol = $this->User->Rol->find("first", array("conditions" => array("Rol.id" => $code)));
+        $titulo = "";
+        $name = "";
+        $abr = $codRol["Rol"]["abr"];
+
+        switch ($codRol["Rol"]["abr"]) {
+            case "adm":
+                $titulo = "Listado de administradores";
+                $element = "administradores";
+                $name = "Administradores";
+                break;
+            // $this->render("lst_administradores");
+
+            case "com":
+                $titulo = "Listado de compradores";
+                $element = "compradores";
+                $name = "Compradores";
+                break;
+            // return $this->render("lst_compradores")->body();
+
+            case "agr":
+                $titulo = "Listado de agricultores";
+                $element = "agricultores";
+                $name = "Agricultores";
+                break;
+            //return $this->render("lst_agricultores")->body();
+
+            case "emp":
+                $titulo = "Listado de empresas";
+                $element = "empresas";
+                $name = "Empresas";
+                break;
+            //return $this->render("lst_empresas")->body();
+
+            case "subadmin":
+                $titulo = "Listado de Sub-Administradores";
+                $element = "subadministradores";
+                $name = "Sub-Administradores";
+                break;
+            //return $this->render("lst_subadministradores")->body();
+        }
+
+        return array("title" => $titulo, "element" => $element, "name" => $name, "abr" => $abr);
+    }
+
+    //Modelo y Arreglo de parametros
+//    function adminSearchParameters($medelo, $parametros) {
+//        $conditions = array();
+//        $and = false;
+//        if (count($this->params['named']) > 2) {
+//            $and = true;
+//        }
+//        // Inspect all the named parameters to apply the filters
+//        foreach ($this->params['named'] as $param_name => $value) {
+//            // Don't apply the default named parameters used for pagination
+//            if (!in_array($param_name, array('page', 'sort', 'direction', 'limit'))) {
+//                // You may use a switch here to make special filters
+//                // like "between dates", "greater than", etc
+//                if ($param_name != "") {
+//
+//                    if ($and === false) {
+//
+//                        if ($param_name == "filIde") {
+//                            $conditions['OR']['User.identificacion LIKE'] = trim(urldecode($value)) . '%';
+//                        }
+//
+//                        if ($param_name == "filNom") {
+//                            $conditions['OR']['User.nombres LIKE'] = trim(urldecode($value)) . '%';
+//                        }
+//
+//                        if ($param_name == "filApe") {
+//                            $conditions['OR']['User.apellidos LIKE'] = trim(urldecode($value)) . '%';
+//                        }
+//
+//                        if ($param_name == "filEmail") {
+//                            $conditions['OR']['User.email LIKE'] = trim(urldecode($value)) . '%';
+//                        }
+//                    } else if ($and === true) {
+//
+//                        if ($param_name == "filIde") {
+//                            $conditions['AND']['User.identificacion LIKE'] = trim(urldecode($value)) . '%';
+//                        }
+//
+//                        if ($param_name == "filNom") {
+//                            $conditions['AND']['User.nombres LIKE'] = trim(urldecode($value)) . '%';
+//                        }
+//
+//                        if ($param_name == "filApe") {
+//                            $conditions['AND']['User.apellidos LIKE'] = trim(urldecode($value)) . '%';
+//                        }
+//
+//                        if ($param_name == "filEmail") {
+//                            $conditions['AND']['User.email LIKE'] = trim(urldecode($value)) . '%';
+//                        }
+//                    }
+//                } else {
+//                    $conditions['Users.' . $param_name] = $value;
+//                    //  $this->Paginator->settings = array('order' => array('User.id' => 'DESC'), 'conditions' =>$conditions);
+//                }
+//
+//                $this->request->data['Filter'][$param_name] = $value;
+//            }
+//        }
+//
+//        // debug($conditions);
+//        return $conditions;
+//    }
+
+    function adminSearchParameters($modelo, $parametros) {
+        $conditions = array();
+        $and = false;
+        if (count($this->params['named']) > 2) {
+            $and = true;
+        }
+        // Inspect all the named parameters to apply the filters
+        foreach ($this->params['named'] as $param_name => $value) {
+            // Don't apply the default named parameters used for pagination
+            if (!in_array($param_name, array('page', 'sort', 'direction', 'limit'))) {
+                // You may use a switch here to make special filters
+                // like "between dates", "greater than", etc
+                if ($param_name != "") {
+
+                    if ($and === false) {
+
+                        foreach ($parametros as $key => $val) {
+                            if ($param_name === $key) {
+                                $conditions['OR'][$modelo . "." . $val . " LIKE"] = trim(urldecode($value)) . '%';
+                            }
+                        }
+                    } else if ($and === true) {
+
+                        foreach ($parametros as $key => $val) {
+                            if ($param_name === $key) {
+                                $conditions['AND'][$modelo . "." . $val . " LIKE"] = trim(urldecode($value)) . '%';
+                            }
+                        }
+                    }
+                } else {
+                    $conditions['Users.' . $param_name] = $value;
+                    //  $this->Paginator->settings = array('order' => array('User.id' => 'DESC'), 'conditions' =>$conditions);
+                }
+
+                $this->request->data['Filter'][$param_name] = $value;
+            }
+        }
+
+        //debug($conditions);
+        return $conditions;
+    }
+
+    function destroySelectedRols(){
+        $this->layout=false;
+        $this->autoRender=false;
+        $data["res"] = "no";
+        if($this->Session->delete("rolSeleccionado")){
+            $data["res"] = "si";
+        }
+        
+        echo json_encode($data);
+    }
 }

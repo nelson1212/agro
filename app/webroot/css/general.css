@@ -148,3 +148,10 @@ p.error em {
     color: white;
     font-size: 13px;
 }
+
+body {
+
+    -webkit-transform:translate3d(0,0,0);
+    -webkit-perspective: 1000;
+    -webkit-backface-visibility: hidden;
+}

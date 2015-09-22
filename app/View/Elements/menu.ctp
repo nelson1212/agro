@@ -73,7 +73,7 @@
                 </a>
                 <ul class="treeview-menu">
                     <li><a href="<?php echo $this->webroot; ?>admin/users/addusuario"><i class="fa fa-circle-o"></i> Agregar</a></li>
-                    <li><a href="<?php echo $this->webroot; ?>admin/users/index"><i class="fa fa-circle-o"></i> Ver usuarios</a></li>
+                    <li><a id="lnkVerUsuarios" href="#"><i class="fa fa-circle-o"></i> Ver usuarios</a></li>
                     <li><a href="<?php echo $this->webroot; ?>admin/users/preregistro"><i class="fa fa-circle-o"></i> Pre-registro</a></li>
 
                 </ul>

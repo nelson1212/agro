@@ -1,4 +1,4 @@
-<br><?php echo $this->Form->create('Votante'); ?>
+
 <div class="row">
 
 
@@ -45,7 +45,8 @@
     </div>
 </div>
 </form>
-<br>
+<hr>
+<?php echo "<h4><b>$titulo</b></h4>"; ?>
 <div class="" id="">
     <div class="form-group">
 

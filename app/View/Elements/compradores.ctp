@@ -1,8 +1,12 @@
 <!-- DATOS BASICOS -->
-<fieldset class="well the-fieldset"> 
-    <legend class="the-legend">
-        Datos basicos
-    </legend>
+<div class="panel panel-default" id="divPanel"> <!-- PANEL -->
+    <div class="panel-heading">
+        <h3 class="panel-title"><b>Datos del usuario tipo comprador </b></h3>
+    </div>
+    <div class="panel-body">
+        <?php echo $this->Form->create('User', array('id' => "formUser", 'type' => 'file', "novalidate" => "novalidate")); ?>
+        <input type="hidden" name="data[User][rol_id]" value="<?php echo $rolId; ?>" />
+        <div class="row">
     <!-- IDENTIFICACIÓN -->
     <div class="col-lg-4" >
         <div class="form-group">
@@ -80,31 +84,41 @@
 
     </div>
 <!-- <input type="file" id="foto" name="data[User][foto]"> -->
-</fieldset>   
-
-<!-- foto -->
-<fieldset class="well the-fieldset"> 
-    <legend class="the-legend">
-        Foto
-    </legend>
-    <!-- FOTO -->
-    <div class="col-lg-6">
-        <!-- <label>Selecciona una foto (opcional)</label>
-         <div class="form-group">
-             <span class="btn btn-default btn-file">
-                 Buscar foto <input type="file">
-             </span>
- dasdasd
-       <  </div> -->
-        <label>Selecciona una foto (opcional)</label>
-        <div class="fileinput fileinput-new input-group" tag="foto" data-provides="fileinput">
-            <div class="form-control" data-trigger="fileinput"><i class="glyphicon glyphicon-file fileinput-exists"></i> <span class="fileinput-filename"></span></div>
-            <span class="input-group-addon btn btn-default btn-file"><span class="fileinput-new"><b>Buscar foto</b></span><span class="fileinput-exists"><b>Cambiar</b></span><input type="file"  name="data[User][foto]"></span>
-            <a href="#" class="input-group-addon btn btn-default fileinput-exists" data-dismiss="fileinput"><b>Remover</b></a>
         </div>
-    </div> 
+        
+         <!-- foto -->
+        <div class="row"> 
 
-</fieldset> 
+            <!-- FOTO -->
+            <div class="col-lg-6">
+                <!-- <label>Selecciona una foto (opcional)</label>
+                 <div class="form-group">
+                     <span class="btn btn-default btn-file">
+                         Buscar foto <input type="file">
+                     </span>
+         dasdasd
+               <  </div> -->
+                <label>Selecciona una foto (opcional)</label>
+                <div class="fileinput fileinput-new input-group" tag="foto" data-provides="fileinput">
+                    <div class="form-control" data-trigger="fileinput"><i class="glyphicon glyphicon-file fileinput-exists"></i> <span class="fileinput-filename"></span></div>
+                    <span class="input-group-addon btn btn-default btn-file"><span class="fileinput-new"><b>Buscar foto</b></span><span class="fileinput-exists"><b>Cambiar</b></span><input type="file" name="data[User][foto]"></span>
+                    <a href="#" class="input-group-addon btn btn-default fileinput-exists" data-dismiss="fileinput"><b>Remover</b></a>
+                </div>
+            </div> 
 
-
-
+        </div> 
+        <br>
+        <div class="row"> 
+            <div class="col-lg-4">
+                <?php
+                $options = array('label' => 'Guardar', 'type' => "submit", "id" => "btnGuaUsu", 'class' => 'btn btn-primary', 'div' => false);
+                echo $this->Form->end($options);
+                ?> 
+                <?php
+                $options = array('label' => 'Cancelar', "id" => "btnCanRegUsu", 'class' => 'btn btn-warning', 'div' => false);
+                echo $this->Form->end($options);
+                ?>
+            </div>
+        </div> 
+    </div>
+</div>

@@ -13,10 +13,7 @@
         <?php echo $this->Form->create('Producto', array('id' => "formProducto", 'type' => 'file', "novalidate" => "novalidate")); ?>
         <input type="hidden" name="data[User][tipo]" value="otros" />
         <!-- DATOS DE PERFIL -->
-        <fieldset class="well the-fieldset"> 
-            <legend class="the-legend">
-                Datos basicos del producto
-            </legend>  
+
 
             <div class="row">
                 <!-- NOMBRE CIENTIFICO -->
@@ -196,11 +193,11 @@
     </div> 
             </div>
 
-        </fieldset>
 
 
 
-
+        <br>
+   <div class="row">
 
         <div class="col-lg-4">
             <?php
