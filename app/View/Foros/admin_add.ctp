@@ -27,10 +27,12 @@
 
             <!-- VARIEDADES -->
             <div class="col-lg-4">
-                <label>Categorias *</label>
-                <div class="form-group">
+                <label>Categorias (Agregar temas (presiona el boton <i class="fa fa-plus-circle"></i> para nuevas categorias)*</label>
+                <div class="input-group">
                     <?php echo $this->Form->input('categoria_id', array("div" => "false", "id" => "cboCategorias", "label" => false, "maxlength" => 15, 'tag' => 'categoria_id', "type" => "select", "class" => "form-control")); ?>
-
+                    <span class="input-group-addon" id="btnAgregarTema">
+                        <i class="fa fa-plus-circle"></i>
+                    </span>
                 </div>
 
             </div>
