@@ -65,7 +65,7 @@
                 <li><a href="pages/charts/inline.html"><i class="fa fa-circle-o"></i> Inline charts</a></li>
               </ul>
             </li> -->
-            <li class="treeview">
+            <li class="treeview" id="treeUsuarios">
                 <a href="#">
                     <i class="fa fa-laptop"></i>
                     <span>Usuarios</span>
@@ -73,13 +73,13 @@
                 </a>
                 <ul class="treeview-menu">
                     <li><a href="<?php echo $this->webroot; ?>admin/users/addusuario"><i class="fa fa-circle-o"></i> Agregar</a></li>
-                    <li><a href="<?php echo $this->webroot; ?>admin/users/index"><i class="fa fa-circle-o"></i> Ver usuarios</a></li>
+                    <li><a id="lnkVerUsuarios" href="#"><i class="fa fa-circle-o"></i> Ver usuarios</a></li>
                     <li><a href="<?php echo $this->webroot; ?>admin/users/preregistro"><i class="fa fa-circle-o"></i> Pre-registro</a></li>
 
                 </ul>
             </li>
 
-            <li class="treeview">
+            <li class="treeview" id="treeProductos">
                 <a href="#">
                     <i class="fa fa-laptop"></i>
                     <span>Productos</span>
@@ -93,7 +93,7 @@
             </li>
 
 
-            <li class="treeview">
+            <li class="treeview" id="treeForos">
                 <a href="#">
                     <i class="fa fa-edit"></i> <span>Foros</span>
                     <i class="fa fa-angle-left pull-right"></i>
