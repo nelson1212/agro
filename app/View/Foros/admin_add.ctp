@@ -28,7 +28,7 @@
                 <label>Categorias (Agregar temas (presiona el boton <i class="fa fa-plus-circle"></i> para nuevas categorias)*</label>
                 <div class="input-group">
                     <?php echo $this->Form->input('categoria_id', array("div" => "false", "id" => "cboCategorias", "label" => false, "maxlength" => 15, 'tag' => 'categoria_id', "type" => "select", "class" => "form-control")); ?>
-                    <span class="input-group-addon" id="btnAgregarTema">
+                    <span class="input-group-addon" id="btnAgregarCategoria">
                         <i class="fa fa-plus-circle"></i>
                     </span>
                 </div>
@@ -74,11 +74,11 @@
         <div class="row">
             <div class="col-lg-4">
                 <?php
-                $options = array('label' => 'Guardar', 'type' => "submit", "id" => "btnGuaPro", 'class' => 'btn btn-primary', 'div' => false);
+                $options = array('label' => 'Guardar', 'type' => "submit", "id" => "btnGuaForo", 'class' => 'btn btn-primary', 'div' => false);
                 echo $this->Form->end($options);
                 ?> 
                 <?php
-                $options = array('label' => 'Cancelar', "id" => "btnCanRegPro", 'class' => 'btn btn-warning', 'div' => false);
+                $options = array('label' => 'Cancelar', "id" => "btnCanRegForo", 'class' => 'btn btn-warning', 'div' => false);
                 echo $this->Form->end($options);
                 ?>
             </div>

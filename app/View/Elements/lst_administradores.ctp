@@ -60,7 +60,7 @@
 
             <div class="" id="">
                 <div class="form-group" id="data_table">
-                    <div id ="loader" style="display: none;">Loading</div>
+               
 
                     <div class="dataTable_wrapper" style="overflow: scroll;">
                         <table style="max-width:100%;white-space:nowrap;" class="table table-striped table-bordered table-hover">

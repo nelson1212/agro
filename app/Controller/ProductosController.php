@@ -25,8 +25,11 @@ class ProductosController extends AppController {
      * @return void
      */
     public function index() {
+        $this->layout="front";
+        $titulo = "Listado de productos";
         $this->Producto->recursive = 0;
-        $this->set('productos', $this->Paginator->paginate());
+        $productos = $this->Paginator->paginate();
+        $this->set(compact('productos','titulo'));
     }
 
     /**
@@ -50,6 +53,7 @@ class ProductosController extends AppController {
      * @return void
      */
     public function add() {
+        $this->layout="front";
         if ($this->request->is('post')) {
             $this->Producto->create();
             if ($this->Producto->save($this->request->data)) {
@@ -136,8 +140,11 @@ class ProductosController extends AppController {
      * @return void
      */
     public function admin_index() {
+       $this->layout="admin";
+        $titulo = "Listado de productos";
         $this->Producto->recursive = 0;
-        $this->set('productos', $this->Paginator->paginate());
+        $productos = $this->Paginator->paginate();
+        $this->set(compact('productos','titulo'));
     }
 
     /**

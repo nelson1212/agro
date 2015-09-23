@@ -295,6 +295,10 @@ $(document).ready(function () {
     function argegarTemaForo() {
         $("#btnAgregarTema").click(function () {
 
+            if ($("#txtTema").val().trim().length === 0) {
+                return false;
+            }
+            //console.log("click aqui");
             //console.log($('select#lstTemas option').length);
             $("#lstTemas option").each(function (index, element) {
                 //alert(element.text + ' ' + element.value);
@@ -332,7 +336,13 @@ $(document).ready(function () {
         }
     }
 
-
+    function seleccionarTemas() {
+        $('#formForo').submit(function (e) {
+            //e.preventDefault();
+            $('#lstTemas option').prop('selected', true);
+            $(this).submit();
+        });
+    }
 
     //selectUserForSearch("#btnMostrarTabla");
     cboCiudadesChanged();
@@ -340,6 +350,7 @@ $(document).ready(function () {
     changeTextBoxes("#cboRolList", "#formUserList");
     //getElements();
     ajaxUserAdd();
+    seleccionarTemas();
     buttonSearch("#btnBusAdm", "formBusAdmin");
     redirect();
     destruirDivElementos();

@@ -86,8 +86,9 @@
                     <i class="fa fa-angle-left pull-right"></i>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a href="<?php echo $this->webroot; ?>admin/productos/add"><i class="fa fa-circle-o"></i>  Registrar</a></li>
-                    <li><a href="pages/UI/icons.html"><i class="fa fa-circle-o"></i> Ver listado</a></li>
+                    <li><a href="<?php echo $this->webroot; ?>admin/productos/add"><i class="fa fa-circle-o"></i>  Registrar producto base</a></li>
+                    <li><a href="<?php echo $this->webroot; ?>admin/productos/add"><i class="fa fa-circle-o"></i>  Registrar productos</a></li>
+                    <li><a href="<?php echo $this->webroot; ?>admin/productos/index"><i class="fa fa-circle-o"></i> Ver listado</a></li>
 
                 </ul>
             </li>
@@ -100,11 +101,11 @@
                 </a>
                 <ul class="treeview-menu">
                     <li><a href="<?php echo $this->webroot; ?>admin/foros/add"><i class="fa fa-circle-o"></i> Crear</a></li>
-                    <li><a href="pages/forms/advanced.html"><i class="fa fa-circle-o"></i> Ver listado</a></li>
+                    <li><a href="<?php echo $this->webroot; ?>admin/foros/index"><i class="fa fa-circle-o"></i> Ver listado</a></li>
 
                 </ul>
             </li>
-            <li class="treeview">
+            <li class="treeview" id="treeDirectorios">
                 <a href="#">
                     <i class="fa fa-table"></i> <span>Directorios</span>
                     <i class="fa fa-angle-left pull-right"></i>
@@ -114,7 +115,7 @@
                     <li><a href="pages/tables/data.html"><i class="fa fa-circle-o"></i> Data tables</a></li>
                 </ul>
             </li>
-            <li class="treeview">
+            <li class="treeview" id="treeNovedades">
                 <a href="#">
                     <i class="fa fa-table"></i> <span>Novedades</span>
                     <i class="fa fa-angle-left pull-right"></i>
