@@ -26,7 +26,7 @@
 <div id="divElementos">
 <?php
 if (!empty($element)) {
-    echo $this->element($element, array('flag' => 'value'));
+    echo $this->element("admin_lst/".$element, array('flag' => 'value'));
 }
 ?>
 </div>

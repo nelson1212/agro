@@ -40,7 +40,8 @@
                     <li><a href="#">Directorios</a></li>
                     <li><a href="#">Contáctenos</a></li>
                     <li><a href="#">Iniciar Sesión</a></li>
-                    <li><a href="#">Registrarse</a></li>
+                    <li><a href="<?php echo $this->webroot; ?>users/add">Registrarse</a></li>
+                    <li><a href="<?php echo $this->webroot; ?>users/view/1">Mi perfil</a></li>
                 </ul>
             </div>
         </header>

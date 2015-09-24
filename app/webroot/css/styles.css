@@ -1,5 +1,5 @@
-@import url(https://fonts.googleapis.com/css?family=Ubuntu);
-@import url(https://fonts.googleapis.com/css?family=Open+Sans);
+/*@import url(https://fonts.googleapis.com/css?family=Ubuntu);
+@import url(https://fonts.googleapis.com/css?family=Open+Sans);*/
 
 body{
 	font-family: 'Open Sans', sans-serif;
@@ -375,7 +375,15 @@ footer{
 }
 
 .maginPanel {
-    margin:4px;
+    margin:6px;
     margin-top: 6px;
     margin-bottom: 8px;
 }
+
+/*
+.panel > .panel-heading {
+    background-image: none;
+    background-color: #57ad68;
+    color: white;
+
+}*/

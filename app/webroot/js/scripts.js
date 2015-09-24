@@ -1,118 +1,195 @@
-$(function($) {
-	setTimeout(function() {
-		$('#content-wrapper > .row').css({
-			opacity: 1
-		});
-	}, 200);
-	
-	$('#sidebar-nav,#nav-col-submenu').on('click', '.dropdown-toggle', function (e) {
-		e.preventDefault();
-		
-		var $item = $(this).parent();
+$(document).ready(function () {
+    setTimeout(function () {
+        $('#content-wrapper > .row').css({
+            opacity: 1
+        });
+    }, 200);
 
-		if (!$item.hasClass('open')) {
-			$item.parent().find('.open .submenu').slideUp('fast');
-			$item.parent().find('.open').toggleClass('open');
-		}
-		
-		$item.toggleClass('open');
-		
-		if ($item.hasClass('open')) {
-			$item.children('.submenu').slideDown('fast');
-		} 
-		else {
-			$item.children('.submenu').slideUp('fast');
-		}
-	});
-	
-	$('body').on('mouseenter', '#page-wrapper.nav-small #sidebar-nav .dropdown-toggle', function (e) {
-		if ($( document ).width() >= 992) {
-			var $item = $(this).parent();
+    $('#sidebar-nav,#nav-col-submenu').on('click', '.dropdown-toggle', function (e) {
+        e.preventDefault();
 
-			if ($('body').hasClass('fixed-leftmenu')) {
-				var topPosition = $item.position().top;
+        var $item = $(this).parent();
 
-				if ((topPosition + 4*$(this).outerHeight()) >= $(window).height()) {
-					topPosition -= 6*$(this).outerHeight();
-				}
+        if (!$item.hasClass('open')) {
+            $item.parent().find('.open .submenu').slideUp('fast');
+            $item.parent().find('.open').toggleClass('open');
+        }
 
-				$('#nav-col-submenu').html($item.children('.submenu').clone());
-				$('#nav-col-submenu > .submenu').css({'top' : topPosition});
-			}
+        $item.toggleClass('open');
 
-			$item.addClass('open');
-			$item.children('.submenu').slideDown('fast');
-		}
-	});
-	
-	$('body').on('mouseleave', '#page-wrapper.nav-small #sidebar-nav > .nav-pills > li', function (e) {
-		if ($( document ).width() >= 992) {
-			var $item = $(this);
-	
-			if ($item.hasClass('open')) {
-				$item.find('.open .submenu').slideUp('fast');
-				$item.find('.open').removeClass('open');
-				$item.children('.submenu').slideUp('fast');
-			}
-			
-			$item.removeClass('open');
-		}
-	});
-	$('body').on('mouseenter', '#page-wrapper.nav-small #sidebar-nav a:not(.dropdown-toggle)', function (e) {
-		if ($('body').hasClass('fixed-leftmenu')) {
-			$('#nav-col-submenu').html('');
-		}
-	});
-	$('body').on('mouseleave', '#page-wrapper.nav-small #nav-col', function (e) {
-		if ($('body').hasClass('fixed-leftmenu')) {
-			$('#nav-col-submenu').html('');
-		}
-	});
-	
-	$('#make-small-nav').click(function (e) {
-		$('#page-wrapper').toggleClass('nav-small');
-	});
-	
-	$(window).smartresize(function(){
-		if ($( document ).width() <= 991) {
-			$('#page-wrapper').removeClass('nav-small');
-		}
-	});
-	
-	$('.mobile-search').click(function(e) {
-		e.preventDefault();
-		
-		$('.mobile-search').addClass('active');
-		$('.mobile-search form input.form-control').focus();
-	});
-	$(document).mouseup(function (e) {
-		var container = $('.mobile-search');
-
-		if (!container.is(e.target) // if the target of the click isn't the container...
-			&& container.has(e.target).length === 0) // ... nor a descendant of the container
-		{
-			container.removeClass('active');
-		}
-	});
-	
-	$('.fixed-leftmenu #col-left').nanoScroller({
-    	alwaysVisible: false,
-    	iOSNativeScrolling: false,
-    	preventPageScrolling: true,
-    	contentClass: 'col-left-nano-content'
+        if ($item.hasClass('open')) {
+            $item.children('.submenu').slideDown('fast');
+        }
+        else {
+            $item.children('.submenu').slideUp('fast');
+        }
     });
-	
-	// build all tooltips from data-attributes
-	$("[data-toggle='tooltip']").each(function (index, el) {
-		$(el).tooltip({
-			placement: $(this).data("placement") || 'top'
-		});
-	});
+
+    $('body').on('mouseenter', '#page-wrapper.nav-small #sidebar-nav .dropdown-toggle', function (e) {
+        if ($(document).width() >= 992) {
+            var $item = $(this).parent();
+
+            if ($('body').hasClass('fixed-leftmenu')) {
+                var topPosition = $item.position().top;
+
+                if ((topPosition + 4 * $(this).outerHeight()) >= $(window).height()) {
+                    topPosition -= 6 * $(this).outerHeight();
+                }
+
+                $('#nav-col-submenu').html($item.children('.submenu').clone());
+                $('#nav-col-submenu > .submenu').css({'top': topPosition});
+            }
+
+            $item.addClass('open');
+            $item.children('.submenu').slideDown('fast');
+        }
+    });
+
+    $('body').on('mouseleave', '#page-wrapper.nav-small #sidebar-nav > .nav-pills > li', function (e) {
+        if ($(document).width() >= 992) {
+            var $item = $(this);
+
+            if ($item.hasClass('open')) {
+                $item.find('.open .submenu').slideUp('fast');
+                $item.find('.open').removeClass('open');
+                $item.children('.submenu').slideUp('fast');
+            }
+
+            $item.removeClass('open');
+        }
+    });
+    $('body').on('mouseenter', '#page-wrapper.nav-small #sidebar-nav a:not(.dropdown-toggle)', function (e) {
+        if ($('body').hasClass('fixed-leftmenu')) {
+            $('#nav-col-submenu').html('');
+        }
+    });
+    $('body').on('mouseleave', '#page-wrapper.nav-small #nav-col', function (e) {
+        if ($('body').hasClass('fixed-leftmenu')) {
+            $('#nav-col-submenu').html('');
+        }
+    });
+
+    $('#make-small-nav').click(function (e) {
+        $('#page-wrapper').toggleClass('nav-small');
+    });
+
+    $(window).smartresize(function () {
+        if ($(document).width() <= 991) {
+            $('#page-wrapper').removeClass('nav-small');
+        }
+    });
+
+    $('.mobile-search').click(function (e) {
+        e.preventDefault();
+
+        $('.mobile-search').addClass('active');
+        $('.mobile-search form input.form-control').focus();
+    });
+    $(document).mouseup(function (e) {
+        var container = $('.mobile-search');
+
+        if (!container.is(e.target) // if the target of the click isn't the container...
+                && container.has(e.target).length === 0) // ... nor a descendant of the container
+        {
+            container.removeClass('active');
+        }
+    });
+
+//	$('.fixed-leftmenu #col-left').nanoScroller({
+//    	alwaysVisible: false,
+//    	iOSNativeScrolling: false,
+//    	preventPageScrolling: true,
+//    	contentClass: 'col-left-nano-content'
+//    }); 
+
+    // build all tooltips from data-attributes
+    $("[data-toggle='tooltip']").each(function (index, el) {
+        $(el).tooltip({
+            placement: $(this).data("placement") || 'top'
+        });
+    });
+
+    var base_url = 'http://localhost/agrotic/';
+
+    function btnVerificarRegistroClick() {
+
+
+        $("#btnVerificarReg").click(function () {
+            //console.log("Entro aqui");
+            $.ajax({
+                type: "POST",
+                data: {codigo: "" + $("#txtCodVer").val()},
+                url: base_url + 'preregistros/ajaxVerificarPreReg',
+                dataType: 'html',
+                success: function (data) {
+console.log("Entro aqui");
+                    if (data.res === "no") {
+                        $.alert({
+                            title: 'Atención',
+                            content: '' + data.msj,
+                            confirmButton: 'Aceptar',
+                            confirmButtonClass: 'btn-primary',
+                            icon: 'fa fa-info',
+                            animation: 'zoom',
+                            confirm: function () {
+                                //alert('Okay action clicked.');
+                            }
+                        });
+                        return false;
+                    }
+                    console.log("Entro aqui");
+                    $('#divContenido #divElemento').remove();
+                    $('#divContenido').append('<div id="divElemento"></div>');
+                    $('#divContenido #divElemento').html(data);
+                        $('#divContenido').find('input, select').each(function (i, item) {
+                            var tag = $(item).attr("tag");
+                            //Si posee el atributo tag siempre sera diferente de undefined
+                            if ('' + tag !== 'undefined') {
+                                $(item).attr("name", "data[User][" + tag + "]");
+                                // console.log($(item).attr("name"));
+                            }
+                        });
+                        //Add MultiSelect to cboCertificaciones
+                        $("#cboCertificaciones").multiselect({
+                            buttonText: function (options, select) {
+                                if (options.length === 0) {
+                                    return 'Selecciona una o varias certificaciones';
+                                }
+                                else if (options.length > 1) {
+                                    return 'Has seleccionado mas de una certificación';
+                                }
+                                //return 'Selecciona una o varias certificaciones';
+                            }
+                        });
+                        
+                        $("#btnBuscarFoto").addClass("fileinput-new");
+                }
+
+
+            });
+        });
+    }
+
+
+
+
+
+
+
+
+
+
+
+    //Calls
+    btnVerificarRegistroClick();
+
+
+    $("#flashMessage").addClass("marginPanel");
 });
 
-$.fn.removeClassPrefix = function(prefix) {
-    this.each(function(i, el) {
-        var classes = el.className.split(" ").filter(function(c) {
+$.fn.removeClassPrefix = function (prefix) {
+    this.each(function (i, el) {
+        var classes = el.className.split(" ").filter(function (c) {
             return c.lastIndexOf(prefix, 0) !== 0;
         });
         el.className = classes.join(" ");
@@ -120,29 +197,32 @@ $.fn.removeClassPrefix = function(prefix) {
     return this;
 };
 
-(function($,sr){
-	// debouncing function from John Hann
-	// http://unscriptable.com/index.php/2009/03/20/debouncing-javascript-methods/
-	var debounce = function (func, threshold, execAsap) {
-		var timeout;
+(function ($, sr) {
+    // debouncing function from John Hann
+    // http://unscriptable.com/index.php/2009/03/20/debouncing-javascript-methods/
+    var debounce = function (func, threshold, execAsap) {
+        var timeout;
 
-		return function debounced () {
-			var obj = this, args = arguments;
-			function delayed () {
-				if (!execAsap)
-					func.apply(obj, args);
-				timeout = null;
-			};
+        return function debounced() {
+            var obj = this, args = arguments;
+            function delayed() {
+                if (!execAsap)
+                    func.apply(obj, args);
+                timeout = null;
+            }
+            ;
 
-			if (timeout)
-				clearTimeout(timeout);
-			else if (execAsap)
-				func.apply(obj, args);
+            if (timeout)
+                clearTimeout(timeout);
+            else if (execAsap)
+                func.apply(obj, args);
 
-			timeout = setTimeout(delayed, threshold || 100);
-		};
-	}
-	// smartresize 
-	jQuery.fn[sr] = function(fn){	return fn ? this.bind('resize', debounce(fn)) : this.trigger(sr); };
+            timeout = setTimeout(delayed, threshold || 100);
+        };
+    }
+    // smartresize 
+    jQuery.fn[sr] = function (fn) {
+        return fn ? this.bind('resize', debounce(fn)) : this.trigger(sr);
+    };
 
-})(jQuery,'smartresize');
+})(jQuery, 'smartresize');

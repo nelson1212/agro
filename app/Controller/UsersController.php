@@ -40,12 +40,13 @@ class UsersController extends AppController {
      * @param string $id
      * @return void
      */
-    public function view($id = null) {
-        if (!$this->User->exists($id)) {
-            throw new NotFoundException(__('Invalid user'));
-        }
-        $options = array('conditions' => array('User.' . $this->User->primaryKey => $id));
-        $this->set('user', $this->User->find('first', $options));
+    public function view() {
+        $this->layout = "front";
+        /* if (!$this->User->exists($id)) {
+          throw new NotFoundException(__('Invalid user'));
+          }
+          $options = array('conditions' => array('User.' . $this->User->primaryKey => $id));
+          $this->set('user', $this->User->find('first', $options)); */
     }
 
     /**
@@ -54,25 +55,105 @@ class UsersController extends AppController {
      * @return void
      */
     public function add() {
+
         $this->layout = "front";
+
         if ($this->request->is('post')) {
-            $this->User->create();
-            if ($this->User->save($this->request->data)) {
-                $this->Flash->success(__('The user has been saved.'));
-                return $this->redirect(array('action' => 'index'));
-            } else {
-                $this->Flash->error(__('The user could not be saved. Please, try again.'));
+
+            //No es guardar usuarios
+            if (!isset($this->request->data["btnFrontGuaAgr"])) {
+                $elemento = "";
+                $this->Session->write("elemento", $elemento);
+
+                if (!isset($this->request->data["User"]["codVer"])) {
+                    $this->Flash->error(__('Debes ingresar un código de verificación.'));
+                    goto finAdd;
+                } else
+
+                if (empty($this->request->data["User"]["codVer"])) {
+                    $this->Flash->error(__('Debes ingresar un código de verificación.'));
+                    goto finAdd;
+                }
+
+                $codigo = $this->request->data["User"]["codVer"];
+                $this->loadModel("Preregistro");
+                $this->Preregistro->recursive = -1;
+
+                $novedad = $this->Preregistro->find("first", array("conditions" => array("Preregistro.codigo" => $codigo)));
+
+                if (count($novedad) > 0) {
+
+                    switch ($novedad["Preregistro"]["tipo"]) {
+                        case "agr":
+                            $this->Session->write("tipoFrontUser", $novedad["Preregistro"]["tipo"]);
+                            $elemento = "front_reg_agricultores";
+                            break;
+
+                        case "emp":
+                            $this->Session->write("tipoFrontUser", $novedad["Preregistro"]["tipo"]);
+                            $elemento = "front_reg_empresas";
+                            break;
+
+                        case "com":
+                            $this->Session->write("tipoFrontUser", $novedad["Preregistro"]["tipo"]);
+                            $elemento = "front_reg_compradores";
+                            break;
+
+                        default:
+                            break;
+                    }
+
+                    $this->Session->write("elemento", $elemento);
+                } else {
+                    $this->Session->write("tipoFrontUser", "");
+                    $this->Flash->error(__('El código de verificación ingresado no existe.'));
+                    goto finAdd;
+                    //return;
+                }
+            } else if (isset($this->request->data["btnFrontGuaAgr"])) {
+                //  debug($this->request->data);
+                //exit;
+                $this->User->create();
+                if ($this->User->save($this->request->data)) {
+                    $this->Flash->success(__('El registro fue exitoso.'));
+                    return $this->redirect(array('action' => 'index'));
+                } else {
+                    $this->Flash->error(__('El registro no fue exitoso. Por favor, intenta de nuevo.'));
+                }
             }
         }
-        $veredas = $this->User->Vereda->find('list');
-        $departamentos = $this->User->Departamento->find('list');
-        $paisses = $this->User->Paiss->find('list');
+
+        finAdd:
+        $elemento = $this->Session->read("elemento");
+        //echo "llego aqui";
+        $generos = array(0 => "Seleccione una opción", "Femenino" => "Femenino", "Masculino" => "Masculino", "LGTBI" => "LGTBI");
+        //$veredas = $this->User->Vereda->find('list');
+        //$departamentos = $this->User->Departamento->find('list');
+        //$paisses = $this->User->Paiss->find('list');
+        $this->loadModel("Asociacion");
+        $this->Asociacion->recursive = 0;
+        $asociaciones = $this->Asociacion->find("list", array("fields" => array("id", "razon_social")));
+        $this->unshift($asociaciones, 0, "Seleccione una opción");
+
+        $this->loadModel("Certificacion");
+        $this->Certificacion->recursive = 0;
+        $certificaciones = $this->Certificacion->find("list");
+
         $ciudads = $this->User->Ciudad->find('list');
+        $this->unshift($ciudads, 0, "Seleccione una opción");
+
         $corregimientos = $this->User->Corregimiento->find('list');
+        $this->unshift($corregimientos, 0, "Seleccione una opción");
+
         $tipoAgriculturas = $this->User->TipoAgricultura->find('list');
-        $rols = $this->User->Rol->find('list');
+        $this->unshift($tipoAgriculturas, 0, "Seleccione una opción");
+        
+        $ubicaciones = $this->User->Ubicacion->find('list', array("fields" => array("abr", "nombre")));
+        $this->unshift($ubicaciones, 0, "Seleccione una opción");
+
+        //$rols = $this->User->Rol->find('list');
         // $googleMaps = $this->User->GoogleMap->find('list');
-        $this->set(compact('veredas', 'departamentos', 'paisses', 'ciudads', 'corregimientos', 'tipoAgriculturas', 'rols', 'googleMaps'));
+        $this->set(compact('veredas', 'generos', 'ubicaciones', 'asociaciones', 'certificaciones', 'elemento', 'departamentos', 'paisses', 'ciudads', 'corregimientos', 'tipoAgriculturas'));
     }
 
     /**
@@ -443,7 +524,7 @@ class UsersController extends AppController {
         $asociaciones = $this->Asociacion->find("list", array("fields" => array("id", "razon_social")));
         $this->unshift($asociaciones, 0, "Seleccione una opción");
 
-        $ubicaciones = array("Internacional" => "Internacional", "Nacional" => "Nacional");
+        $ubicaciones = $this->User->Ubicacion->find('list', array("fields" => array("abr", "nombre")));
         $this->unshift($ubicaciones, 0, "Seleccione una opción");
 
         $generos = array(0 => "Seleccione una opción", "Femenino" => "Femenino", "Masculino" => "Masculino", "LGTBI" => "LGTBI");
@@ -607,21 +688,21 @@ class UsersController extends AppController {
         $this->set(compact('veredas', 'titulo', "ubicaciones", 'element', 'generos', 'departamentos', 'paisses', 'ciudads', 'corregimientos', 'tipoAgriculturas', 'rols', 'googleMaps'));
     }
 
-    public function admin_lstpreregistro() {
-        $this->layout = "admin";
-        $this->loadModel("Preregistro");
-        $this->Preregistro->recursive = -1;
-
-        $settings = array('order' => array('Preregistro.id' => 'DESC'),
-            'limit' => 10);
-        
-        $this->Paginator->settings = $settings;
-        //$this->paginate['Preregistro'] = array( 'limit' => 10, 'order' => 'Preregistro.id' );
-        $lstPre = $this->paginate('Preregistro');
-
-        //debug($lstPre);
-        $this->set(compact('lstPre'));
-    }
+//    public function admin_lstpreregistro() {
+//        $this->layout = "admin";
+//        $this->loadModel("Preregistro");
+//        $this->Preregistro->recursive = -1;
+//
+//        $settings = array('order' => array('Preregistro.id' => 'DESC'),
+//            'limit' => 10);
+//        
+//        $this->Paginator->settings = $settings;
+//        //$this->paginate['Preregistro'] = array( 'limit' => 10, 'order' => 'Preregistro.id' );
+//        $lstPre = $this->paginate('Preregistro');
+//
+//        //debug($lstPre);
+//        $this->set(compact('lstPre'));
+//    }
 
     public function ajaxUserAdd() {
         $this->layout = null;

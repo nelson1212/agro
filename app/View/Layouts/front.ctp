@@ -33,13 +33,23 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
         echo $this->Html->css('bootstrap-theme.min');
         echo $this->Html->css('font-awesome.min');
         echo $this->Html->css('genericons.css');
-        echo $this->Html->css('styles.css');
+        echo $this->Html->css('bootstrap-multiselect');
+        echo $this->Html->css('jasny-bootstrap');
+        echo $this->Html->css('jquery-confirm');
+        echo $this->Html->css('bootstrap-tagsinput');
+        echo $this->Html->css('jquery-ui.css');
+
+        echo $this->Html->css('evol.colorpicker.min');
+        echo $this->Html->css('styles');
+        echo $this->Html->css('general');
 
 
         //echo $this->fetch('meta');
         //echo $this->fetch('css');
         //echo $this->fetch('script');
+        
         ?>
+       
         <style type="text/css">
 
             body {
@@ -177,9 +187,16 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
         echo $this->Html->script('jquery-2.1.4');
         echo $this->Html->script('bootstrap.min');
         //echo $this->Html->script('scriptGeneral');
+        echo $this->Html->script('jquery-confirm');
+        echo $this->Html->script('bootstrap-multiselect');
+
+        echo $this->Html->script('jasny-bootstrap');
+        echo $this->Html->script('bootstrap-tagsinput');
+        echo $this->Html->script('jquery-ui.min');
+        echo $this->Html->script('evol.colorpicker.min.js');
         echo $this->Html->script('scripts');
 
-
+        echo $this->Html->script('scriptGeneral');
 
         //echo $this->fetch('meta');
         //echo $this->fetch('css');

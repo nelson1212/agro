@@ -27,7 +27,7 @@
 
 <?php
 if (!empty($elemento)) {
-    echo $this->element($elemento, array('flag' => 'value'));
+    echo $this->element("admin_registros/".$elemento, array('flag' => 'value'));
 }
 ?>
              
