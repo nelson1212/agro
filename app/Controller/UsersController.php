@@ -1,7 +1,7 @@
 <?php
 
 App::uses('AppController', 'Controller');
-App::import('Vendor', 'FormValidator', array('file' => 'sanitize.php'));
+App::uses('Sanitize', 'Vendor');
 
 /**
  * Users Controller
@@ -54,6 +54,7 @@ class UsersController extends AppController {
      * @return void
      */
     public function add() {
+        $this->layout = "front";
         if ($this->request->is('post')) {
             $this->User->create();
             if ($this->User->save($this->request->data)) {
@@ -70,7 +71,7 @@ class UsersController extends AppController {
         $corregimientos = $this->User->Corregimiento->find('list');
         $tipoAgriculturas = $this->User->TipoAgricultura->find('list');
         $rols = $this->User->Rol->find('list');
-        $googleMaps = $this->User->GoogleMap->find('list');
+        // $googleMaps = $this->User->GoogleMap->find('list');
         $this->set(compact('veredas', 'departamentos', 'paisses', 'ciudads', 'corregimientos', 'tipoAgriculturas', 'rols', 'googleMaps'));
     }
 
@@ -167,16 +168,12 @@ class UsersController extends AppController {
             }
 
             if (!isset($this->request->data["User"]["rol_id"])) {
-
                 $this->Flash->error(__('Debes seleccionar un tipo de usuario'));
-
                 goto finAdminIndex;
             }
 
             if ($this->request->data["User"]["rol_id"] === 0 || empty($this->request->data["User"]["rol_id"])) {
-
                 $this->Flash->error(__('Debes seleccionar un tipo de usuario'));
-
                 goto finAdminIndex;
             }
 
@@ -233,15 +230,14 @@ class UsersController extends AppController {
             ///}
         }
         //$rol=1;
-        
-       // $res = $this->getRolCodeAndTitle();
-        $filtros = array("filIde" => "identificacion", 
-                         "filNom" => "nombres", 
-                         "filApe" => "apellidos", 
-                        "filEmail" => "email");
-        
+        // $res = $this->getRolCodeAndTitle();
+        $filtros = array("filIde" => "identificacion",
+            "filNom" => "nombres",
+            "filApe" => "apellidos",
+            "filEmail" => "email");
+
         $conditions = $this->adminSearchParameters("User", $filtros);
-        
+
         $settings = array('order' => array('User.id' => 'DESC'),
             'limit' => 10, 'conditions' => $conditions);
 
@@ -501,20 +497,88 @@ class UsersController extends AppController {
         $this->layout = "admin";
         $this->User->recursive = 0; //Recursividad
 
-        /*  if ($this->request->is('post')) {
-          // debug($this->validationErrors);
-          // debug($this->request->data);
-          $this->User->create();
+        $rols = $this->User->Rol->find('list', array("fields" => array("abr", "nombre"), "conditions" => array("Rol.abr !=" => array("adm", "subadmin"))));
+        $this->unshift($rols, 0, "Seleccione una opción");
 
-          //exit;
-          if ($this->User->save($this->request->data)) {
-          $this->Flash->success(__('El usuario fue registrado.'));
-          return $this->redirect(array('action' => 'index'));
-          } else {
-          debug($this->User->validationErrors);
-          $this->Flash->error(__('El usuario no fue registrado, intenta de nuevo.'));
-          }
-          } */
+        if ($this->request->is('post')) {
+
+            //debug($this->request->data);
+
+            if (!isset($this->request->data["User"]["rol_id"])) {
+                $this->Flash->error(__('Debes seleccionar un tipo de usuario'));
+                goto finAdminPreregistro;
+                return;
+            }
+
+            if (!array_key_exists($this->request->data["User"]["rol_id"], $rols)) {
+                $this->Flash->error(__('El tipo de usuario seleccionado es incorrecto'));
+                goto finAdminPreregistro;
+                return;
+            }
+
+            if (isset($this->request->data["accion"])) {
+
+
+                $this->loadModel("Preregistro");
+                // $this->Preregistro->recursive = -1;
+                $this->Preregistro->create();
+
+
+//                $cleanString = $janitor->sanitizeString($_POST["element"]);
+//                $elemento = $this->cleanString($cleanString);
+
+                $this->request->data["Preregistro"]["codigo"] = $this->getRandomKey()["pass"];
+                $this->request->data["Preregistro"]["tipo"] = $this->request->data["User"]["rol_id"];
+
+
+                //Quitar espacios en blanco de todas las entrdas
+                $this->request->data['Preregistro'] = array_map('trim', $this->request->data['Preregistro']);
+                // $this->request->data['Preregistro'] = array_map(Sanitize::stripAll, $this->request->data['Preregistro']);
+                $this->request->data = Sanitize::clean($this->request->data);
+
+
+                // debug($this->request->data);
+
+                if ($this->Preregistro->save($this->request->data)) {
+                    $cod = $this->request->data["Preregistro"]["codigo"];
+                    $this->Flash->error(__('El pre-registro fue creado correctamente, el código ' . $cod . ' se envio al correo del usuario'));
+                } else {
+                    $this->Flash->error(__('El pre-registro no fue creado correctamente, intenta de nuevo'));
+                }
+                // echo "Entrp aqui";
+            }
+
+            $element = "";
+            $titulo = "";
+            switch ($this->request->data["User"]["rol_id"]) {
+                case "agr":
+                    $element = "agricultor_preregistro";
+                    $titulo = "Agricultor";
+                    break;
+                case "com":
+                    $element = "comprador_preregistro";
+                    $titulo = "Comprador";
+                    break;
+                case "emp":
+                    $element = "empresa_preregistro";
+                    $titulo = "Empresa";
+                    break;
+            }
+
+
+            // debug($this->validationErrors);
+            //debug($this->request->data);
+            /* $this->User->create();
+
+              //exit;
+              if ($this->User->save($this->request->data)) {
+              $this->Flash->success(__('El usuario fue registrado.'));
+              return $this->redirect(array('action' => 'index'));
+              } else {
+              debug($this->User->validationErrors);
+              $this->Flash->error(__('El usuario no fue registrado, intenta de nuevo.'));
+              } */
+        }
 
         // $veredas = $this->User->Vereda->find('list');
         $departamentos = $this->User->Departamento->find('list');
@@ -531,12 +595,32 @@ class UsersController extends AppController {
         $tipoAgriculturas = $this->User->TipoAgricultura->find('list');
         $this->unshift($tipoAgriculturas, 0, "Seleccione una opción");
 
-        $rols = $this->User->Rol->find('list');
-        $this->unshift($rols, 0, "Seleccione una opción");
+        $ubicaciones = $this->User->Ubicacion->find('list', array("fields" => array("abr", "nombre")));
+        $this->unshift($ubicaciones, 0, "Seleccione una opción");
+
+        finAdminPreregistro:
+
+
 
         //$googleMaps = $this->User->GoogleMap->find('list');
         $generos = array(0 => "Seleccione una opción", "Femenino" => "Femenino", "Masculino" => "Masculino", "LGTBI" => "LGTBI");
-        $this->set(compact('veredas', 'generos', 'departamentos', 'paisses', 'ciudads', 'corregimientos', 'tipoAgriculturas', 'rols', 'googleMaps'));
+        $this->set(compact('veredas', 'titulo', "ubicaciones", 'element', 'generos', 'departamentos', 'paisses', 'ciudads', 'corregimientos', 'tipoAgriculturas', 'rols', 'googleMaps'));
+    }
+
+    public function admin_lstpreregistro() {
+        $this->layout = "admin";
+        $this->loadModel("Preregistro");
+        $this->Preregistro->recursive = -1;
+
+        $settings = array('order' => array('Preregistro.id' => 'DESC'),
+            'limit' => 10);
+        
+        $this->Paginator->settings = $settings;
+        //$this->paginate['Preregistro'] = array( 'limit' => 10, 'order' => 'Preregistro.id' );
+        $lstPre = $this->paginate('Preregistro');
+
+        //debug($lstPre);
+        $this->set(compact('lstPre'));
     }
 
     public function ajaxUserAdd() {
@@ -885,14 +969,33 @@ class UsersController extends AppController {
         return $conditions;
     }
 
-    function destroySelectedRols(){
-        $this->layout=false;
-        $this->autoRender=false;
+    function destroySelectedRols() {
+        $this->layout = false;
+        $this->autoRender = false;
         $data["res"] = "no";
-        if($this->Session->delete("rolSeleccionado")){
+        if ($this->Session->delete("rolSeleccionado")) {
             $data["res"] = "si";
         }
-        
+
         echo json_encode($data);
     }
+
+    function getRandomKey() {
+        //$this -> autoRender = false;
+        //$this -> layout = false;
+        $alphabet = "abcdefghijklmnopqrstuwxyzABCDEFGHIJKLMNOPQRSTUWXYZ0123456789";
+        $pass = array();
+        //remember to declare $pass as an array
+        $alphaLength = strlen($alphabet) - 1;
+        //put the length -1 in cache
+        for ($i = 0; $i < 10; $i++) {
+            $n = rand(0, $alphaLength);
+            $pass[] = $alphabet[$n];
+        }
+        $data = array();
+        $data["pass"] = implode($pass);
+        return $data;
+        //turn the array into a string
+    }
+
 }

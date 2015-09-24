@@ -24,7 +24,7 @@
         <!-- /.search form -->
         <!-- sidebar menu: : style can be found in sidebar.less -->
         <ul class="sidebar-menu">
-            <li class="header" style="color:white;">MENU DE NAVEGACIÓN</li>
+            <li class="header" style="color:white;">MENU DE MODULOS</li>
             <!--<li class="active treeview">
               <a href="#">
                 <i class="fa fa-dashboard"></i> <span>Dashboard</span> <i class="fa fa-angle-left pull-right"></i>
@@ -75,6 +75,7 @@
                     <li><a href="<?php echo $this->webroot; ?>admin/users/addusuario"><i class="fa fa-circle-o"></i> Agregar</a></li>
                     <li><a id="lnkVerUsuarios" href="#"><i class="fa fa-circle-o"></i> Ver usuarios</a></li>
                     <li><a href="<?php echo $this->webroot; ?>admin/users/preregistro"><i class="fa fa-circle-o"></i> Pre-registro</a></li>
+                     <li><a href="<?php echo $this->webroot; ?>admin/users/lstpreregistro"><i class="fa fa-circle-o"></i>Ver Pre-registros</a></li>
 
                 </ul>
             </li>

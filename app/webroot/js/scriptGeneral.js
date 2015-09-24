@@ -60,13 +60,11 @@ $(document).ready(function () {
 
 
 //Función para cambiar cajas de texto de acuerdo al rol seleccionado en registrar usuarios
-    function changeTextBoxes(combo, form) {
+    function cboRoles_Change(combo, form) {
         $(combo).change(function (e) {
-
-// var idRol = $("#cboRol").val();
-            // console.log("envio");
-            // var textRol = $("#cboRol option:selected").text();
-
+            var elemento = "#" + $(this).attr("id");
+            var textRol = $(elemento + " option:selected").text();
+            // console.log(textRol);
             $(form).submit();
             return false;
 
@@ -344,11 +342,37 @@ $(document).ready(function () {
         });
     }
 
-    //selectUserForSearch("#btnMostrarTabla");
+    function cboUbicacionesPreChange(combo) {
+        $(combo).change(function () {
+            var elemento = "#" + $(this).attr("id");
+            var textUbi = $(elemento + " option:selected").val();
+            // console.log(textUbi);
+            if ("" + textUbi === "int") {
+                $("#reqInte").show();
+            } else {
+                $("#reqInte").hide();
+            }
+        });
+    }
+
+    function guardarPreRegistro(boton, formulario) {
+        $(boton).click(function (e) {
+            $(formulario).append('<input type="hidden" name="data[User][rol_id]" value="' + $("#cboRolPre").val() + '" /> ');
+            $(formulario).append('<input type="hidden" name="data[accion]" value="guardar" /> ');
+            console.log("Entro aqui " + "form" + formulario);
+            $(formulario).submit();
+            // console.log(formulario);
+            return false;
+        });
+
+
+    }
+
+    //Llamado de funciones
     cboCiudadesChanged();
-    changeTextBoxes("#cboRol", "#formUserTipo");
-    changeTextBoxes("#cboRolList", "#formUserList");
-    //getElements();
+    cboRoles_Change("#cboRol", "#formUserTipo");
+    cboRoles_Change("#cboRolList", "#formUserList");
+    cboRoles_Change("#cboRolPre", "#formUserPre");
     ajaxUserAdd();
     seleccionarTemas();
     buttonSearch("#btnBusAdm", "formBusAdmin");
@@ -357,6 +381,9 @@ $(document).ready(function () {
     argegarTemaForo();
     removerTemaForo();
     menuActivo();
-
+    cboUbicacionesPreChange("#cboUbicacionesPre");
+    guardarPreRegistro("#btnGuaUsuPreEmp", "#formUserPreEmp");
+    guardarPreRegistro("#btnGuaUsuPreAgr", "#formUserPreAgr");
+    guardarPreRegistro("#btnGuaUsuPreCom", "#formUserPreCom");
 
 });

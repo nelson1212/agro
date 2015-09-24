@@ -1,63 +1,238 @@
-<div class="users form">
-<?php echo $this->Form->create('User'); ?>
-	<fieldset>
-		<legend><?php echo __('Add User'); ?></legend>
-	<?php
-		echo $this->Form->input('identificacion');
-		echo $this->Form->input('nombres');
-		echo $this->Form->input('apellidos');
-		echo $this->Form->input('foto');
-		echo $this->Form->input('vereda_id');
-		echo $this->Form->input('departamento_id');
-		echo $this->Form->input('paiss_id');
-		echo $this->Form->input('ciudad_id');
-		echo $this->Form->input('corregimiento_id');
-		echo $this->Form->input('tipo_agricultura_id');
-		echo $this->Form->input('username');
-		echo $this->Form->input('password');
-		echo $this->Form->input('email');
-		echo $this->Form->input('rol_id');
-		echo $this->Form->input('google_map_id');
-	?>
-	</fieldset>
-<?php echo $this->Form->end(__('Submit')); ?>
-</div>
-<div class="actions">
-	<h3><?php echo __('Actions'); ?></h3>
-	<ul>
+<div class="panel panel-default maginPanel" id="divPanel" > <!-- PANEL -->
+    <div class="panel-heading">
+        <h3 class="panel-title"><b>REGISTRO DE USUARIOS </b></h3>
+    </div>
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-lg-6">
+                <label for="txtCodVer"> Ingresa el código de pre-registro y presiona el boton verificar</label>
+                <div class="input-group">
+                    <input type="text" id="txtCodVer" class="form-control">
+                    <span class="input-group-btn">
+                        <button class="btn btn-success" type="button">
+                            <b>Verificar</b>
+                        </button>
+                    </span>
+                </div><!-- /input-group -->
+            </div><!-- /.col-lg-6 -->
+        </div>
 
-		<li><?php echo $this->Html->link(__('List Users'), array('action' => 'index')); ?></li>
-		<li><?php echo $this->Html->link(__('List Veredas'), array('controller' => 'veredas', 'action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(__('New Vereda'), array('controller' => 'veredas', 'action' => 'add')); ?> </li>
-		<li><?php echo $this->Html->link(__('List Departamentos'), array('controller' => 'departamentos', 'action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(__('New Departamento'), array('controller' => 'departamentos', 'action' => 'add')); ?> </li>
-		<li><?php echo $this->Html->link(__('List Paisses'), array('controller' => 'paisses', 'action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(__('New Paiss'), array('controller' => 'paisses', 'action' => 'add')); ?> </li>
-		<li><?php echo $this->Html->link(__('List Ciudads'), array('controller' => 'ciudads', 'action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(__('New Ciudad'), array('controller' => 'ciudads', 'action' => 'add')); ?> </li>
-		<li><?php echo $this->Html->link(__('List Corregimientos'), array('controller' => 'corregimientos', 'action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(__('New Corregimiento'), array('controller' => 'corregimientos', 'action' => 'add')); ?> </li>
-		<li><?php echo $this->Html->link(__('List Tipo Agriculturas'), array('controller' => 'tipo_agriculturas', 'action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(__('New Tipo Agricultura'), array('controller' => 'tipo_agriculturas', 'action' => 'add')); ?> </li>
-		<li><?php echo $this->Html->link(__('List Rols'), array('controller' => 'rols', 'action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(__('New Rol'), array('controller' => 'rols', 'action' => 'add')); ?> </li>
-		<li><?php echo $this->Html->link(__('List Google Maps'), array('controller' => 'google_maps', 'action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(__('New Google Map'), array('controller' => 'google_maps', 'action' => 'add')); ?> </li>
-		<li><?php echo $this->Html->link(__('List Comentarios'), array('controller' => 'comentarios', 'action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(__('New Comentario'), array('controller' => 'comentarios', 'action' => 'add')); ?> </li>
-		<li><?php echo $this->Html->link(__('List Eventos'), array('controller' => 'eventos', 'action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(__('New Evento'), array('controller' => 'eventos', 'action' => 'add')); ?> </li>
-		<li><?php echo $this->Html->link(__('List Foros'), array('controller' => 'foros', 'action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(__('New Foro'), array('controller' => 'foros', 'action' => 'add')); ?> </li>
-		<li><?php echo $this->Html->link(__('List Interaccions'), array('controller' => 'interaccions', 'action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(__('New Interaccion'), array('controller' => 'interaccions', 'action' => 'add')); ?> </li>
-		<li><?php echo $this->Html->link(__('List Novedads'), array('controller' => 'novedads', 'action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(__('New Novedad'), array('controller' => 'novedads', 'action' => 'add')); ?> </li>
-		<li><?php echo $this->Html->link(__('List Productos Usuarios'), array('controller' => 'productos_usuarios', 'action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(__('New Productos Usuario'), array('controller' => 'productos_usuarios', 'action' => 'add')); ?> </li>
-		<li><?php echo $this->Html->link(__('List Temas'), array('controller' => 'temas', 'action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(__('New Tema'), array('controller' => 'temas', 'action' => 'add')); ?> </li>
-		<li><?php echo $this->Html->link(__('List User Certificacions'), array('controller' => 'user_certificacions', 'action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(__('New User Certificacion'), array('controller' => 'user_certificacions', 'action' => 'add')); ?> </li>
-	</ul>
+    </div>
 </div>
+
+
+<div class="panel panel-default maginPanel" id="divPanel" style="visibility: hidden;"> <!-- PANEL -->
+    <div class="panel-heading">
+        <h3 class="panel-title"><b>REGISTRO DE PRODUCTOS </b></h3>
+    </div>
+    <div class="panel-body">
+
+        <div class="form-group">
+            Los campos marcados con * son obligatorios
+
+        </div>
+
+
+        <?php echo $this->Form->create('Producto', array('id' => "formProducto", 'type' => 'file', "novalidate" => "novalidate")); ?>
+        <input type="hidden" name="data[User][tipo]" value="otros" />
+        <!-- DATOS DE PERFIL -->
+
+
+        <div class="row">
+            <!-- NOMBRE CIENTIFICO -->
+            <div class="col-lg-4">
+                <div class="form-group">
+                    <?php echo $this->Form->input('nombre_cientifico', array("div" => false, "id" => "txtNombreCientifico", 'tag' => 'nombre_cientifico', "label" => "Nombre cientifico *", "type" => "text", "class" => "form-control")); ?>
+
+                </div>
+
+            </div>  
+
+            <!-- NOMBRE COMUN -->
+            <div class="col-lg-4">
+                <div class="form-group">
+                    <?php echo $this->Form->input('nombre_comun', array("div" => false, "id" => "txtNombreComun", 'tag' => 'nombre_comun', "label" => "Nombre comun *", "type" => "text", "class" => "form-control")); ?>
+
+                </div>
+
+            </div> 
+
+            <!-- VARIEDADES -->
+            <div class="col-lg-4">
+                <label>Variedades*</label>
+                <div class="form-group">
+                    <?php echo $this->Form->input('variedades', array("div" => false, "id" => "txtVariedades", "label" => false, "maxlength" => 15, 'tag' => 'variedades', "data-role" => "tagsinput", "type" => "text", "class" => "form-control")); ?>
+
+                </div>
+
+            </div>
+
+
+        </div>
+        <div class="row">
+            <!-- EMBALAJE -->
+            <div class="col-lg-4">
+                <div class="form-group">
+                    <?php echo $this->Form->input('embalaje_id', array("div" => false, "id" => "cboEmbalajes", "label" => "Tipo de embalaje*", "maxlength" => 15, 'tag' => 'embalaje_id', "type" => "select", "class" => "form-control")); ?>
+
+                </div>
+
+            </div>
+
+
+            <!-- FECHA DE COSECHA -->
+            <div class="col-lg-4">
+                <div class="form-group">
+                    <?php echo $this->Form->input('fecha_cosecha', array("div" => false, "id" => "txtFechaCosecha", "label" => "Fecha de cosecha*", "maxlength" => 15, 'tag' => 'fecha_cosecha', "type" => "text", "class" => "form-control")); ?>
+
+                </div>
+
+            </div>
+
+            <!-- FECHA DE SIEMBRA -->
+            <div class="col-lg-4">
+                <div class="form-group">
+                    <?php echo $this->Form->input('fecha_siembra', array("div" => false, "id" => "txtFechaSiembra", "label" => "Fecha de siembra*", "maxlength" => 15, 'tag' => 'fecha_siembra', "type" => "text", "class" => "form-control")); ?>
+
+                </div>
+
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- ESTADO -->
+            <div class="col-lg-4">
+                <div class="form-group">
+                    <?php echo $this->Form->input('estado_id', array("div" => false, "id" => "cboEstados", "label" => "Estados*", "maxlength" => 15, 'tag' => 'estado_id', "type" => "select", "class" => "form-control")); ?>
+
+                </div>
+
+            </div>
+
+            <!-- PESO -->
+            <div class="col-lg-4">
+                <div class="form-group">
+                    <?php echo $this->Form->input('peso_gr', array("div" => false, "id" => "txtPeso", "label" => "Peso (en gramos) *", "maxlength" => 15, 'tag' => 'peso_gr', "type" => "text", "class" => "form-control")); ?>
+
+                </div>
+
+            </div>
+
+            <!-- PRECIO -->
+            <div class="col-lg-4">
+                <div class="form-group">
+                    <?php echo $this->Form->input('precio', array("div" => false, "id" => "txtPrecio", "label" => "Precio *", "maxlength" => 15, 'tag' => 'precio', "type" => "text", "class" => "form-control")); ?>
+
+                </div>
+
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- CANTIDAD -->
+            <div class="col-lg-4">
+                <div class="form-group">
+                    <?php echo $this->Form->input('cantidad', array("div" => false, "id" => "txtCantidad", "label" => "Cantidad *", "maxlength" => 15, 'tag' => 'precio', "type" => "text", "class" => "form-control")); ?>
+
+                </div>
+
+            </div>
+
+            <!-- COLOR -->
+            <div class="col-lg-4">
+                <div class="form-group">
+                    <?php echo $this->Form->input('color_id', array("div" => false, "id" => "txtColor", "label" => "Color *", "maxlength" => 15, 'tag' => 'precio', "type" => "text", "class" => "form-control")); ?>
+
+                </div>
+
+            </div>
+
+
+            <!-- ALTURA -->
+            <div class="col-lg-4">
+                <div class="form-group">
+                    <?php echo $this->Form->input('altura_msnm', array("div" => false, "id" => "txtAltura", "label" => "Altura *", "maxlength" => 15, 'tag' => 'altura', "type" => "text", "class" => "form-control")); ?>
+
+                </div>
+
+            </div>
+        </div>
+        <div class="row">
+            <!-- CALIDAD -->
+            <div class="col-lg-4">
+                <div class="form-group">
+                    <?php echo $this->Form->input('calidad_id', array("div" => false, "id" => "txtCalidad", "label" => "Calidad *", "maxlength" => 15, 'tag' => 'calidad_id', "type" => "text", "class" => "form-control")); ?>
+
+                </div>
+
+            </div>
+            <!-- PRESENTACIÓN -->
+            <div class="col-lg-4">
+                <div class="form-group">
+                    <?php echo $this->Form->input('presentacion_id', array("div" => false, "id" => "cboPresentaciones", "label" => "Presentacion *", "maxlength" => 15, 'tag' => 'presentacion_id', "type" => "select", "class" => "form-control")); ?>
+
+                </div>
+
+            </div>
+            <!-- BRILLO -->
+            <div class="col-lg-4">
+                <div class="form-group">
+                    <?php echo $this->Form->input('brillo_id', array("div" => false, "id" => "cboBrillos", "label" => "Brillo *", "maxlength" => 15, 'tag' => 'brillo_id', "type" => "select", "class" => "form-control")); ?>
+
+                </div>
+
+            </div>
+        </div>
+        <div class="row">
+
+            <!-- SANIDAD -->
+            <div class="col-lg-4">
+                <div class="form-group">
+                    <?php echo $this->Form->input('sanidad_id', array("div" => false, "id" => "cboSanidades", "label" => "Sanidad *", "maxlength" => 15, 'tag' => 'sanidad_id', "type" => "select", "class" => "form-control")); ?>
+
+                </div>
+
+            </div>
+
+            <!-- LAVADO -->
+            <div class="col-lg-4">
+                <div class="form-group">
+                    <?php echo $this->Form->input('lavado_id', array("div" => false, "id" => "cboLavados", "label" => "Tipo de lavado*", "maxlength" => 15, 'tag' => 'lavado_id', "type" => "select", "class" => "form-control")); ?>
+
+                </div>
+
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- FOTO -->
+            <div class="col-lg-6">
+                <label>Selecciona una foto (opcional)</label>
+                <div class="fileinput fileinput-new input-group" tag="foto" data-provides="fileinput">
+                    <div class="form-control" data-trigger="fileinput"><i class="glyphicon glyphicon-file fileinput-exists"></i> <span class="fileinput-filename"></span></div>
+                    <span class="input-group-addon btn btn-default btn-file"><span class="fileinput-new"><b>Buscar foto</b></span><span class="fileinput-exists"><b>Cambiar</b></span><input type="file"  name="data[User][foto]"></span>
+                    <a href="#" class="input-group-addon btn btn-default fileinput-exists" data-dismiss="fileinput"><b>Remover</b></a>
+                </div>
+            </div> 
+        </div>
+
+
+
+
+        <br>
+        <div class="row">
+
+            <div class="col-lg-4">
+                <?php
+                $options = array('label' => 'Guardar', 'type' => "submit", "id" => "btnGuaPro", 'class' => 'btn btn-primary', 'div' => false);
+                echo $this->Form->end($options);
+                ?> 
+                <?php
+                $options = array('label' => 'Cancelar', "id" => "btnCanRegPro", 'class' => 'btn btn-warning', 'div' => false);
+                echo $this->Form->end($options);
+                ?>
+            </div>
+        </div>
+    </div>
+</div>
+

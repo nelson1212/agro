@@ -209,7 +209,7 @@ class User extends AppModel {
         'email' => array(
             'email' => array(
                 'rule' => array('email'),
-                'message' => 'Debes ingresar un email correcto',
+                'message' => 'Debes ingresar un email valido',
             //'allowEmpty' => false,
             //'required' => false,
             //'last' => false, // Stop validation after this rule
@@ -492,6 +492,13 @@ class User extends AppModel {
             'fields' => '',
             'order' => ''
         ),
+        'Ubicacion' => array(
+            'className' => 'Ubicacion',
+            'foreignKey' => 'ubicacion_id',
+            'conditions' => '',
+            'fields' => '',
+            'order' => ''
+        ),
             /* 'GoogleMap' => array(
               'className' => 'GoogleMap',
               'foreignKey' => 'google_map_id',
@@ -585,19 +592,7 @@ class User extends AppModel {
             'finderQuery' => '',
             'counterQuery' => ''
         ),
-        'Tema' => array(
-            'className' => 'Tema',
-            'foreignKey' => 'user_id',
-            'dependent' => false,
-            'conditions' => '',
-            'fields' => '',
-            'order' => '',
-            'limit' => '',
-            'offset' => '',
-            'exclusive' => '',
-            'finderQuery' => '',
-            'counterQuery' => ''
-        ),
+       
         'UserCertificacion' => array(
             'className' => 'UserCertificacion',
             'foreignKey' => 'user_id',

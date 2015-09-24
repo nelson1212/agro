@@ -77,7 +77,7 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
                 -webkit-transform:translate3d(0,0,0);
                 -webkit-perspective: 1000;
                 -webkit-backface-visibility: hidden;
-            
+
             }
         </style>
 
@@ -154,6 +154,6 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
         //echo $this->fetch('css');
         //echo $this->fetch('script');
         ?>
-
+        <?php echo $this->element('sql_dump'); ?>
     </body>
 </html>

@@ -3,76 +3,27 @@
         <h3 class="panel-title"><b>PRE-REGISTRO DE USUARIOS </b></h3>
     </div>
     <div class="panel-body">
+        <div class="row">
 
-        <div class="form-group">
-            Los campos marcados con * son obligatorios
-
-        </div>
+            <?php echo $this->Form->create('User', array('id' => "formUserPre", 'type' => 'file', "novalidate" => "novalidate")); ?>
+            <!-- DATOS DE PERFIL -->
 
 
-        <?php echo $this->Form->create('User', array('id' => "formUser", 'type' => 'file', "novalidate" => "novalidate")); ?>
-        <!-- DATOS DE PERFIL -->
-        <fieldset class="well the-fieldset"> 
-            <legend class="the-legend">
-                Datos de perfil
-            </legend>  
-            
-            <!-- TIPO DE USUARIO -->
-            <div class="col-lg-4">
-                <div class="form-group">
-                    <?php echo $this->Form->input('rol_id', array("div" => false, "id" => "cboRol", 'tag' => 'rol_id',  "label" => "Tipo de usuario*", "type" => "select", "class" => "form-control")); ?>
+                <!-- TIPO DE USUARIO -->
+                <div class="col-lg-4">
+                    <div class="form-group">
+                        <?php echo $this->Form->input('rol_id', array("div" => false, "id" => "cboRolPre", 'tag' => 'rol_id', "label" => "Tipo de usuario*", "type" => "select", "class" => "form-control")); ?>
 
-                </div>
+                    </div>
 
-            </div>  
-
-            <!-- USERNAME -->
-            <div class="col-lg-4">
-                <div class="form-group">
-                    <?php echo $this->Form->input('username', array("div" => false, "id" => "txtUsername", "label" => "Usuario*", "maxlength"=>15,'tag' => 'username', "type" => "text", "class" => "form-control")); ?>
-
-                </div>
-
-            </div>
-
-            <!-- PASSWORD -->
-            <div class="col-lg-4">
-                <div class="form-group">
-                    <?php echo $this->Form->input('password', array("div" => false, "id" => "txtContrasena", "label" => "Contraseña*","maxlength"=>15, 'tag' => 'password', "type" => "password", "class" => "form-control")); ?>
-
-                </div>
-
-            </div>
-            
-            <!-- CONFIRMAR PASSWORD -->
-            <div class="col-lg-4">
-                <div class="form-group">
-                    <?php echo $this->Form->input('password1', array("div" => false, "id" => "txtContrasena", "label" => "Confirmar contraseña*", "maxlength"=>15, 'tag' => 'password1', "type" => "password", "class" => "form-control")); ?>
-
-                </div>
-
-            </div>
-
-        </fieldset>
-        
-        <div id="divEmpresas"> 
-           <?php //echo $this->element("empresas"); ?>
-         </div>
-        
-        <div id="divOtros">
-            <?php //echo $this->element("otros"); ?>
-        </div>
-
-        <div class="col-lg-4">
-            <?php
-            $options = array('label' => 'Enviar código', 'type' => "button", "id" => "btnGuaUsu", 'class' => 'btn btn-primary', 'div' => false);
-            echo $this->Form->end($options);
-            ?> 
-            <?php
-            $options = array('label' => 'Cancelar', "id" => "btnCanRegUsu", 'class' => 'btn btn-warning', 'div' => false);
-            echo $this->Form->end($options);
-            ?>
+                </div>  
+            </form>
         </div>
     </div>
 </div>
-&nbsp;
+
+<?php
+if(!empty($element)){
+    echo $this->element($element); 
+}
+?>

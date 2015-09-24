@@ -85,13 +85,13 @@
             </div>
 
             <!-- CORREGIMIENTOS -->
-            <div class="col-lg-4" id="">
+           <!-- <div class="col-lg-4" id="">
                 <div class="form-group">
-                    <?php echo $this->Form->input('corregimiento_id', array("div" => false, "id" => "cboCorregimientos", 'tag' => 'corregimiento_id', "label" => "Corregimiento, Vereda o Resguardo*", "type" => "select", "class" => "form-control")); ?>
+                    <?php //echo $this->Form->input('corregimiento_id', array("div" => false, "id" => "cboCorregimientos", 'tag' => 'corregimiento_id', "label" => "Corregimiento, Vereda o Resguardo*", "type" => "select", "class" => "form-control")); ?>
 
-                </div>
+                </div> 
 
-            </div>
+            </div>-->
         <!-- <input type="file" id="foto" name="data[User][foto]"> -->
         </div>
 

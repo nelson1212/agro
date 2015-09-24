@@ -5,7 +5,7 @@ body{
 	font-family: 'Open Sans', sans-serif;
 	font-size: 14px;
 	color: #1d1d1d;
-	background: url('../img/background.png');
+	background: url('../img/img/background.png');
 	padding: 20px;
 	border-top: 6px solid #57ad68;
 }
@@ -191,7 +191,7 @@ footer{
 	white-space: normal;
 }
 .upper-footer li{
-	background-image: url('../img/arrow-right.png');
+	background-image: url('../img/img/arrow-right.png');
     background-position: 0 8px;
     background-repeat: no-repeat;
     padding: 0 0 0 15px;
@@ -372,4 +372,10 @@ footer{
 	.navbar-toggle {
 	    margin-top: 40px;
 	}
+}
+
+.maginPanel {
+    margin:4px;
+    margin-top: 6px;
+    margin-bottom: 8px;
 }
