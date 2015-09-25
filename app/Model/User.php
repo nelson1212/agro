@@ -224,9 +224,7 @@ class User extends AppModel {
             ),
         ),
         'rol_id' => array(
-            'numeric' => array(
-                'rule' => array('numeric'),
-                'message' => 'Debes seleccionar un tipo de usuario'),
+            
             'validarRol' => array(
                 'rule' => array('validarRol'),
                 'message' => 'Debes seleccionar un tipo de usuario'),
@@ -443,13 +441,7 @@ class User extends AppModel {
      * @var array
      */
     public $belongsTo = array(
-        'Vereda' => array(
-            'className' => 'Vereda',
-            'foreignKey' => 'vereda_id',
-            'conditions' => '',
-            'fields' => '',
-            'order' => ''
-        ),
+     
         'Departamento' => array(
             'className' => 'Departamento',
             'foreignKey' => 'departamento_id',

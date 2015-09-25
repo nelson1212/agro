@@ -147,11 +147,11 @@ class UsersController extends AppController {
 
         $tipoAgriculturas = $this->User->TipoAgricultura->find('list');
         $this->unshift($tipoAgriculturas, 0, "Seleccione una opción");
-        
+
         $ubicaciones = $this->User->Ubicacion->find('list', array("fields" => array("abr", "nombre")));
         unset($ubicaciones["reg"]);
         $this->unshift($ubicaciones, 0, "Seleccione una opción");
-       
+
 
         //$rols = $this->User->Rol->find('list');
         // $googleMaps = $this->User->GoogleMap->find('list');
@@ -504,7 +504,7 @@ class UsersController extends AppController {
 
         //$ciudads = $this->User->Ciudad->find('list'); a futuro si se extiende para todos los departamentos
         //Solo Valle del Cauca
-        $ciudads = $this->User->Ciudad->find('list', array("conditions"=>array("Ciudad.departamento_id"=>30)));
+        $ciudads = $this->User->Ciudad->find('list', array("conditions" => array("Ciudad.departamento_id" => 30)));
         $this->unshift($ciudads, 0, "Seleccione una opción");
 
         // $corregimientos = $this->User->Corregimiento->find('list');
@@ -513,7 +513,7 @@ class UsersController extends AppController {
         $tipoAgriculturas = $this->User->TipoAgricultura->find('list');
         $this->unshift($tipoAgriculturas, 0, "Seleccione una opción");
 
-        $rols = $this->User->Rol->find('list');
+        $rols = $this->User->Rol->find('list', array("fields" => array("abr", "nombre")));
         $this->unshift($rols, 0, "Seleccione una opción");
         // unset($rols[4]); //Removemos empresa
         //debug($rols);
@@ -531,50 +531,57 @@ class UsersController extends AppController {
         $ubicaciones = $this->User->Ubicacion->find('list', array("fields" => array("abr", "nombre")));
         $this->unshift($ubicaciones, 0, "Seleccione una opción");
 
-        $generos = array(0 => "Seleccione una opción", "Femenino" => "Femenino", "Masculino" => "Masculino", "LGTBI" => "LGTBI");
+        $generos = array(0 => "Seleccione una opción", "Femenino" => "Femenino",
+            "Masculino" => "Masculino", "LGTBI" => "LGTBI");
 
 
         if ($this->request->is('post')) {
 
             //debug($this->request->data);
-            if (!isset($this->request->data["User"]["rol_id"])) {
-                $this->Flash->error(__('Debes seleccionar un tipo de usuario'));
-                $this->set(compact('rols'));
-                return;
+            //Acciones permitidas
+            $acciones = array("setFormTipoUsuario");
+
+            //Validaciones de que exista la acción
+            if (!isset($this->request->data["accion"])) {
+                $this->Flash->error(__('Error al intentar registrar el usuario'));
+                goto finAdminAddusuario;
             }
 
-            if ($this->request->data["User"]["rol_id"] === 0 || empty($this->request->data["User"]["rol_id"])) {
-                $this->Flash->error(__('Debes seleccionar un tipo de usuario'));
-                $this->set(compact('rols'));
-                return;
+            if (!in_array($this->request->data["accion"], $acciones)) {
+                $this->Flash->error(__('Error al intentar registrar el usuario'));
+                goto finAdminAddusuario;
             }
 
-            $response = $this->getRolCodeAndTitle($this->request->data["User"]["rol_id"]);
+            //Validaciones de que exista el tipo de usuario
+            if (!isset($this->request->data["tipo_usuario"])) {
+                $this->Flash->error(__('Error al intentar registrar el usuario'));
+                goto finAdminAddusuario;
+            }
 
-            $rolId = 0;
-            // debug($response);
-            if ($response !== null) {
-                $this->request->data["User"]["rol_id"];
-                $rolId = $this->request->data["User"]["rol_id"];
-                $elemento = $response["element"];
-                $titulo = $response["title"];
-                $nombre = $response["name"];
-                $abr = $response["abr"];
+            if (!array_key_exists($this->request->data["tipo_usuario"], $rols)) {
+                $this->Flash->error(__('Error al intentar registrar el usuario4'));
+                goto finAdminAddusuario;
+            }
 
-//                switch ($abr) {
-//                    case "adm":
-//
-//
-//                        break;
-//
-//                    default:
-//                        break;
-//                
-//                }
+            $accion = $this->request->data["accion"];
+            $tipoUsuario = $this->request->data["tipo_usuario"];
+
+            switch ($accion) {
+                case "setFormTipoUsuario":
+                    $response = $this->getRolCodeAndTitle($tipoUsuario);
+                    $this->request->data["User"]["rol_id"];
+                    //$rolId = $this->request->data["User"]["rol_id"];
+                    $elemento = $response["element"];
+                    $titulo = $response["title"];
+                    $nombre = $response["name"];
+                    break;
+                case "setDivUbiEmp":
+                    // $divElemento = "";
+                    break;
             }
         }
 
-
+        finAdminAddusuario:
         $this->set(compact('asociaciones', 'rolId', 'elemento', 'ubicaciones', 'certificaciones', 'veredas', 'generos', 'departamentos', 'paisses', 'ciudads', 'corregimientos', 'tipoAgriculturas', 'rols', 'googleMaps'));
     }
 
@@ -689,7 +696,8 @@ class UsersController extends AppController {
 
         //$googleMaps = $this->User->GoogleMap->find('list');
         $generos = array(0 => "Seleccione una opción", "Femenino" => "Femenino", "Masculino" => "Masculino", "LGTBI" => "LGTBI");
-        $this->set(compact('veredas', 'titulo', "ubicaciones", 'element', 'generos', 'departamentos', 'paisses', 'ciudads', 'corregimientos', 'tipoAgriculturas', 'rols', 'googleMaps'));
+        $this->set(compact('veredas', 'titulo', "ubicaciones", 'element', 
+                'generos', 'departamentos', 'paisses', 'ciudads', 'corregimientos', 'tipoAgriculturas', 'rols', 'googleMaps'));
     }
 
 //    public function admin_lstpreregistro() {
@@ -709,20 +717,27 @@ class UsersController extends AppController {
 //    }
 
     public function ajaxUserAdd() {
+        //VALIDAR TODOS LOS CAMPOS DE LAS TABLAS EN UN ARREGLO DE EXISTENCIA
+        
         $this->layout = null;
         $this->autoRender = false;
         $this->User->recursive = 0; //Recursividad
 
         $data["res"] = "no";
-        //debug($this->request->data);
+        //debug($this->User->schema()); //Esquema
+        //debug($this->User->getColumnTypes()); //Campos con tipos getColumnTypes
+        
         if (!isset($this->request->data["User"]["rol_id"])) {
             $data["msj"] = "Debes seleccionar un tipo de usuario";
             echo json_encode($data);
             return;
         }
-
-        if (intval($this->request->data["User"]["rol_id"]) === 0) {
-            $data["msj"] = "Debes seleccionar un tipo de usuario";
+        
+        $permitidos = $this->User->Rol->find("list",array("fields"=>array("abr","nombre")));
+       //debug($permitidos);
+       //echo "res".array_key_exists($this->request->data["User"]["rol_id"], $permitidos); exit;
+        if (!array_key_exists($this->request->data["User"]["rol_id"], $permitidos)) {
+            $data["msj"] = "Debes seleccionar un tipo de usuario1";
             echo json_encode($data);
             return;
         }
@@ -732,15 +747,16 @@ class UsersController extends AppController {
         $this->request->data["User"]["vereda_id"] = null; //Vereda
         $this->request->data["User"]["paiss_id"] = null; //Pais
 
-        $this->User->Rol->recursive = -1;
-        $codRol = $this->User->Rol->find("first", array("conditions" => array("Rol.id" => $this->request->data["User"]["rol_id"])));
+        //$this->User->Rol->recursive = -1;
+        //$codRol = $this->User->Rol->find("first", array("conditions" => array("Rol.id" => $this->request->data["User"]["rol_id"])));
 
         //Sino subio foto
         if (!isset($this->request->data["User"]["foto"]["name"]) || empty($this->request->data["User"]["foto"]["name"]) || empty($this->request->data["User"]["foto"])) {
             $this->User->validator()->remove('foto');
         }
-
-        switch ($codRol["Rol"]["abr"]) {
+        
+        $nombreFoto="";
+        switch ($this->request->data["User"]["rol_id"]) {
             case "adm":
                 //echo "Entro aqi";
                 //$this->request->data["User"]["rol_id"] = $codRol["Rol"]["id"];
@@ -754,12 +770,15 @@ class UsersController extends AppController {
                 $this->request->data["User"]["ciudad_id"] = null;
                 $this->request->data["User"]["corregimiento_id"] = null;
                 $this->request->data["User"]["ubicacion"] = null;
+                $nombreFoto = $this->request->data["User"]["identificacion"];
                 break;
 
             case "agr":
+                $nombreFoto = $this->request->data["User"]["identificacion"];
                 break;
 
             case "subadm":
+                $nombreFoto = $this->request->data["User"]["identificacion"];
                 break;
 
             case "com":
@@ -771,10 +790,13 @@ class UsersController extends AppController {
                 $this->request->data["User"]["tipo_agricultura_id"] = null;
                 $this->request->data["User"]["ciudad_id"] = null;
                 $this->request->data["User"]["corregimiento_id"] = null;
+                $nombreFoto = $this->request->data["User"]["identificacion"];
 
                 break;
 
             case "emp":
+                $this->User->validator()->remove('identificacion');
+                $nombreFoto = $this->getRandomKey();
                 break;
         }
 
@@ -783,8 +805,8 @@ class UsersController extends AppController {
         $this->User->set($this->request->data); //Asignar datos al modelo
         //debug($this->request->data );
 
-
-        $res = $this->uploadFiles("img/fotos", $this->request->data["User"]["foto"], $this->request->data["User"]["identificacion"]);
+        
+        $res = $this->uploadFiles("img/fotos", $this->request->data["User"]["foto"], $nombreFoto);
 
         // debug($res);
         if ($this->User->validates($this->request->data)) {
@@ -903,13 +925,10 @@ class UsersController extends AppController {
         }
 
         $element = "";
-        $this->User->Rol->recursive = -1;
-        $codRol = $this->User->Rol->find("first", array("conditions" => array("Rol.id" => $code)));
         $titulo = "";
         $name = "";
-        $abr = $codRol["Rol"]["abr"];
 
-        switch ($codRol["Rol"]["abr"]) {
+        switch ($code) {
             case "adm":
                 $titulo = "Listado de administradores";
                 $element = "administradores";
@@ -946,7 +965,7 @@ class UsersController extends AppController {
             //return $this->render("lst_subadministradores")->body();
         }
 
-        return array("title" => $titulo, "element" => $element, "name" => $name, "abr" => $abr);
+        return array("title" => $titulo, "element" => $element, "name" => $name, "abr" => $code);
     }
 
     //Modelo y Arreglo de parametros
@@ -1081,6 +1100,69 @@ class UsersController extends AppController {
         $data["pass"] = implode($pass);
         return $data;
         //turn the array into a string
+    }
+
+    function admin_ajaxGetDivUbicacion() {
+
+        $this->autoRender = false;
+        $this->layout = false;
+
+        //$data["res"] = "no";
+
+        if (!isset($_POST["ubicacion"])) {
+            goto finAjaxGetDivUbicacion;
+        }
+
+        if (empty($_POST["ubicacion"])) {
+            goto finAjaxGetDivUbicacion;
+        }
+
+        $ubicacion = $_POST["ubicacion"];
+        $acciones = array("int", "nac");
+        
+       ///$this->set(compact("ubicacion"));
+        
+         $departamentos = $this->User->Departamento->find('list');
+        $this->unshift($departamentos, 0, "Seleccione una opción");
+        //debug($departamentos); exit;
+        $paisses = $this->User->Paiss->find('list');
+        $this->unshift($paisses, 0, "Seleccione una opción");
+
+        $ciudads = $this->User->Ciudad->find('list');
+        $this->unshift($ciudads, 0, "Seleccione una opción");
+
+        $corregimientos = $this->User->Corregimiento->find('list');
+        $this->unshift($corregimientos, 0, "Seleccione una opción");
+
+        $tipoAgriculturas = $this->User->TipoAgricultura->find('list');
+        $this->unshift($tipoAgriculturas, 0, "Seleccione una opción");
+
+        $ubicaciones = $this->User->Ubicacion->find('list', array("fields" => array("abr", "nombre")));
+        $this->unshift($ubicaciones, 0, "Seleccione una opción");
+        
+        $generos = array(0 => "Seleccione una opción", "Femenino" => "Femenino", "Masculino" => "Masculino", "LGTBI" => "LGTBI");
+        $this->set(compact('veredas', 'titulo', "ubicaciones", 'element', 
+                'generos', 'departamentos', 'paisses', 'ciudads', 'corregimientos', 'tipoAgriculturas', 'rols', 'googleMaps'));
+        
+
+        if (in_array($ubicacion, $acciones)) {
+            $this->viewPath = 'Elements/admin_registros/';
+
+            switch ($ubicacion) {
+                case "int":
+                    return $this->render("divEmpInt")->body();
+                //break;
+                case "nac":
+                    return $this->render("divEmpNac")->body();
+                default:
+                    goto finAjaxGetDivUbicacion;
+            }
+        } else {
+            goto finAjaxGetDivUbicacion;
+        }
+
+        finAjaxGetDivUbicacion:
+        return '<div class="alert alert-warning" role="alert">Opción incorrecta</div>';
     }
 
 }

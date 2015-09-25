@@ -122,7 +122,7 @@ $(document).ready(function () {
                 url: base_url + 'preregistros/ajaxVerificarPreReg',
                 dataType: 'html',
                 success: function (data) {
-console.log("Entro aqui");
+//console.log("Entro aqui");
                     if (data.res === "no") {
                         $.alert({
                             title: 'Atención',
@@ -137,7 +137,7 @@ console.log("Entro aqui");
                         });
                         return false;
                     }
-                    console.log("Entro aqui");
+                    //console.log("Entro aqui");
                     $('#divContenido #divElemento').remove();
                     $('#divContenido').append('<div id="divElemento"></div>');
                     $('#divContenido #divElemento').html(data);

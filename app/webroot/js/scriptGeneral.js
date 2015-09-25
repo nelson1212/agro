@@ -60,10 +60,16 @@ $(document).ready(function () {
 
 
 //Función para cambiar cajas de texto de acuerdo al rol seleccionado en registrar usuarios
-    function cboRoles_Change(combo, form) {
+    function cboSeleccionOpcionCombos(combo, form, accion, tipoUser) {
         $(combo).change(function (e) {
             var elemento = "#" + $(this).attr("id");
-            var textRol = $(elemento + " option:selected").text();
+            var textRol = $(elemento + " option:selected").val();
+            if (typeof tipoUser === "undefined") {
+                $(form).append('<input type="hidden" name="tipo_usuario" value="' + textRol + '" /> ');
+            } else {
+                $(form).append('<input type="hidden" name="tipo_usuario" value="' + tipoUser + '" /> ');
+            }
+            $(form).append('<input type="hidden" name="accion" value="' + accion + '" /> ');
             // console.log(textRol);
             $(form).submit();
             return false;
@@ -152,9 +158,9 @@ $(document).ready(function () {
         });
     }
 //Función para guardar usuarios
-    function ajaxUserAdd() {
+    function ajaxUserAdd(form) {
 
-        $("#formUser").submit(function (e) {
+        $(form).submit(function (e) {
             e.preventDefault();
             var formData = new FormData(this);
             formData.append("data[User][rol_id]", $("#cboRol").val());
@@ -175,9 +181,11 @@ $(document).ready(function () {
                         $(".error-message").remove();
                         $.each(data.errores_validacion, function (i, val) {
                             // console.log(i)
-                            $('input[tag="' + i + '"]').after('<div class="error-message">' + val + '</div>');
-                            $('select[tag="' + i + '"]').after('<div class="error-message">' + val + '</div>');
-                            $('div[tag="' + i + '"]').after('<div class="error-message">' + val + '</div>');
+                            if (val !== "undefined") {
+                                $('input[tag="' + i + '"]').after('<div class="error-message">' + val + '</div>');
+                                $('select[tag="' + i + '"]').after('<div class="error-message">' + val + '</div>');
+                                $('div[tag="' + i + '"]').after('<div class="error-message">' + val + '</div>');
+                            }
                         });
                     } else if (data.res === "si") {
 
@@ -368,24 +376,91 @@ $(document).ready(function () {
 
     }
 
-    function cboFrontUbicacionesChange() {
-        $("#cboFrontUbicaciones").click(function () {
-            var textUbi = $("#cboFrontUbicaciones option:selected").val();
-            $("#formFrontUserUbiEmp").append('<input type="hidden" name="ubicacion" value="' + textUbi + '" /> ');
-            // console.log("Entro aqui " + "form" + formulario);
-            $("#formFrontUserUbiEmp").submit();
-            // console.log(formulario);
-            return false;
+    function setDivUbicacion() {
+        $("#cboSetDivUbiEmp").change(function () {
+            var textUbi = $("#cboSetDivUbiEmp option:selected").val();
+            console.log("Entro aqui");
+            if (textUbi === "int" || textUbi === "nac") {
+                $.ajax({
+                    type: "POST",
+                    data: {ubicacion: textUbi},
+                    url: base_url + 'admin/users/ajaxGetDivUbicacion',
+                    dataType: 'html',
+                    success: function (data) {
 
+                        if (data.res === "no") {
+                            $.alert({
+                                title: 'Atención',
+                                content: '' + data.msj,
+                                confirmButton: 'Aceptar',
+                                confirmButtonClass: 'btn-primary',
+                                icon: 'fa fa-info',
+                                animation: 'zoom',
+                                confirm: function () {
+                                    //alert('Okay action clicked.');
+                                }
+                            });
+                            return false;
+                        }
+                        //console.log("Entro aqui");
+                        $('#divFormUbicacion').html("");
+                        // $('#divContenido').append('<div id="divElemento"></div>');
+                        $('#divFormUbicacion').html(data);
+                        $('#divFormUbicacion').find('input, select, div').each(function (i, item) {
+                            
+                            if ('' + $(item).attr("tag") !== 'undefined') {
+                                var tag = $(item).attr("tag");
+                                //console.log($(item).attr("tag"));
+                                //Si posee el atributo tag siempre sera diferente de undefined
+                                //if ('' + tag !== 'undefined') {
+                                $(item).attr("name", "data[User][" + tag + "]");
+                                // console.log($(item).attr("name"));
+                                // }
+                            }
+                        });
+
+                        ajaxUserAdd("#formUserEmp");
+                        //Add MultiSelect to cboCertificaciones
+                        /* $("#cboCertificaciones").multiselect({
+                         buttonText: function (options, select) {
+                         if (options.length === 0) {
+                         return 'Selecciona una o varias certificaciones';
+                         }
+                         else if (options.length > 1) {
+                         return 'Has seleccionado mas de una certificación';
+                         }
+                         //return 'Selecciona una o varias certificaciones';
+                         }
+                         });
+                         
+                         $("#btnBuscarFoto").addClass("fileinput-new"); */
+                    }
+
+
+                });
+
+            } else {
+                // console.log($("#cboSetDivUbiEmp option:selected").val());
+                if (parseInt($("#cboSetDivUbiEmp option:selected").val()) !== 0) {
+                    alert("La apción seleccionada es incorrecta");
+                } else {
+                    $('#divFormUbicacion').html("");
+                }
+            }
+            console.log(textUbi);
         });
     }
 
     //Llamado de funciones
     cboCiudadesChanged();
-    cboRoles_Change("#cboRol", "#formUserTipo");
-    cboRoles_Change("#cboRolList", "#formUserList");
-    cboRoles_Change("#cboRolPre", "#formUserPre");
-    ajaxUserAdd();
+    //Combo para seleccionar el tipo de usuario
+    cboSeleccionOpcionCombos("#cboRol", "#formUserTipo", "setFormTipoUsuario");
+    //Combo para seleccionar el tipo de usuario en los listados
+    cboSeleccionOpcionCombos("#cboRolList", "#formUserList");
+    //Combo para seleccionar el tipo de usuario
+    cboSeleccionOpcionCombos("#cboRolPre", "#formUserPre");
+
+    ajaxUserAdd("#formUser");
     seleccionarTemas();
     buttonSearch("#btnBusAdm", "formBusAdmin");
     redirect();
@@ -397,6 +472,13 @@ $(document).ready(function () {
     guardarPreRegistro("#btnGuaUsuPreEmp", "#formUserPreEmp");
     guardarPreRegistro("#btnGuaUsuPreAgr", "#formUserPreAgr");
     guardarPreRegistro("#btnGuaUsuPreCom", "#formUserPreCom");
-    cboFrontUbicacionesChange();
+
+    setDivUbicacion();
+
+    // cboSeleccionOpcionCombos
+    //Indicar el tipo de ubicación de la empresa
+    //cboSeleccionOpcionCombos("#cboSetDivUbiEmp", "#formSetDivUbiEmp", "setDivUbiEmp","emp");
+
+
 
 });
