@@ -359,13 +359,25 @@ $(document).ready(function () {
         $(boton).click(function (e) {
             $(formulario).append('<input type="hidden" name="data[User][rol_id]" value="' + $("#cboRolPre").val() + '" /> ');
             $(formulario).append('<input type="hidden" name="data[accion]" value="guardar" /> ');
-            console.log("Entro aqui " + "form" + formulario);
+            // console.log("Entro aqui " + "form" + formulario);
             $(formulario).submit();
             // console.log(formulario);
             return false;
         });
 
 
+    }
+
+    function cboFrontUbicacionesChange() {
+        $("#cboFrontUbicaciones").click(function () {
+            var textUbi = $("#cboFrontUbicaciones option:selected").val();
+            $("#formFrontUserUbiEmp").append('<input type="hidden" name="ubicacion" value="' + textUbi + '" /> ');
+            // console.log("Entro aqui " + "form" + formulario);
+            $("#formFrontUserUbiEmp").submit();
+            // console.log(formulario);
+            return false;
+
+        });
     }
 
     //Llamado de funciones
@@ -385,5 +397,6 @@ $(document).ready(function () {
     guardarPreRegistro("#btnGuaUsuPreEmp", "#formUserPreEmp");
     guardarPreRegistro("#btnGuaUsuPreAgr", "#formUserPreAgr");
     guardarPreRegistro("#btnGuaUsuPreCom", "#formUserPreCom");
+    cboFrontUbicacionesChange();
 
 });

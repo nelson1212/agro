@@ -1,12 +1,37 @@
 <!-- DATOS BASICOS -->
 <div class="panel panel-default maginPanel" id="divPanel"> <!-- PANEL -->
     <div class="panel-heading">
+        <h3 class="panel-title"><b>Ubicación de la empresa </b></h3>
+    </div>
+    <div class="panel-body">
+
+        <?php echo $this->Form->create('User', array('id' => "formFrontUserUbiEmp", 'controller' => "users", 'action' => "add", 'type' => 'file', "novalidate" => "novalidate")); ?>
+
+        <div class="row">
+            <!-- UBICACIÓN -->
+            <div class="col-lg-4">
+                <div class="form-group">
+                    <?php echo $this->Form->input('ubicacion', array("div" => false, "options" => $ubicaciones, "id" => "cboFrontUbicaciones", "label" => "Selecciona una ubicación*", 'tag' => 'ubicacion', "type" => "select", "class" => "form-control")); ?>
+
+                </div>
+
+            </div>
+        </div> 
+        </form>
+    </div>
+<!-- <input type="file" id="foto" name="data[User][foto]"> -->
+</div>   
+
+
+<!-- DATOS BASICOS -->
+<div class="panel panel-default maginPanel" id="divPanel"> <!-- PANEL -->
+    <div class="panel-heading">
         <h3 class="panel-title"><b>Datos del usuario tipo empresa </b></h3>
     </div>
     <div class="panel-body">
 
-        <?php echo $this->Form->create('User', array('id' => "formFrontUserAgr", 'controller'=>"users",'action'=>"add", 'type' => 'file', "novalidate" => "novalidate")); ?>
-  
+        <?php echo $this->Form->create('User', array('id' => "formFrontUserAgr", 'controller' => "users", 'action' => "add", 'type' => 'file', "novalidate" => "novalidate")); ?>
+
         <div class="row">
             <!-- IDENTIFICACIÓN -->
             <div class="col-lg-4" >
@@ -30,21 +55,12 @@
             <!-- CIUDAD -->
             <div class="col-lg-4">
                 <div class="form-group">
-                    <?php echo $this->Form->input('ciudad_id', array("div" => false, "id" => "cboCiudad", "label" => "Municipio", 'tag' => 'ciudad_id', "type" => "select", "class" => "form-control")); ?>
+                    <?php echo $this->Form->input('ciudad_id', array("div" => false, "id" => "cboCiudad", "label" => "Ciudad/Municipio*", 'tag' => 'ciudad_id', "type" => "select", "class" => "form-control")); ?>
 
                 </div>
 
             </div>
 
-
-            <!-- CORREGIMIENTOS -->
-            <div class="col-lg-4">
-                <div class="form-group">
-                    <?php echo $this->Form->input('corregimiento_id', array("div" => false, "id" => "cboCorregimientos", 'tag' => 'corregimiento_id', "label" => "Corregimiento, Vereda o Resguardo", "type" => "select", "class" => "form-control")); ?>
-
-                </div>
-
-            </div>
 
             <!-- DIRECCION -->
             <div class="col-lg-4">

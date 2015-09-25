@@ -149,7 +149,9 @@ class UsersController extends AppController {
         $this->unshift($tipoAgriculturas, 0, "Seleccione una opción");
         
         $ubicaciones = $this->User->Ubicacion->find('list', array("fields" => array("abr", "nombre")));
+        unset($ubicaciones["reg"]);
         $this->unshift($ubicaciones, 0, "Seleccione una opción");
+       
 
         //$rols = $this->User->Rol->find('list');
         // $googleMaps = $this->User->GoogleMap->find('list');
@@ -500,7 +502,9 @@ class UsersController extends AppController {
         //debug($departamentos); exit;
         $paisses = $this->User->Paiss->find('list');
 
-        $ciudads = $this->User->Ciudad->find('list');
+        //$ciudads = $this->User->Ciudad->find('list'); a futuro si se extiende para todos los departamentos
+        //Solo Valle del Cauca
+        $ciudads = $this->User->Ciudad->find('list', array("conditions"=>array("Ciudad.departamento_id"=>30)));
         $this->unshift($ciudads, 0, "Seleccione una opción");
 
         // $corregimientos = $this->User->Corregimiento->find('list');

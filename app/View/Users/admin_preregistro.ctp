@@ -24,6 +24,6 @@
 
 <?php
 if(!empty($element)){
-    echo $this->element($element); 
+    echo $this->element("admin_pre_registros/".$element); 
 }
 ?>
