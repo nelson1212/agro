@@ -150,10 +150,36 @@ class AdministradorsController extends AppController {
 
         $this->loadModel("User");
         $this->User->recursive = -1;
-        $this->User->set($this->request->data["User"]);
-        $this->Administrador->set($this->request->data["Administrador"]);
+
+        //************* xss, sql injection, sanatize, temepering,**************************
+        //****************************** Validaciones ************************************
+        if (!isset($this->request->data["User"]) || !isset($this->request->data["Administrador"])) {
+            $data["msj"] = "Error al intentar registrar el usuario1.";
+            goto finAjaxAdminAdd;
+            return; //Por si el goto no funciona
+        }
+
+        // debug($this->Administrador->schema()); //Validar contra el esquema
+        //debug($res);
 
         $errores = array();
+        $this->User->set($this->request->data["User"]);
+        $this->Administrador->set($this->request->data["Administrador"]);
+        
+        
+        //************************Procesamiento de la foto****************************
+        $fotoRes = $this->obtenerFoto("User", 
+                               $this->request->data["User"]["foto"], 
+                               $this->request->data["Administrador"]["identificacion"]);
+        
+        if(isset($fotoRes["errors"])) {
+            $data["errores_validacion"]["foto"] = $fotoRes["errors"];
+        } else {
+            $this->request->data["User"]["foto"] = $fotoRes;
+        }
+   
+        //*****************************************************************************
+        
         if (!$this->User->validates() || !$this->Administrador->validates()) {
             $errores[0] = $this->User->validationErrors;
         }
@@ -162,38 +188,52 @@ class AdministradorsController extends AppController {
             $errores[1] = $this->Administrador->validationErrors;
         }
 
-        $dataSource = $this->Administrador->getDataSource();
-        //$this->Session->check('Comment')
-        if ($this->request->is('post')) {
-            $this->Administrador->create();
-            if ($this->Administrador->save($this->request->data)) {
-                $dataSource->commit();
-                $data["res"] = "si";
-                $data["msj"] = "El usuario fue registrado.";
-                // $this->Flash->success(__('The administrador has been saved.'));
-                //return $this->redirect(array('action' => 'index'));
-            } else {
-
-                // debug($errores);
-                foreach ($errores as $v) {
-                    foreach ($v as $key => $value) {
-                        // debug($errores[]);
-                        foreach ($value as $val) {
-                            $data["errores_validacion"][$key] = $val;
-                        }
+        // debug($this->request->data);
+        //Almacenamiento de errores
+        if (count($errores) > 0) {
+            foreach ($errores as $v) {
+                foreach ($v as $key => $value) {
+                    // debug($errores[]);
+                    foreach ($value as $val) {
+                        $data["errores_validacion"][$key] = $val;
                     }
                 }
+            }
+        }
+        //****************************** Fin Validaciones ************************************
 
+        $dataSource = $this->Administrador->getDataSource();
 
+        //Obtención del rol
+
+        $rol = $this->obtenerRol("adm");
+        if ($rol === 0) {
+            $data["msj"] = "Error al intentar asignar el tipo de usuario.";
+            goto finAjaxAdminAdd;
+            return; //Por si el goto no funciona
+        }
+
+        if ($this->request->is('post')) {
+            $this->User->create();
+            $this->request->data["User"]["rol_id"] = $rol["id"];
+            if ($this->User->save($this->request->data["User"])) {
+                $this->request->data["Administrador"]["user_id"] = $this->User->id;
+                if ($this->Administrador->save($this->request->data["Administrador"])) {
+                    $data["res"] = "si";
+                    $data["msj"] = "El usuario fue registrado.";
+                    $dataSource->commit();
+                } else {
+                    $data["msj"] = "El usuario no fue registrado, intenta de nuevo.";
+                    $dataSource->rollback();
+                }
+            } else {
                 $data["msj"] = "El usuario no fue registrado, intenta de nuevo.";
-                // $this->Flash->error(__('The administrador could not be saved. Please, try again.'));
                 $dataSource->rollback();
             }
-
-            echo json_encode($data);
         }
-        // $users = $this->Administrador->User->find('list');
-        // $this->set(compact('users'));
+
+        finAjaxAdminAdd:
+        echo json_encode($data);
     }
 
     /**

@@ -37,7 +37,7 @@
             <!-- GENERO -->
             <div class="col-lg-4">
                 <div class="form-group">
-                    <?php echo $this->Form->input('genero', array("div" => false, "label" => "Genero*", "id" => "cboGenero11", 'tag' => 'genero', "type" => "select", "options" => $generos, "class" => "form-control")); ?>
+                    <?php echo $this->Form->input('genero_id', array("div" => false, "label" => "Genero*", "id" => "cboGenero", 'tag' => 'genero_id', "type" => "select", "options" => $generos, "class" => "form-control")); ?>
 
                 </div>
 
@@ -114,7 +114,7 @@
              <!-- TELEFONO DE CONTACTO -->
             <div class="col-lg-4">
                 <div class="form-group">
-                    <?php echo $this->Form->input('comentarios', array("name"=>"data[User][comentarios]","div" => false, "id" => "txtComentarios", "label" => "Comentarios", "maxlength" => 15, 'tag' => 'comentarios', "class" => "form-control")); ?>
+                    <?php echo $this->Form->input('comentarios', array("name"=>"data[User][comentarios]","type"=>"textarea", "div" => false, "id" => "txtComentarios", "label" => "Comentarios", "maxlength" => 15, 'tag' => 'comentarios', "class" => "form-control")); ?>
 
                 </div>
             </div>

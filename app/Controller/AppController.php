@@ -50,6 +50,33 @@ class AppController extends Controller {
         return $array;
     }
 
+    function obtenerRol($codigoRol) {
+        $this->loadModel("Rol");
+        $this->Rol->recursive = -1;
+        $rol = $this->Rol->find("first", array("conditions" => array("Rol.abr" => $codigoRol)));
+        // debug($rol);
+        $datoRol = array();
+        if (count($rol) === 0) {
+            $this->Rol->create();
+            $rol["Rol"]["nombre"] = "Administrador";
+            $rol["Rol"]["abr"] = "adm";
+            if ($this->Rol->save($rol)) {
+                $rol["Rol"]["id"] = $this->Rol->id;
+                $datoRol["id"] = $rol["Rol"]["id"];
+                $datoRol["nombre"] = $rol["Rol"]["nombre"];
+                $datoRol["abr"] = $rol["Rol"]["abr"];
+                return $datoRol;
+            } else {
+                return 0;
+            }
+        }
+
+        $datoRol["id"] = $rol["Rol"]["id"];
+        $datoRol["nombre"] = $rol["Rol"]["nombre"];
+        $datoRol["abr"] = $rol["Rol"]["abr"];
+        return $datoRol;
+    }
+
     function cleanString($string) {
         $string = str_replace(' ', '-', $string); // Replaces all spaces with hyphens.
         $string = preg_replace('/[^A-Za-z0-9\-]/', '', $string); // Removes special chars.
@@ -58,10 +85,10 @@ class AppController extends Controller {
     }
 
     function uploadFiles($folder, $formdata, $nombreFoto = null) {
-        if (!isset($formdata["name"]) or empty($formdata["name"]) or empty($formdata)) {
-            return null;
+        if (!isset($formdata["name"]) or empty($formdata["name"])) {
+            return $result['errors'] = "Error al intentar subir la foto";
         }
-        //error_reporting(0);
+        error_reporting(0);
         // setup dir names absolute and relative
         $folder_url = WWW_ROOT . $folder;
         $rel_url = $folder;
@@ -102,7 +129,7 @@ class AppController extends Controller {
         if ($nombreFoto == null) {
             $filename = str_replace(' ', '_', $archivo);
         } else {
-            $filename = $nombreFoto . "." . $ext;
+            $filename = $nombreFoto;
         }
         // assume filetype is false
         $typeOK = false;
@@ -158,7 +185,7 @@ class AppController extends Controller {
                     break;
                 case 4:
                     // no file was selected for upload
-                    $result['nofiles'] = "No file Selected";
+                    $result['errors'] = "No file Selected";
                     break;
                 default:
                     // unacceptable file type
@@ -168,6 +195,55 @@ class AppController extends Controller {
 
             return $result;
         }
+    }
+
+    function obtenerFoto($modelo, $fotoC, $nombreFoto) {
+        if (isset($fotoC["name"])) {
+
+            $foto = $fotoC;
+
+            if (!empty($foto["name"])) {
+                
+                if (empty($nombreFoto)) {
+                    $nombreFoto = $this->getRandomKey(20);
+                }
+                
+                $fotoRes = $this->uploadFiles("img/fotos", $foto, $nombreFoto);
+                //Validar si sube la foto
+                // debug($fotoRes);
+                if (isset($fotoRes['errors'])) { //Si la foto no sube mirar el error debug($foto)
+                    // $this->request->data["User"]["foto"] = "";
+                    return $fotoRes['errors'];
+                } else {
+                    return $fotoRes["archivo"];
+                }
+            } else {
+
+                $this->{$modelo}->validator()->remove('foto');
+                return "e";
+            }
+        } else {
+            $this->{$modelo}->validator()->remove('foto');
+            return "3";
+        }
+    }
+
+    function getRandomKey($longitud=10) {
+        //$this -> autoRender = false;
+        //$this -> layout = false;
+        $alphabet = "abcdefghijklmnopqrstuwxyzABCDEFGHIJKLMNOPQRSTUWXYZ0123456789";
+        $pass = array();
+        //remember to declare $pass as an array
+        $alphaLength = strlen($alphabet) - 1;
+        //put the length -1 in cache
+        for ($i = 0; $i < $longitud; $i++) {
+            $n = rand(0, $alphaLength);
+            $pass[] = $alphabet[$n];
+        }
+        $data = array();
+        $data["pass"] = implode(strtoupper($pass));
+        return $data;
+        //turn the array into a string
     }
 
 }

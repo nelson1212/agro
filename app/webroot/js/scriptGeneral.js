@@ -157,11 +157,28 @@ $(document).ready(function () {
                                 $('div[tag="' + i + '"]').after('<div class="error-message">' + val + '</div>');
                             }
                         });
+                        
+                        return false;
                     } else if (data.res === "si") {
 
                         $("#flashMessage").remove();
                         $(".error-message").remove();
-                        $("#divPanel").before('<div id="flashMessage" class="message success">' + data.msj + '</div>');
+                       // $("#divPanel").before('<div id="flashMessage" class="message success">' + data.msj + '</div>');
+                        
+                         $.alert({
+                            title: 'Atención',
+                            content: '' + data.msj,
+                            confirmButton: 'Aceptar',
+                            confirmButtonClass: 'btn-primary',
+                            icon: 'fa fa-info',
+                            animation: 'zoom',
+                            confirm: function () {
+                                window.document.location.reload(true);
+                            }
+                        });
+                        return false;
+                        //alert("registro insertado");
+                       // 
                     }
                 },
                 error: {}
@@ -430,6 +447,12 @@ $(document).ready(function () {
     //Guardar administradores
     ajaxUserAdd("#formAdmin", "#btnGuaAdmin", "administradors","ajaxAdminAdd");
      
+    //******************************** AGRICULTORES *****************************
+    //
+    //
+    //
+    //
+    
     //Combo para seleccionar el tipo de usuario en los listados
     cboSeleccionTipoDeUsuario("#cboRolList", "#formUserList");
     //Combo para seleccionar el tipo de usuario

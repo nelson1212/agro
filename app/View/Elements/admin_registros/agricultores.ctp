@@ -5,8 +5,8 @@
     </div>
     <div class="panel-body">
 
-        <?php echo $this->Form->create('User', array('id' => "formUser", 'type' => 'file', "novalidate" => "novalidate")); ?>
-        <input type="hidden" name="data[User][rol_id]" value="<?php echo $rolId; ?>" />
+        <?php echo $this->Form->create('Agricultor', array('controller'=>"administradors",'action'=>'admin_add','id' => "formAgricultor", 'type' => 'file', "novalidate" => "novalidate")); ?>
+        
         <div class="row">
             <!-- IDENTIFICACIÓN -->
             <div class="col-lg-4" >
@@ -80,7 +80,7 @@
             <!-- CIUDAD -->
             <div class="col-lg-4">
                 <div class="form-group">
-                    <?php echo $this->Form->input('ciudad_id', array("div" => false, "id" => "cboCiudad", "label" => "Municipio*", 'tag' => 'ciudad_id', "type" => "select", "class" => "form-control")); ?>
+                    <?php echo $this->Form->input('ciudad_id', array("div" => false, "options"=>$ciudads, "id" => "cboCiudad", "label" => "Municipio*", 'tag' => 'ciudad_id', "type" => "select", "class" => "form-control")); ?>
 
                 </div>
 

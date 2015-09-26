@@ -205,7 +205,9 @@ class CorregimientosController extends AppController {
 
         $this->autoRender = false;
         $this->layout = '';
-
+        
+        debug($_POST);
+        
         $data = array();
         $data["res"] = "no";
         $barriosPorCiu = array();

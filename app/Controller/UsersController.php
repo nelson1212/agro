@@ -496,23 +496,25 @@ class UsersController extends AppController {
         $titulo = "";
         $nombre = "";
 
-        // $veredas = $this->User->Vereda->find('list');
-        $this->loadModel("Departamento");
-        $this->Departamento->recursive = -1;
-        $departamentos = $this->Departamento->find('list');
-        $this->unshift($departamentos, 0, "Seleccione una opción");
-        //debug($departamentos); exit;
-        $this->loadModel("Paiss");
-        $this->Paiss->recursive = -1;
-        $paisses = $this->Paiss->find('list');
+
+//        $this->loadModel("Departamento");
+//        $this->Departamento->recursive = -1;
+//        $departamentos = $this->Departamento->find('list');
+//        $this->unshift($departamentos, 0, "Seleccione una opción");
+//        
+//        
+//        $this->loadModel("Paiss");
+//        $this->Paiss->recursive = -1;
+//        $paisses = $this->Paiss->find('list');
 
         //$ciudads = $this->User->Ciudad->find('list'); a futuro si se extiende para todos los departamentos
         //Solo Valle del Cauca
         $this->loadModel("Ciudad");
         $this->Ciudad->recursive = -1;
-        $ciudads = $this->Ciudad->find('list', array("conditions" => array("Ciudad.departamento_id" => 30)));
+        $ciudads = $this->Ciudad->find('list', array("conditions" => array("Ciudad.departamento_id" => 30))); //Valle
         $this->unshift($ciudads, 0, "Seleccione una opción");
-
+        
+       // debug($ciudads);
         // $corregimientos = $this->User->Corregimiento->find('list');
         //$this->unshift($corregimientos, 0, "Seleccione una opción");
 
@@ -541,8 +543,9 @@ class UsersController extends AppController {
         $generos = $this->Genero->find("list", array('order' => array(
                                                     'Genero.id ASC'
                                             )));
+        $this->unshift($generos, 0, "Seleccione una opción");
         
-        $this->unshift($asociaciones, 0, "Seleccione una opción");
+       
 
         if ($this->request->is('post')) {
 
@@ -568,16 +571,17 @@ class UsersController extends AppController {
             }
 
             if (!array_key_exists($this->request->data["tipo_usuario"], $rols)) {
-                $this->Flash->error(__('Error al intentar registrar el usuario4'));
+                $this->Flash->error(__('Error al intentar registrar el usuario'));
                 goto finAdminAddusuario;
             }
 
             $accion = $this->request->data["accion"];
-            $tipoUsuario = $this->request->data["tipo_usuario"];
-
+           // echo $this->request->data["tipo_usuario"];
+            $tipoUsuario = $this->obtenerRol($this->request->data["tipo_usuario"]);
+           //  exit;
             switch ($accion) {
                 case "setFormTipoUsuario":
-                    $response = $this->getRolCodeAndTitle($tipoUsuario);
+                    $response = $this->getRolCodeAndTitle($tipoUsuario["abr"]);
                     $this->request->data["User"]["rol_id"];
                     //$rolId = $this->request->data["User"]["rol_id"];
                     $elemento = $response["element"];
@@ -1090,23 +1094,7 @@ class UsersController extends AppController {
         echo json_encode($data);
     }
 
-    function getRandomKey() {
-        //$this -> autoRender = false;
-        //$this -> layout = false;
-        $alphabet = "abcdefghijklmnopqrstuwxyzABCDEFGHIJKLMNOPQRSTUWXYZ0123456789";
-        $pass = array();
-        //remember to declare $pass as an array
-        $alphaLength = strlen($alphabet) - 1;
-        //put the length -1 in cache
-        for ($i = 0; $i < 10; $i++) {
-            $n = rand(0, $alphaLength);
-            $pass[] = $alphabet[$n];
-        }
-        $data = array();
-        $data["pass"] = implode($pass);
-        return $data;
-        //turn the array into a string
-    }
+   
 
     function admin_ajaxGetDivUbicacion() {
 
