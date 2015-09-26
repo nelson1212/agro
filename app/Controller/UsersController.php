@@ -497,20 +497,28 @@ class UsersController extends AppController {
         $nombre = "";
 
         // $veredas = $this->User->Vereda->find('list');
-        $departamentos = $this->User->Departamento->find('list');
+        $this->loadModel("Departamento");
+        $this->Departamento->recursive=-1;
+        $departamentos = $this->Departamento->find('list');
         $this->unshift($departamentos, 0, "Seleccione una opción");
         //debug($departamentos); exit;
-        $paisses = $this->User->Paiss->find('list');
+        $this->loadModel("Paiss");
+        $this->Paiss->recursive=-1;
+        $paisses = $this->Paiss->find('list');
 
         //$ciudads = $this->User->Ciudad->find('list'); a futuro si se extiende para todos los departamentos
         //Solo Valle del Cauca
-        $ciudads = $this->User->Ciudad->find('list', array("conditions" => array("Ciudad.departamento_id" => 30)));
+        $this->loadModel("Ciudad");
+        $this->Ciudad->recursive=-1;
+        $ciudads = $this->Ciudad->find('list', array("conditions" => array("Ciudad.departamento_id" => 30)));
         $this->unshift($ciudads, 0, "Seleccione una opción");
 
         // $corregimientos = $this->User->Corregimiento->find('list');
         //$this->unshift($corregimientos, 0, "Seleccione una opción");
-
-        $tipoAgriculturas = $this->User->TipoAgricultura->find('list');
+        
+        $this->loadModel("TipoAgricultura");
+        $this->TipoAgricultura->recursive=-1;
+        $tipoAgriculturas = $this->TipoAgricultura->find('list');
         $this->unshift($tipoAgriculturas, 0, "Seleccione una opción");
 
         $rols = $this->User->Rol->find('list', array("fields" => array("abr", "nombre")));
@@ -527,9 +535,9 @@ class UsersController extends AppController {
         $this->Asociacion->recursive = 0;
         $asociaciones = $this->Asociacion->find("list", array("fields" => array("id", "razon_social")));
         $this->unshift($asociaciones, 0, "Seleccione una opción");
-
-        $ubicaciones = $this->User->Ubicacion->find('list', array("fields" => array("abr", "nombre")));
-        $this->unshift($ubicaciones, 0, "Seleccione una opción");
+   
+        $ubicaciones = "";
+      
 
         $generos = array(0 => "Seleccione una opción", "Femenino" => "Femenino",
             "Masculino" => "Masculino", "LGTBI" => "LGTBI");

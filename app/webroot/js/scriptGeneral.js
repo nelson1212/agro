@@ -60,7 +60,7 @@ $(document).ready(function () {
 
 
 //Función para cambiar cajas de texto de acuerdo al rol seleccionado en registrar usuarios
-    function cboSeleccionOpcionCombos(combo, form, accion, tipoUser) {
+    function cboSeleccionTipoDeUsuario(combo, form, accion, tipoUser) {
         $(combo).change(function (e) {
             var elemento = "#" + $(this).attr("id");
             var textRol = $(elemento + " option:selected").val();
@@ -74,35 +74,7 @@ $(document).ready(function () {
             $(form).submit();
             return false;
 
-            /*  $("#flashMessage").remove();
-             $(".error-message").remove();
-             $("#txtUsername").val("");
-             $("#txtContrasena").val("");
-             $("#txtContrasena1").val("");
-             switch (textRol) {
-             case "Seleccione una opción":
-             getElements();
-             break;
-             case "Comprador":
-             
-             getElements("compradores", "User");
-             break;
-             case "Administrador":
-             getElements("administradores", "User");
-             //ocultarDivs("#divAdministradores");
-             break;
-             case "Sub-Administrador":
-             getElements("subadministradores", "User");
-             break;
-             case "Empresa":
-             getElements("empresas", "User");
-             break;
-             case "Agricultor":
-             
-             getElements("agricultores", "User");
-             break;
-             }
-             */
+    
         });
     }
 
@@ -113,11 +85,9 @@ $(document).ready(function () {
         });
     }
     function cboCiudadesChanged() {
-//console.log("Entro aqui 1");
 
         $('body').on('change', '#cboCiudad', function () {
-//$("#cboCiudad").live("change", function (e) {
-// console.log("Entro aqui");
+
             var elemento = $(this).attr("id");
             var _idCiudad = $(this).val();
             var elemento = "cboCorregimientos";
@@ -157,16 +127,16 @@ $(document).ready(function () {
             });
         });
     }
-//Función para guardar usuarios
-    function ajaxUserAdd(form) {
+    //Función para guardar usuarios
+    function ajaxUserAdd(form, boton, controlador,accion) {
 
-        $(form).submit(function (e) {
+        $(form).click(function (e) {
             e.preventDefault();
             var formData = new FormData(this);
-            formData.append("data[User][rol_id]", $("#cboRol").val());
+            //formData.append("data[User][rol_id]", $("#cboRol").val());
             $.ajax({
                 type: "POST",
-                url: base_url + "users/ajaxUserAdd",
+                url: base_url + controlador+"/"+accion,
                 data: formData,
                 //data: new FormData($("#foto")[0]),
                 dataType: "json",
@@ -453,14 +423,19 @@ $(document).ready(function () {
 
     //Llamado de funciones
     cboCiudadesChanged();
-    //Combo para seleccionar el tipo de usuario
-    cboSeleccionOpcionCombos("#cboRol", "#formUserTipo", "setFormTipoUsuario");
+    
+    //******************************** ADMINISTRADORES *****************************
+    //Administradores
+    cboSeleccionTipoDeUsuario("#cboRol", "#formUserTipo", "setFormTipoUsuario");
+    //Guardar administradores
+    ajaxUserAdd("#formAdmin", "#btnGuaAdmin", "administradors","ajaxAdminAdd");
+     
     //Combo para seleccionar el tipo de usuario en los listados
-    cboSeleccionOpcionCombos("#cboRolList", "#formUserList");
+    cboSeleccionTipoDeUsuario("#cboRolList", "#formUserList");
     //Combo para seleccionar el tipo de usuario
-    cboSeleccionOpcionCombos("#cboRolPre", "#formUserPre");
+    cboSeleccionTipoDeUsuario("#cboRolPre", "#formUserPre");
 
-    ajaxUserAdd("#formUser");
+   
     seleccionarTemas();
     buttonSearch("#btnBusAdm", "formBusAdmin");
     redirect();

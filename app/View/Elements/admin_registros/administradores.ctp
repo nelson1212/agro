@@ -4,20 +4,20 @@
         <h3 class="panel-title"><b>Datos del usuario tipo administrador </b></h3>
     </div>
     <div class="panel-body">
-        <?php echo $this->Form->create('User', array('id' => "formUser", 'type' => 'file', "novalidate" => "novalidate")); ?>
-        <input type="hidden" name="data[User][rol_id]" value="<?php echo $rolId; ?>" />
+        <?php echo $this->Form->create('Administrador', array('controller'=>"administradors",'action'=>'admin_add','id' => "formAdmin", 'type' => 'file', "novalidate" => "novalidate")); ?>
+   
         <div class="row">
             <!-- IDENTIFICACIÓN -->
             <div class="col-lg-4" >
                 <div class="form-group">
-                    <?php echo $this->Form->input('identificacion', array('name' => 'data[User][identificacion]', "div" => false, "id" => "txtIdentificacion", "label" => "Identificación*", "maxlength" => 25, 'tag' => 'identificacion', "class" => "form-control")); ?>
+                    <?php echo $this->Form->input('identificacion', array( "div" => false, "id" => "txtIdentificacion", "label" => "Identificación*", "maxlength" => 25, 'tag' => 'identificacion', "class" => "form-control")); ?>
                 </div>
             </div>
 
             <!-- NOMBRES -->
             <div class="col-lg-4">
                 <div class="form-group">
-                    <?php echo $this->Form->input('nombres', array('name' => 'data[User][nombres]', "div" => false, "id" => "txtNombres", "label" => "Nombres*", 'tag' => 'nombres', "maxlength" => 80, "class" => "form-control")); ?>
+                    <?php echo $this->Form->input('nombres', array("div" => false, "id" => "txtNombres", "label" => "Nombres*", 'tag' => 'nombres', "maxlength" => 80, "class" => "form-control")); ?>
 
                 </div>
 
@@ -132,7 +132,7 @@
         <div class="row"> 
             <div class="col-lg-4">
                 <?php
-                $options = array('label' => 'Guardar', 'type' => "submit", "id" => "btnGuaUsu", 'class' => 'btn btn-primary', 'div' => false);
+                $options = array('label' => 'Guardar', 'type' => "submit", "name" => "btnGuaAdmin", "id" => "btnGuaAdmin", 'class' => 'btn btn-primary', 'div' => false);
                 echo $this->Form->end($options);
                 ?> 
                 <?php
