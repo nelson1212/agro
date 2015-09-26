@@ -130,7 +130,7 @@ $(document).ready(function () {
     //Función para guardar usuarios
     function ajaxUserAdd(form, boton, controlador,accion) {
 
-        $(form).click(function (e) {
+        $(form).submit(function (e) {
             e.preventDefault();
             var formData = new FormData(this);
             //formData.append("data[User][rol_id]", $("#cboRol").val());

@@ -144,22 +144,56 @@ class AdministradorsController extends AppController {
 
         $this->layout = null;
         $this->autoRender = false;
-        //$this->User->recursive = 0; //Recursividad
-        debug($this->data);
-        return;
+        $this->Administrador->recursive = -1; //Recursividad
+
         $data["res"] = "no";
 
+        $this->loadModel("User");
+        $this->User->recursive = -1;
+        $this->User->set($this->request->data["User"]);
+        $this->Administrador->set($this->request->data["Administrador"]);
+
+        $errores = array();
+        if (!$this->User->validates() || !$this->Administrador->validates()) {
+            $errores[0] = $this->User->validationErrors;
+        }
+
+        if (!$this->Administrador->validates()) {
+            $errores[1] = $this->Administrador->validationErrors;
+        }
+
+        $dataSource = $this->Administrador->getDataSource();
+        //$this->Session->check('Comment')
         if ($this->request->is('post')) {
             $this->Administrador->create();
             if ($this->Administrador->save($this->request->data)) {
-                $this->Flash->success(__('The administrador has been saved.'));
-                return $this->redirect(array('action' => 'index'));
+                $dataSource->commit();
+                $data["res"] = "si";
+                $data["msj"] = "El usuario fue registrado.";
+                // $this->Flash->success(__('The administrador has been saved.'));
+                //return $this->redirect(array('action' => 'index'));
             } else {
-                $this->Flash->error(__('The administrador could not be saved. Please, try again.'));
+
+                // debug($errores);
+                foreach ($errores as $v) {
+                    foreach ($v as $key => $value) {
+                        // debug($errores[]);
+                        foreach ($value as $val) {
+                            $data["errores_validacion"][$key] = $val;
+                        }
+                    }
+                }
+
+
+                $data["msj"] = "El usuario no fue registrado, intenta de nuevo.";
+                // $this->Flash->error(__('The administrador could not be saved. Please, try again.'));
+                $dataSource->rollback();
             }
+
+            echo json_encode($data);
         }
-        $users = $this->Administrador->User->find('list');
-        $this->set(compact('users'));
+        // $users = $this->Administrador->User->find('list');
+        // $this->set(compact('users'));
     }
 
     /**

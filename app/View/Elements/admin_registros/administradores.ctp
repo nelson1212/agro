@@ -31,11 +31,13 @@
                 </div>
 
             </div>
-
+            
+            </div>
+        <div class="row">
             <!-- GENERO -->
             <div class="col-lg-4">
                 <div class="form-group">
-                    <?php echo $this->Form->input('genero', array("div" => false, "label" => "Genero*", "id" => "cboGenero", 'tag' => 'genero', "type" => "select", "options" => $generos, "class" => "form-control")); ?>
+                    <?php echo $this->Form->input('genero', array("div" => false, "label" => "Genero*", "id" => "cboGenero11", 'tag' => 'genero', "type" => "select", "options" => $generos, "class" => "form-control")); ?>
 
                 </div>
 
@@ -45,7 +47,7 @@
             <!-- EMAIL -->
             <div class="col-lg-4">
                 <div class="form-group">
-                    <?php echo $this->Form->input('email', array("div" => false, "label" => "Email*", "id" => "txtEmail", 'tag' => 'email', "maxlength" => 254, "class" => "form-control")); ?>
+                    <?php echo $this->Form->input('email', array("name"=>"data[User][email]","div" => false, "label" => "Email*", "id" => "txtEmail", 'tag' => 'email', "maxlength" => 254, "class" => "form-control")); ?>
 
                 </div>
             </div>
@@ -53,15 +55,19 @@
             <!-- CELULAR DE CONTACTO -->
             <div class="col-lg-4">
                 <div class="form-group">
-                    <?php echo $this->Form->input('celular_contacto', array("div" => false, "id" => "txtCelCon", 'tag' => 'celular_contacto', "maxlength" => 15, "label" => "Celular de contacto", "class" => "form-control")); ?>
+                    <?php echo $this->Form->input('celular', array("name"=>"data[User][celular]","div" => false, "id" => "txtCelCon", 'tag' => 'celular', "maxlength" => 15, "label" => "Celular de contacto", "class" => "form-control")); ?>
 
                 </div>
             </div>
+            
+        </div>
+        
+        <div class="row">
 
             <!-- USERNAME -->
             <div class="col-lg-4">
                 <div class="form-group">
-                    <?php echo $this->Form->input('username', array("div" => false, "id" => "txtUsername", "label" => "Usuario*", "maxlength" => 15, 'tag' => 'username', "type" => "text", "class" => "form-control")); ?>
+                    <?php echo $this->Form->input('username', array("name"=>"data[User][username]", "div" => false, "id" => "txtUsername", "label" => "Usuario*", "maxlength" => 15, 'tag' => 'username', "type" => "text", "class" => "form-control")); ?>
 
                 </div>
 
@@ -70,7 +76,7 @@
             <!-- PASSWORD -->
             <div class="col-lg-4">
                 <div class="form-group">
-                    <?php echo $this->Form->input('password', array("div" => false, "id" => "txtContrasena", "label" => "Contraseña*", "maxlength" => 15, 'tag' => 'password', "type" => "password", "class" => "form-control")); ?>
+                    <?php echo $this->Form->input('password', array("name"=>"data[User][password]","div" => false, "id" => "txtContrasena", "label" => "Contraseña*", "maxlength" => 15, 'tag' => 'password', "type" => "password", "class" => "form-control")); ?>
 
                 </div>
 
@@ -79,12 +85,14 @@
             <!-- CONFIRMAR PASSWORD -->
             <div class="col-lg-4">
                 <div class="form-group">
-                    <?php echo $this->Form->input('password1', array("div" => false, "id" => "txtContrasena1", "label" => "Confirmar contraseña*", "maxlength" => 15, 'tag' => 'password1', "type" => "password", "class" => "form-control")); ?>
+                    <?php echo $this->Form->input('password1', array("name"=>"data[User][password1]","div" => false, "id" => "txtContrasena1", "label" => "Confirmar contraseña*", "maxlength" => 15, 'tag' => 'password1', "type" => "password", "class" => "form-control")); ?>
 
                 </div>
 
             </div>
-
+            
+        </div>
+        <div class="row">
             <!-- DIRECCION -->
             <!--<div class="col-lg-4">
                 <div class="form-group">
@@ -97,12 +105,19 @@
             <!-- TELEFONO DE CONTACTO -->
             <div class="col-lg-4">
                 <div class="form-group">
-                    <?php echo $this->Form->input('telefono_contacto', array("div" => false, "id" => "txtTelCon", "label" => "Telefono de contacto", "maxlength" => 15, 'tag' => 'telefono_contacto', "class" => "form-control")); ?>
+                    <?php echo $this->Form->input('telefono', array("name"=>"data[User][telefono]","div" => false, "id" => "txtTelCon", "label" => "Telefono de contacto", "maxlength" => 15, 'tag' => 'telefono', "class" => "form-control")); ?>
 
                 </div>
             </div>
 
 
+             <!-- TELEFONO DE CONTACTO -->
+            <div class="col-lg-4">
+                <div class="form-group">
+                    <?php echo $this->Form->input('comentarios', array("name"=>"data[User][comentarios]","div" => false, "id" => "txtComentarios", "label" => "Comentarios", "maxlength" => 15, 'tag' => 'comentarios', "class" => "form-control")); ?>
+
+                </div>
+            </div>
 
 <!-- <input type="file" id="foto" name="data[User][foto]"> -->
         </div>
@@ -141,6 +156,6 @@
                 ?>
             </div>
         </div> 
+    </form>
     </div>
 </div>  
-
