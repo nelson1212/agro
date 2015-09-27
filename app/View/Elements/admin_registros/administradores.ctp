@@ -78,7 +78,7 @@
             <!-- DIRECCION -->
             <div class="col-lg-4">
                 <div class="form-group">
-                    <?php echo $this->Form->input('direccion', array("div" => false, 'tag'=>'direccion',"label" => "Direccion", "class" => "form-control")); ?>
+                    <?php echo $this->Form->input('direccion', array("name" => "data[User][direccion]","div" => false, 'tag'=>'direccion',"label" => "Direccion", "class" => "form-control")); ?>
 
                 </div>
             </div> 
@@ -116,15 +116,18 @@
                 </div>
 
             </div>
-
-
-            <!-- COMENTARIOS -->
+            
+             <!-- FOTO -->
             <div class="col-lg-4">
+                <label>Selecciona una foto (opcional)</label>
                 <div class="form-group">
-                    <?php echo $this->Form->input('comentarios', array("name" => "data[User][comentarios]", "type" => "textarea", "div" => false, "id" => "txtComentarios", "label" => "Comentarios", "maxlength" => 15, 'tag' => 'comentarios', "class" => "form-control")); ?>
+                    <input type="file" name="data[User][foto]" id="foto" tag="foto" class="filestyle" />
 
                 </div>
+
             </div>
+
+       
 
 <!-- <input type="file" id="foto" name="data[User][foto]"> -->
         </div>
@@ -133,22 +136,14 @@
         <!-- foto -->
         <div class="row"> 
 
-            <!-- FOTO -->
-            <div class="col-lg-6">
-                <!-- <label>Selecciona una foto (opcional)</label>
-                 <div class="form-group">
-                     <span class="btn btn-default btn-file">
-                         Buscar foto <input type="file">
-                     </span>
-         dasdasd
-               <  </div> -->
-                <label>Selecciona una foto (opcional)</label>
-                <div class="fileinput fileinput-new input-group" tag="foto" data-provides="fileinput">
-                    <div class="form-control" data-trigger="fileinput"><i class="glyphicon glyphicon-file fileinput-exists"></i> <span class="fileinput-filename"></span></div>
-                    <span class="input-group-addon btn btn-default btn-file"><span class="fileinput-new"><b>Buscar foto</b></span><span class="fileinput-exists"><b>Cambiar</b></span><input type="file" name="data[User][foto]"></span>
-                    <a href="#" class="input-group-addon btn btn-default fileinput-exists" data-dismiss="fileinput"><b>Remover</b></a>
+                 <!-- COMENTARIOS -->
+            <div class="col-lg-4">
+                <div class="form-group">
+                    <?php echo $this->Form->input('comentarios', array("name" => "data[User][comentarios]", "type" => "textarea", "div" => false, "id" => "txtComentarios", "label" => "Comentarios", "maxlength" => 15, 'tag' => 'comentarios', "class" => "form-control")); ?>
+
                 </div>
-            </div> 
+            </div>
+        
 
         </div> 
         <br>

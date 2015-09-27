@@ -149,18 +149,7 @@
 
             </div>
             
-              <!-- COMENTARIOS -->
-            <div class="col-lg-4">
-                <div class="form-group">
-                    <?php echo $this->Form->input('comentarios', array("name" => "data[User][comentarios]", "type" => "textarea", "div" => false, "id" => "txtComentarios", "label" => "Comentarios", "maxlength" => 15, 'tag' => 'comentarios', "class" => "form-control")); ?>
-
-                </div>
-            </div>
-
-        </div>
-        <div class="row">
-
-            <!-- FOTO -->
+              <!-- FOTO -->
             <div class="col-lg-4">
                 <label>Selecciona una foto (opcional)</label>
                 <div class="form-group">
@@ -171,6 +160,18 @@
             </div>
 
 
+        </div>
+        <div class="row">
+
+          
+            
+              <!-- COMENTARIOS -->
+            <div class="col-lg-4">
+                <div class="form-group">
+                    <?php echo $this->Form->input('comentarios', array("name" => "data[User][comentarios]", "type" => "textarea", "div" => false, "id" => "txtComentarios", "label" => "Comentarios", "maxlength" => 15, 'tag' => 'comentarios', "class" => "form-control")); ?>
+
+                </div>
+            </div>
 
             <!-- <label>Selecciona una foto (opcional)</label>
              <div class="form-group">

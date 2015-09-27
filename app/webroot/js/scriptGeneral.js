@@ -345,7 +345,7 @@ $(document).ready(function () {
 
 
     //Ciudades - Corregimientos
-    cboComboChanged("#cboCiudad", "cboCorregimientos", "ciudad_id", "Corregimiento", "corregimientos/ajaxGetValoresCombo");
+    cboComboChanged("#cboCiudades", "cboCorregimientos", "ciudad_id", "Corregimiento", "corregimientos/ajaxGetValoresCombo");
 
     //Departamentos - Ciudades
     cboComboChanged("#cboDepartamentos", "cboCiudades", "departamento_id", "Ciudad", "corregimientos/ajaxGetValoresCombo");
@@ -361,9 +361,14 @@ $(document).ready(function () {
     //******************************** FORM REGISTRO DE AGRICULTORES *****************************
     //Agricultores
     ajaxUserAdd("#formAgr", "#btnGuaAgr", "agricultors", "ajaxAgrAdd");
-    //******************************** FORM REGISTRO DE AGRICULTORES *****************************
+    //******************************** FORM REGISTRO DE EMPRESAS NACIONALES *****************************
     //Empresa nacional
     ajaxUserAdd("#formEmpNac", "#btnGuaEmpNac", "EmpresaNacionals", "ajaxEmpNacAdd");
+    
+    //******************************** FORM REGISTRO DE SUB-ADMINISTRADORES *****************************
+    //Sub-Administradores
+    ajaxUserAdd("#formAdmin", "#btnGuaSubAdmin", "administradors", "ajaxSubAdminAdd");
+    
 
 
 

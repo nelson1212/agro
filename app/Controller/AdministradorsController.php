@@ -141,10 +141,15 @@ class AdministradorsController extends AppController {
      * @return void
      */
     public function ajaxAdminAdd() {
-        
+
         //ajaxAdd($userModel, $currentModel, $userData, $currentData)
-                
-        $this->ajaxAdd("User","Administrador","adm");
+
+        $this->layout = null;
+        $this->autoRender = false;
+        // $this->Session->write("data", $this->request->data);
+        App::uses('UsersController', 'Controller');
+        $user = new UsersController();
+        $user->ajaxAdd("Administrador", $this->request->data["User"], $this->request->data["Administrador"], "adm");
     }
 
     /**

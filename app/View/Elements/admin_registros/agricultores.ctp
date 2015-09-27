@@ -87,7 +87,7 @@
             <!-- CIUDAD -->
             <div class="col-lg-4">
                 <div class="form-group">
-                    <?php echo $this->Form->input('ciudad_id', array("div" => false, "options" => $ciudads, "id" => "cboCiudad", "label" => "Municipio*", 'tag' => 'ciudad_id', "type" => "select", "class" => "form-control")); ?>
+                    <?php echo $this->Form->input('ciudad_id', array("div" => false, "options" => $ciudads, "id" => "cboCiudades", "label" => "Municipio*", 'tag' => 'ciudad_id', "type" => "select", "class" => "form-control")); ?>
 
                 </div>
 
@@ -123,7 +123,7 @@
 
             </div>   
         </div>
-   
+
         <div class="row">
 
             <!-- USERNAME -->
@@ -154,7 +154,7 @@
             </div>
 
         </div>
-             <div class="row">
+        <div class="row">
             <!-- CERTIFICACIONES -->
             <div class="col-lg-4">
                 <label>Certificaciónes (opcional)</label>
@@ -167,25 +167,23 @@
                 </div>
             </div> 
 
-      
-
             <!-- FOTO -->
-            <div class="col-lg-6">
-                <!-- <label>Selecciona una foto (opcional)</label>
-                 <div class="form-group">
-                     <span class="btn btn-default btn-file">
-                         Buscar foto <input type="file">
-                     </span>
-         dasdasd
-               <  </div> -->
+            <div class="col-lg-4">
                 <label>Selecciona una foto (opcional)</label>
-                <div class="fileinput fileinput-new input-group" tag="foto" data-provides="fileinput">
-                    <div class="form-control" data-trigger="fileinput"><i class="glyphicon glyphicon-file fileinput-exists"></i> <span class="fileinput-filename"></span></div>
-                    <span class="input-group-addon btn btn-default btn-file"><span class="fileinput-new"><b>Buscar foto</b></span><span class="fileinput-exists"><b>Cambiar</b></span><input type="file" name="data[User][foto]"></span>
-                    <a href="#" class="input-group-addon btn btn-default fileinput-exists" data-dismiss="fileinput"><b>Remover</b></a>
-                </div>
-            </div> 
+                <div class="form-group">
+                    <input type="file" name="data[User][foto]" id="foto" tag="foto" class="filestyle" />
 
+                </div>
+
+            </div>
+            
+                 <!-- COMENTARIOS -->
+            <div class="col-lg-4">
+                <div class="form-group">
+                    <?php echo $this->Form->input('comentarios', array("name" => "data[User][comentarios]", "type" => "textarea", "div" => false, "id" => "txtComentarios", "label" => "Comentarios", "maxlength" => 15, 'tag' => 'comentarios', "class" => "form-control")); ?>
+
+                </div>
+            </div>
         </div> 
         <br>
         <div class="row"> 
