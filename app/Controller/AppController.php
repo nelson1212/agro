@@ -203,11 +203,11 @@ class AppController extends Controller {
             $foto = $fotoC;
 
             if (!empty($foto["name"])) {
-                
+
                 if (empty($nombreFoto)) {
                     $nombreFoto = $this->getRandomKey(20);
                 }
-                
+
                 $fotoRes = $this->uploadFiles("img/fotos", $foto, $nombreFoto);
                 //Validar si sube la foto
                 // debug($fotoRes);
@@ -228,7 +228,7 @@ class AppController extends Controller {
         }
     }
 
-    function getRandomKey($longitud=10) {
+    function getRandomKey($longitud = 10) {
         //$this -> autoRender = false;
         //$this -> layout = false;
         $alphabet = "abcdefghijklmnopqrstuwxyzABCDEFGHIJKLMNOPQRSTUWXYZ0123456789";
@@ -241,9 +241,104 @@ class AppController extends Controller {
             $pass[] = $alphabet[$n];
         }
         $data = array();
-        $data["pass"] = implode(strtoupper($pass));
+        $data["pass"] = implode($pass);
         return $data;
         //turn the array into a string
     }
+
+    public function ajaxAdd($userModel, $currentModel) {
+
+        $this->layout = null;
+        $this->autoRender = false;
+        $this->loadModel($userModel);
+        $this->{$userModel}->recursive = -1;
+        $this->{$currentModel}->recursive = -1; //Recursividad
+
+        $data["res"] = "no";
+
+        //************* xss, sql injection, sanatize, temepering,**************************
+        //****************************** Validaciones ************************************
+        if (!isset($this->request->data[$userModel]) || !isset($this->request->data[$currentModel])) {
+            $data["msj"] = "Error al intentar registrar el usuario.";
+            goto finAjaxAdminAdd;
+            return; //Por si el goto no funciona
+        }
+
+        // debug($this->Administrador->schema()); //Validar contra el esquema
+        //debug($res);
+
+        $errores = array();
+        $this->{$userModel}->set($this->request->data[$userModel]);
+        $this->{$currentModel}->set($this->request->data[$currentModel]);
+
+        //debug($this->getRandomKey(15)); exit;
+        //************************Procesamiento de la foto****************************
+        $fotoRes = $this->obtenerFoto($userModel, $this->request->data[$userModel]["foto"], strtoupper($this->getRandomKey(25)["pass"]));
+
+        if (isset($fotoRes["errors"])) {
+            $data["errores_validacion"]["foto"] = $fotoRes["errors"];
+        } else {
+            $this->request->data[$userModel]["foto"] = $fotoRes;
+        }
+
+        //*****************************************************************************
+
+        if (!$this->{$userModel}->validates()) {
+            $errores[0] = $this->{$userModel}->validationErrors;
+        }
+
+        if (!$this->{$currentModel}->validates()) {
+            $errores[1] = $this->{$currentModel}->validationErrors;
+        }
+
+        // debug($this->request->data);
+        //Almacenamiento de errores
+        if (count($errores) > 0) {
+            foreach ($errores as $v) {
+                foreach ($v as $key => $value) {
+                    // debug($errores[]);
+                    foreach ($value as $val) {
+                        $data["errores_validacion"][$key] = $val;
+                    }
+                }
+            }
+        }
+        //****************************** Fin Validaciones ************************************
+
+        $dataSource = $this->{$userModel}->getDataSource();
+
+        //Obtención del rol
+
+        $rol = $this->obtenerRol("adm");
+        if ($rol === 0) {
+            $data["msj"] = "Error al intentar asignar el tipo de usuario.";
+            goto finAjaxAdminAdd;
+            return; //Por si el goto no funciona
+        }
+
+        if ($this->request->is('post')) {
+            $this->{$userModel}->create();
+            $this->request->data["User"]["rol_id"] = $rol["id"];
+
+            if ($this->{$userModel}->save($this->request->data[$userModel])) {
+                $this->request->data[$currentModel]["user_id"] = $this->{$userModel}->id;
+                if ($this->{$currentModel}->save($this->request->data[$currentModel])) {
+                    $data["res"] = "si";
+                    $data["msj"] = "El usuario fue registrado.";
+                    $dataSource->commit();
+                } else {
+                    $data["msj"] = "El usuario no fue registrado, intenta de nuevo.";
+                    $dataSource->rollback();
+                }
+            } else {
+                $data["msj"] = "El usuario no fue registrado, intenta de nuevo.";
+                $dataSource->rollback();
+            }
+        }
+
+        finAjaxAdminAdd:
+        echo json_encode($data);
+    }
+
 
 }

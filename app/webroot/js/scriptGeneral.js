@@ -15,50 +15,6 @@ $(document).ready(function () {
     });
 
 
-//    function getElements(elemento, modelo) {
-//
-//        $("#divElementos #divContenido").remove();
-//        $("#divElementos").append("<div id='divContenido'></div>");
-//        // $("#divAgricultores, #divCompradores, #divEmpresas, #divAdministradores, #divSubAdministradores").attr('disabled', 'disabled');
-//
-//        if (typeof elemento !== "undefined" && typeof modelo !== "undefined") {
-//            $.ajax({
-//                type: "POST",
-//                data: {element: elemento},
-//                url: base_url + 'admin/users/addusuario',
-//                dataType: 'html',
-//                success: function (data) {
-//
-//                    $('#divContenido').html(data);
-//                    $('#divContenido').find('input, select').each(function (i, item) {
-//                        var tag = $(item).attr("tag");
-//                        //Si posee el atributo tag siempre sera diferente de undefined
-//                        if ('' + tag !== 'undefined') {
-//                            $(item).attr("name", "data[" + modelo + "][" + tag + "]");
-//                            // console.log($(item).attr("name"));
-//                        }
-//                    });
-//                    //Add MultiSelect to cboCertificaciones
-//                    $("#cboCertificaciones").multiselect({
-//                        buttonText: function (options, select) {
-//                            if (options.length === 0) {
-//                                return 'Selecciona una o varias certificaciones';
-//                            }
-//                            else if (options.length > 1) {
-//                                return 'Has seleccionado mas de una certificación';
-//                            }
-//                            //return 'Selecciona una o varias certificaciones';
-//                        }
-//                    });
-//                }
-//
-//            });
-//        }
-//    }
-
-
-
-
 //Función para cambiar cajas de texto de acuerdo al rol seleccionado en registrar usuarios
     function cboSeleccionTipoDeUsuario(combo, form, accion, tipoUser) {
         $(combo).change(function (e) {
@@ -74,7 +30,7 @@ $(document).ready(function () {
             $(form).submit();
             return false;
 
-    
+
         });
     }
 
@@ -84,19 +40,23 @@ $(document).ready(function () {
             return false;
         });
     }
-    function cboCiudadesChanged() {
 
-        $('body').on('change', '#cboCiudad', function () {
+
+    function cboComboChanged(comboOrigen, comboDestino, _filtro, _modelo, ruta) {
+
+        $('body').on('change', comboOrigen, function () {
 
             var elemento = $(this).attr("id");
-            var _idCiudad = $(this).val();
-            var elemento = "cboCorregimientos";
+            var _id = $(this).val();
+            var elemento = comboDestino;
             $("#" + elemento).append('<option value="0">Seleccione una opción</option>');
             $.ajax({
                 type: "POST",
-                url: base_url + "corregimientos/ajaxGetCorregimientosPorCiu",
+                url: base_url + ruta,
                 data: {
-                    idCiu: _idCiudad
+                    id: _id,
+                    modelo: _modelo,
+                    filtro: _filtro
                 },
                 dataType: "json",
                 cache: false,
@@ -109,7 +69,7 @@ $(document).ready(function () {
                             $(option).remove();
                         });
                         if (data.res === "si") {
-                            $.each(data.corregimientos, function (i, item) {
+                            $.each(data.datos, function (i, item) {
 
                                 $("#" + elemento).append('<option value="' + i + '">' + item + '</option>');
                             });
@@ -127,8 +87,10 @@ $(document).ready(function () {
             });
         });
     }
+
+
     //Función para guardar usuarios
-    function ajaxUserAdd(form, boton, controlador,accion) {
+    function ajaxUserAdd(form, boton, controlador, accion) {
 
         $(form).submit(function (e) {
             e.preventDefault();
@@ -136,7 +98,7 @@ $(document).ready(function () {
             //formData.append("data[User][rol_id]", $("#cboRol").val());
             $.ajax({
                 type: "POST",
-                url: base_url + controlador+"/"+accion,
+                url: base_url + controlador + "/" + accion,
                 data: formData,
                 //data: new FormData($("#foto")[0]),
                 dataType: "json",
@@ -157,15 +119,15 @@ $(document).ready(function () {
                                 $('div[tag="' + i + '"]').after('<div class="error-message">' + val + '</div>');
                             }
                         });
-                        
+
                         return false;
                     } else if (data.res === "si") {
 
                         $("#flashMessage").remove();
                         $(".error-message").remove();
-                       // $("#divPanel").before('<div id="flashMessage" class="message success">' + data.msj + '</div>');
-                        
-                         $.alert({
+                        // $("#divPanel").before('<div id="flashMessage" class="message success">' + data.msj + '</div>');
+
+                        $.alert({
                             title: 'Atención',
                             content: '' + data.msj,
                             confirmButton: 'Aceptar',
@@ -178,7 +140,7 @@ $(document).ready(function () {
                         });
                         return false;
                         //alert("registro insertado");
-                       // 
+                        // 
                     }
                 },
                 error: {}
@@ -215,54 +177,7 @@ $(document).ready(function () {
         createCookie(name, "", -1);
     }
 
-    /* function selectUserForSearch(elemento) {
-     $(elemento).click(function () {
-     //console.log(textRol);
-     var textRol = $("#cboRolesBusqueda option:selected").text();
-     if (textRol !== "Seleccione una opción") {
-     
-     $.ajax({
-     type: "POST",
-     data: {element: textRol},
-     url: base_url + 'users/getTables',
-     dataType: 'html',
-     success: function (data) {
-     
-     $('#data_table').html("");
-     $('#divBusqueda #divTabla').remove();
-     $('#divBusqueda').prepend('<div id="divTabla"></div>');
-     $('#divBusqueda #divTabla').html(data);
-     //                        $('#divBusqueda #divTabla').find('input, select').each(function (i, item) {
-     //                            var tag = $(item).attr("tag");
-     //                            //Si posee el atributo tag siempre sera diferente de undefined
-     //                            if ('' + tag !== 'undefined') {
-     //                                // $(item).attr("name", "data[" + modelo + "][" + tag + "]");
-     //                                // console.log($(item).attr("name"));
-     //                            }
-     //                        });
-     
-     selectUserForSearch("#btnRealizarBusqueda");
-     
-     
-     //Add MultiSelect to cboCertificaciones
-     /* $("#cboCertificaciones").multiselect({
-     buttonText: function (options, select) {
-     if (options.length === 0) {
-     return 'Selecciona una o varias certificaciones';
-     }
-     else if (options.length > 1) {
-     return 'Has seleccionado mas de una certificación';
-     }
-     //return 'Selecciona una o varias certificaciones';
-     }
-     });*/
-//                    }
-//
-//                });
-//            }
-//
-//        });
-//    } */
+
 
     function destruirDivElementos() {
         if (parseInt($("#cboRolList option:selected").val()) === 0) {
@@ -273,12 +188,6 @@ $(document).ready(function () {
     function redirect() {
         $("#lnkVerUsuarios").click(function () {
             $.post(base_url + "users/destroySelectedRols", '', function (data) {
-                //console.log(base_url + "admin/users/index");
-//                if (data.res === "si") {
-//                   console.log("borro");
-//                } else {
-//                   console.log("no borro");
-//                }
                 window.location = base_url + "admin/users/index";
 
             }, 'json');
@@ -394,33 +303,17 @@ $(document).ready(function () {
                         // $('#divContenido').append('<div id="divElemento"></div>');
                         $('#divFormUbicacion').html(data);
                         $('#divFormUbicacion').find('input, select, div').each(function (i, item) {
-                            
+
                             if ('' + $(item).attr("tag") !== 'undefined') {
                                 var tag = $(item).attr("tag");
-                                //console.log($(item).attr("tag"));
-                                //Si posee el atributo tag siempre sera diferente de undefined
-                                //if ('' + tag !== 'undefined') {
+
                                 $(item).attr("name", "data[User][" + tag + "]");
-                                // console.log($(item).attr("name"));
-                                // }
+
                             }
                         });
 
                         ajaxUserAdd("#formUserEmp");
-                        //Add MultiSelect to cboCertificaciones
-                        /* $("#cboCertificaciones").multiselect({
-                         buttonText: function (options, select) {
-                         if (options.length === 0) {
-                         return 'Selecciona una o varias certificaciones';
-                         }
-                         else if (options.length > 1) {
-                         return 'Has seleccionado mas de una certificación';
-                         }
-                         //return 'Selecciona una o varias certificaciones';
-                         }
-                         });
-                         
-                         $("#btnBuscarFoto").addClass("fileinput-new"); */
+
                     }
 
 
@@ -438,27 +331,37 @@ $(document).ready(function () {
         });
     }
 
-    //Llamado de funciones
-    cboCiudadesChanged();
+
+    //Ciudades - Corregimientos
+    cboComboChanged("#cboCiudad", "cboCorregimientos", "ciudad_id", "Corregimiento", "corregimientos/ajaxGetValoresCombo");
     
-    //******************************** ADMINISTRADORES *****************************
-    //Administradores
+    //Departamentos - Ciudades
+    cboComboChanged("#cboDepartamentos", "cboCiudades", "departamento_id", "Ciudad", "corregimientos/ajaxGetValoresCombo");
+
+    //******************************** SELECT TIPO DE USUARIO *****************************
     cboSeleccionTipoDeUsuario("#cboRol", "#formUserTipo", "setFormTipoUsuario");
-    //Guardar administradores
-    ajaxUserAdd("#formAdmin", "#btnGuaAdmin", "administradors","ajaxAdminAdd");
-     
-    //******************************** AGRICULTORES *****************************
-    //
-    //
-    //
-    //
-    
+
+
+    //******************************** FORM REGISTRO DE ADMINISTRADORES *****************************
+    //Administradores
+    ajaxUserAdd("#formAdmin", "#btnGuaAdmin", "administradors", "ajaxAdminAdd");
+
+    //******************************** FORM REGISTRO DE AGRICULTORES *****************************
+    //Agricultores
+    ajaxUserAdd("#formAgr", "#btnGuaAgr", "agricultors", "ajaxAgrAdd");
+     //******************************** FORM REGISTRO DE AGRICULTORES *****************************
+    //Empresa nacional
+    ajaxUserAdd("#formEmpNac", "#btnGuaEmpNac", "EmpresaNacionals", "ajaxEmpNacAdd");
+
+
+
+
     //Combo para seleccionar el tipo de usuario en los listados
     cboSeleccionTipoDeUsuario("#cboRolList", "#formUserList");
     //Combo para seleccionar el tipo de usuario
     cboSeleccionTipoDeUsuario("#cboRolPre", "#formUserPre");
 
-   
+
     seleccionarTemas();
     buttonSearch("#btnBusAdm", "formBusAdmin");
     redirect();

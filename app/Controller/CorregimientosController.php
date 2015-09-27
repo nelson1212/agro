@@ -201,41 +201,55 @@ class CorregimientosController extends AppController {
         return $this->redirect(array('action' => 'index'));
     }
 
-    public function ajaxGetCorregimientosPorCiu() {
-
-        $this->autoRender = false;
-        $this->layout = '';
+    public function ajaxGetValoresCombo() {
         
-        debug($_POST);
-        
-        $data = array();
-        $data["res"] = "no";
-        $barriosPorCiu = array();
-
-        if (isset($_POST["idCiu"])) {
-
-            $idCiu = $_POST["idCiu"];
-            $this->Corregimiento->recursive = 0;
-            $correPorCiu = $this->Corregimiento->find("list", array('conditions' => array('Corregimiento.ciudad_id' => $idCiu)));
-
-            //debug($barriosPorCiu);
-            if (count($correPorCiu) > 0) {
-                $data["res"] = "si";
-                $data["msj"] = "El municipio no tiene registrados corregimientos, municipios o veredas";
-                $this->unshift($correPorCiu, '0', 'Seleccione una opción');
-                $data["corregimientos"] = $correPorCiu;
-                //debug($barriosPorCiu);
-            } else {
-                $data["res"] = "no";
-                $data["msj"] = "El municipio no tiene registrados corregimientos, municipios o veredas";
-                // $barriosPorCiu["NO APLICA"] = "La ciudad seleccionada no posee barrios";
-                $this->unshift($correPorCiu, '0', "El municipio no tiene registrados corregimientos, municipios o veredas");
-                $data["corregimientos"] = $correPorCiu;
-            }
-        } else {
-            $data["msj"] = "Primero debes seleccionar un municipio";
+        $this->layout=false;
+        $this->autoRender=false;
+    
+        if (!isset($_POST["id"]) || !isset($_POST["modelo"])  || !isset($_POST["filtro"])) {
+            $data["msj"] = "Error en el origen de datos";
+            goto finAjaxGetValoresCombo;
         }
 
+        if (empty($_POST["id"]) || empty($_POST["modelo"]) || empty($_POST["filtro"])) {
+            $data["msj"] = "Error en el origen de datos";
+            goto finAjaxGetValoresCombo;
+        }
+
+
+        $id = $_POST["id"];
+        $modelo = $_POST["modelo"];
+        $filtro = $_POST["filtro"];
+
+        if($modelo !== "Corregimiento") {
+            $this->loadModel($modelo);
+        }
+        
+        $titulo = "hola";
+        
+     
+        
+        $this->{$modelo}->recursive = -1;
+        $datos = $this->{$modelo}->find("list", array('conditions' => array($modelo . "." . $filtro => intVal($id))));
+
+        // debug($correPorCiu);
+        if (count($datos) > 0) {
+            $data["res"] = "si";
+            //Titulo registrados corregimientos, municipios o veredas
+            $data["msj"] = "El " . strtolower($modelo) . " posee " . $titulo;
+            $this->unshift($datos, '0', 'Seleccione una opción');
+            $data["datos"] = $datos;
+            //debug($barriosPorCiu);
+        } else {
+            $data["res"] = "no";
+            $data["msj"] = "El " . strtolower($modelo) . " no posee " . $titulo;
+            // $barriosPorCiu["NO APLICA"] = "La ciudad seleccionada no posee barrios";
+            $this->unshift($datos, '0', "El " . strtolower($modelo) . " no posee" . $titulo);
+            $data["datos"] = $datos;
+        }
+
+
+        finAjaxGetValoresCombo:
         echo json_encode($data);
     }
 

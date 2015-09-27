@@ -497,26 +497,31 @@ class UsersController extends AppController {
         $nombre = "";
 
 
-//        $this->loadModel("Departamento");
-//        $this->Departamento->recursive = -1;
-//        $departamentos = $this->Departamento->find('list');
-//        $this->unshift($departamentos, 0, "Seleccione una opción");
+        $this->loadModel("Departamento");
+        $this->Departamento->recursive = -1;
+        $departamentos = $this->Departamento->find('list');
+        $this->unshift($departamentos, 0, "Seleccione una opción");
+        
 //        
-//        
-//        $this->loadModel("Paiss");
-//        $this->Paiss->recursive = -1;
-//        $paisses = $this->Paiss->find('list');
+        $this->loadModel("Paiss");
+        $this->Paiss->recursive = -1;
+        $paises = $this->Paiss->find('list');
+        $this->unshift($paises, 0, "Seleccione una opción");
 
         //$ciudads = $this->User->Ciudad->find('list'); a futuro si se extiende para todos los departamentos
         //Solo Valle del Cauca
         $this->loadModel("Ciudad");
         $this->Ciudad->recursive = -1;
         $ciudads = $this->Ciudad->find('list', array("conditions" => array("Ciudad.departamento_id" => 30))); //Valle
+       // debug($ciudads);
         $this->unshift($ciudads, 0, "Seleccione una opción");
         
        // debug($ciudads);
-        // $corregimientos = $this->User->Corregimiento->find('list');
-        //$this->unshift($corregimientos, 0, "Seleccione una opción");
+        //$this->loadModel("Corregimiento");
+        //$this->Corregimiento->recursive = -1;
+       //  $corregimientos = $this->Corregimiento->find('list',array("conditions"=>array("Corregimiento.ciudad_id"=>'1062')));
+         //$this->unshift($corregimientos, 0, "Seleccione una opción");
+         //debug($corregimientos);
 
         $this->loadModel("TipoAgricultura");
         $this->TipoAgricultura->recursive = -1;
@@ -588,9 +593,7 @@ class UsersController extends AppController {
                     $titulo = $response["title"];
                     $nombre = $response["name"];
                     break;
-                case "setDivUbiEmp":
-                    // $divElemento = "";
-                    break;
+               
             }
         }
 
@@ -668,6 +671,7 @@ class UsersController extends AppController {
                     $element = "empresa_preregistro";
                     $titulo = "Empresa";
                     break;
+                 
             }
 
 
@@ -971,6 +975,12 @@ class UsersController extends AppController {
                 $titulo = "Listado de Sub-Administradores";
                 $element = "subadministradores";
                 $name = "Sub-Administradores";
+                break;
+            
+            case "empnac":
+                $titulo = "Listado de Empresas nacionales";
+                $element = "empresanacional";
+                $name = "Empresa nacional";
                 break;
             //return $this->render("lst_subadministradores")->body();
         }

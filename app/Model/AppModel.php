@@ -31,10 +31,213 @@ App::uses('Model', 'Model');
  */
 class AppModel extends Model {
 
+    public $validate = array(
+        /* 'foto' => array(
+          'notBlank' => array(
+          'rule' => array('notBlank'),
+          //'message' => 'Your custom message here',
+          //'allowEmpty' => false,
+          //'required' => false,
+          //'last' => false, // Stop validation after this rule
+          //'on' => 'create', // Limit validation to 'create' or 'update' operations
+          ),
+          ), */
+        'username' => array(
+            'notBlank' => array(
+                'rule' => array('notBlank'),
+                'message' => 'Debes llenar el campo nombre de usuario (maximo 15 caracteres sin espacios)',
+            //'allowEmpty' => false,
+            //'required' => false,
+            //'last' => false, // Stop validation after this rule
+            //'on' => 'create', // Limit validation to 'create' or 'update' operations
+            ), 'validateUsername' => array(
+                'rule' => array('validateUsername'),
+                'message' => 'Este nombre de usuario ya esta registrado',
+                'allowEmpty' => false,
+            //'required' => false,
+            //'last' => false, // Stop validation after this rule
+            //'on' => 'create', // Limit validation to 'create' or 'update' operations
+            ),
+        ), 'password' => array(
+            'length' => array(
+                'rule' => array('between', 8, 15),
+                'message' => 'La contraseña debe estar 8 y 15 caracteres.',
+            //'allowEmpty' => false,
+            //'required' => false,
+            //'last' => false, // Stop validation after this rule
+            //'on' => 'create', // Limit validation to 'create' or 'update' operations
+            ), 'compare' => array(
+                'rule' => array('validate_passwords'),
+                'message' => 'Contraseña y confirmar contraseña no son iguales.',
+            )
+        ), 'password1' => array(
+            'length' => array(
+                'rule' => array('between', 8, 15),
+                'message' => 'La contraseña debe estar 8 y 15 caracteres.',
+            ), 'compare' => array(
+                'rule' => array('validate_passwords'),
+                'message' => 'Contraseña y confirmar contraseña no son iguales.',
+            )
+        ),
+        'email' => array(
+            'email' => array(
+                'rule' => array('email'),
+                'message' => 'Debes ingresar un email valido',
+            //'allowEmpty' => false,
+            //'required' => false,
+            //'last' => false, // Stop validation after this rule
+            //'on' => 'create', // Limit validation to 'create' or 'update' operations
+            ), 'validateEmail' => array(
+                'rule' => array('validateEmail'),
+                'message' => 'Este email ya esta en uso',
+                'allowEmpty' => false,
+            //'required' => false,
+            //'last' => false, // Stop validation after this rule
+            //'on' => 'create', // Limit validation to 'create' or 'update' operations
+            ),
+        ), 'genero_id' => array(
+            'validarGenero' => array(
+                'rule' => array("validarGenero"),
+                'message' => 'Debes seleccionar un genero',
+            //'allowEmpty' => false,
+            //'required' => false,
+            //'last' => false, // Stop validation after this rule
+            //'on' => 'create', // Limit validation to 'create' or 'update' operations
+            ),
+        ), 'identificacion' => array(
+            'numeric' => array(
+                'rule' => array('numeric'),
+                'message' => 'Debes ingresar un número de identificación valido (solo números)',
+            //'allowEmpty' => false,
+            //'required' => false,
+            //'last' => false, // Stop validation after this rule
+            //'on' => 'create', // Limit validation to 'create' or 'update' operations
+            ), 'validateIdentification' => array(
+                'rule' => array('validateIdentification'),
+                'message' => 'Este número ya esta esta registrado',
+                'allowEmpty' => false,
+            //'required' => false,
+            //'last' => false, // Stop validation after this rule
+            //'on' => 'create', // Limit validation to 'create' or 'update' operations
+            ),
+        ),
+        'nombres' => array(
+            'notBlank' => array(
+                'rule' => array('notBlank'),
+                'message' => 'Debes llenar el campo nombres',
+            //'allowEmpty' => false,
+            //'required' => false,
+            //'last' => false, // Stop validation after this rule
+            //'on' => 'create', // Limit validation to 'create' or 'update' operations
+            ),
+        ),
+        'apellidos' => array(
+            'notBlank' => array(
+                'rule' => array('notBlank'),
+                'message' => 'Debes llenar el campo apellidos',
+            //'allowEmpty' => false,
+            //'required' => false,
+            //'last' => false, // Stop validation after this rule
+            //'on' => 'create', // Limit validation to 'create' or 'update' operations
+            ),
+        ),
+        /*  'telefono' => array(
+          'numeric' => array(
+          'rule' => array('numeric'),
+          //'message' => 'Your custom message here',
+          //'allowEmpty' => false,
+          //'required' => false,
+          //'last' => false, // Stop validation after this rule
+          //'on' => 'create', // Limit validation to 'create' or 'update' operations
+          ),
+          ), */
+        'celular' => array(
+            'numeric' => array(
+                'rule' => array('notBlank'),
+                'message' => 'Debes ingresar un número de celular',
+            //'allowEmpty' => false,
+            //'required' => false,
+            //'last' => false, // Stop validation after this rule
+            //'on' => 'create', // Limit validation to 'create' or 'update' operations
+            ),
+        ), 'foto' => array(
+            /* 'validarVacia' => array(
+              'rule' => array('validarVacia'),
+              'message' => 'Debes ingresar una foto',
+              ), */
+            'validarSize' => array(
+                'rule' => array('validarSize'),
+                'message' => "La foto excede el tamaño permitido (1MB), intenta con una foto mas pequeña",
+            ),
+            'extension' => array(
+                'rule' => array('extension', array('jpg', 'jpeg', 'png')),
+                'message' => "Solo puedes subir imagenes con las siguientes extensiones: 'jpg','jpeg','png'",
+            ),
+        ),
+//        'direccion' => array(
+//            'notBlank' => array(
+//                'rule' => array('notBlank'),
+//            //'message' => 'Your custom message here',
+//            //'allowEmpty' => false,
+//            //'required' => false,
+//            //'last' => false, // Stop validation after this rule
+//            //'on' => 'create', // Limit validation to 'create' or 'update' operations
+//            ),
+//        ),  
+            'genero' => array(
+            'validarGenero' => array(
+                'rule' => array('validarGenero'),
+                'message' => 'Debes seleccionar un genero',
+            //'allowEmpty' => false,
+            //'required' => false,
+            //'last' => false, // Stop validation after this rule
+            //'on' => 'create', // Limit validation to 'create' or 'update' operations
+            ),
+        ),   'ciudad_id' => array(
+            'validarCiudad' => array(
+                'rule' => array('validarCiudad'),
+                'message' => 'Debes seleccionar una municipio'),
+            'numeric' => array(
+                'rule' => array('numeric'),
+                'message' => 'Debes seleccionar un municipio',
+            //'allowEmpty' => false,
+            //'required' => false,
+            //'last' => false, // Stop validation after this rule
+            //'on' => 'create', // Limit validation to 'create' or 'update' operations
+            ),
+        ),
+        'corregimiento_id' => array(
+            'validarCorregimiento' => array(
+                'rule' => array('validarCorregimiento'),
+                'message' => 'Debes seleccionar una municipio'),
+            'numeric' => array(
+                'rule' => array('numeric'),
+                'message' => 'Debes seleccionar un corregimiento, vereda o resguardo',
+            //'allowEmpty' => false,
+            //'required' => false,
+            //'last' => false, // Stop validation after this rule
+            //'on' => 'create', // Limit validation to 'create' or 'update' operations
+            ),
+        ),
+        'tipo_agricultura_id' => array(
+            'validarTipoAgricultura' => array(
+                'rule' => array('validarTipoAgricultura'),
+                'message' => 'Debes seleccionar un tipo de agricultura'),
+            'numeric' => array(
+                'rule' => array('numeric'),
+                'message' => 'Debes seleccionar un tipo de agricultura',
+            //'allowEmpty' => false,
+            //'required' => false,
+            //'last' => false, // Stop validation after this rule
+            //'on' => 'create', // Limit validation to 'create' or 'update' operations
+            ),
+        ),
+    );
+
     public function validarGenero($opcion = array()) {
-        //debug($opcion);
-        if ($opcion["genero"] === 0 || empty($opcion["genero"])) {
-           
+       // debug($opcion);
+        if (intVal($opcion["genero_id"]) === 0 || empty($opcion["genero_id"])) {
+
             return false;
         }
         //echo "Entro aqio";
@@ -193,5 +396,5 @@ class AppModel extends Model {
         ));
         return $count == 0;
     }
-   
+
 }

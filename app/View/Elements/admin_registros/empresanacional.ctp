@@ -1,33 +1,33 @@
 <!-- DATOS BASICOS -->
 <div class="panel panel-default" id="divPanel"> <!-- PANEL -->
     <div class="panel-heading">
-        <h3 class="panel-title"><b>Datos del usuario tipo agricultor </b></h3>
+        <h3 class="panel-title"><b>Datos del usuario tipo empresa nacional </b></h3>
     </div>
     <div class="panel-body">
 
-        <?php echo $this->Form->create('Agricultor', array('id' => "formAgr", 'type' => 'file', "novalidate" => "novalidate")); ?>
+        <?php echo $this->Form->create('Empresanacional', array('id' => "formEmpNac", 'type' => 'file', "novalidate" => "novalidate")); ?>
 
         <div class="row">
-            <!-- IDENTIFICACIÓN -->
+            <!-- NIT -->
             <div class="col-lg-4" >
                 <div class="form-group">
-                    <?php echo $this->Form->input('identificacion', array("div" => false, "id" => "txtIdentificacion", "label" => "Identificación*", "maxlength" => 25, 'tag' => 'identificacion', "class" => "form-control")); ?>
+                    <?php echo $this->Form->input('nit', array("div" => false, "id" => "txtNit", "label" => "NIT*", "maxlength" => 25, 'tag' => 'nit', "class" => "form-control")); ?>
                 </div>
             </div>
 
-            <!-- NOMBRES -->
+            <!-- RUT -->
             <div class="col-lg-4">
                 <div class="form-group">
-                    <?php echo $this->Form->input('nombres', array("div" => false, "id" => "txtNombres", "label" => "Nombres*", 'tag' => 'nombres', "maxlength" => 80, "class" => "form-control")); ?>
+                    <?php echo $this->Form->input('rut', array("div" => false, "id" => "txtRut", "label" => "RUT*", 'tag' => 'rut', "maxlength" => 80, "class" => "form-control")); ?>
 
                 </div>
 
             </div>
 
-            <!-- APELLIDOS -->
+            <!-- RAZÓN SOCIAL -->
             <div class="col-lg-4">
                 <div class="form-group">
-                    <?php echo $this->Form->input('apellidos', array("div" => false, "id" => "txtApellidos", "label" => "Apellidos*", 'tag' => 'apellidos', "maxlength" => 80, "class" => "form-control")); ?>
+                    <?php echo $this->Form->input('razon_social', array("div" => false, "id" => "txtRazonSocial", "label" => "Razon social *", 'tag' => 'razon_social', "maxlength" => 80, "class" => "form-control")); ?>
 
                 </div>
 
@@ -38,7 +38,7 @@
             <!-- GENERO -->
             <div class="col-lg-4">
                 <div class="form-group">
-                    <?php echo $this->Form->input('genero_id', array("div" => false, "label" => "Genero*", "id" => "cboGenero", 'tag' => 'genero_id', "type" => "select", "options" => $generos, "class" => "form-control")); ?>
+                    <?php echo $this->Form->input('representante_legal', array("div" => false, "label" => "Representante legal*", "id" => "txtRepLeg", 'tag' => 'representante_legal', "type" => "text",  "class" => "form-control")); ?>
 
                 </div>
 
@@ -48,7 +48,7 @@
             <!-- EMAIL -->
             <div class="col-lg-4">
                 <div class="form-group">
-                    <?php echo $this->Form->input('email', array("name" => "data[User][email]", "div" => false, "label" => "Email*", "id" => "txtEmail", 'tag' => 'email', "maxlength" => 254, "class" => "form-control")); ?>
+                    <?php echo $this->Form->input('persona_contacto', array("name" => "persona_contacto", "div" => false, "label" => "Persona de contacto*", "id" => "txtPerCon", 'tag' => 'persona_contacto', "maxlength" => 254, "class" => "form-control")); ?>
 
                 </div>
             </div>
@@ -56,7 +56,7 @@
             <!-- CELULAR DE CONTACTO -->
             <div class="col-lg-4">
                 <div class="form-group">
-                    <?php echo $this->Form->input('celular', array("name" => "data[User][celular]", "div" => false, "id" => "txtCelCon", 'tag' => 'celular', "maxlength" => 15, "label" => "Celular de contacto", "class" => "form-control")); ?>
+                    <?php echo $this->Form->input('telefono', array("name" => "data[User][telefono]", "div" => false, "id" => "txtCelCon", 'tag' => 'celular', "maxlength" => 15, "label" => "Celular de contacto", "class" => "form-control")); ?>
 
                 </div>
             </div>
@@ -70,7 +70,7 @@
             <!-- TELEFONO DE CONTACTO -->
             <div class="col-lg-4">
                 <div class="form-group">
-                    <?php echo $this->Form->input('telefono', array("name" => "data[User][telefono]", "div" => false, "id" => "txtTelCon", "label" => "Telefono de contacto", "maxlength" => 15, 'tag' => 'telefono', "class" => "form-control")); ?>
+                    <?php echo $this->Form->input('celular', array("name" => "data[User][telefono]", "div" => false, "id" => "txtTelCon", "label" => "Telefono de contacto", "maxlength" => 15, 'tag' => 'telefono', "class" => "form-control")); ?>
 
                 </div>
             </div>
@@ -87,7 +87,7 @@
             <!-- CIUDAD -->
             <div class="col-lg-4">
                 <div class="form-group">
-                    <?php echo $this->Form->input('ciudad_id', array("div" => false, "options" => $ciudads, "id" => "cboCiudad", "label" => "Municipio*", 'tag' => 'ciudad_id', "type" => "select", "class" => "form-control")); ?>
+                    <?php echo $this->Form->input('departamento_id', array("div" => false, "options" => $departamentos, "id" => "cboDepartamentos", "label" => "Departamentos *", 'tag' => 'departamento_id', "type" => "select", "class" => "form-control")); ?>
 
                 </div>
 
@@ -99,32 +99,11 @@
             <!-- CORREGIMIENTOS -->
             <div class="col-lg-4" id="">
                 <div class="form-group">
-                    <?php echo $this->Form->input('corregimiento_id', array("div" => false, "id" => "cboCorregimientos", 'tag' => 'corregimiento_id', "label" => "Corregimiento, Vereda o Resguardo*", "type" => "select", "class" => "form-control")); ?>
+                    <?php echo $this->Form->input('ciudad_id', array("div" => false, "id" => "cboCiudades", 'tag' => 'ciudad_id', "label" => "Ciudad*", "type" => "select", "class" => "form-control")); ?>
 
                 </div>
 
             </div>
-
-
-            <!-- TIPO DE AGRICULTURA -->
-            <div class="col-lg-4">
-                <div class="form-group">
-                    <?php echo $this->Form->input('tipo_agricultura_id', array("div" => false, "id" => "cboTipAgr", "label" => "Tipo agricultura*", 'tag' => 'tipo_agricultura_id', "type" => "select", "class" => "form-control")); ?>
-
-                </div>
-
-            </div>      
-
-            <!-- ASOCIACIONES -->
-            <div class="col-lg-4">
-                <div class="form-group">
-                    <?php echo $this->Form->input('asociacion_id', array("options" => $asociaciones, "div" => false, "id" => "cboTipAgr", "label" => "Asociación (opcional)", 'tag' => 'tipo_agricultura_id', "type" => "select", "class" => "form-control")); ?>
-                </div>
-
-            </div>   
-        </div>
-   
-        <div class="row">
 
             <!-- USERNAME -->
             <div class="col-lg-4">
@@ -143,6 +122,12 @@
                 </div>
 
             </div>
+          
+        </div>
+   
+        <div class="row">
+
+            
 
             <!-- CONFIRMAR PASSWORD -->
             <div class="col-lg-4">
@@ -155,17 +140,7 @@
 
         </div>
              <div class="row">
-            <!-- CERTIFICACIONES -->
-            <div class="col-lg-4">
-                <label>Certificaciónes (opcional)</label>
-                <div class="form-group">
-                    <?php
-                    echo $this->Form->input('certificacion', array("options" => $certificaciones, "id" => "cboCertificaciones",
-                        "label" => false, "multiple" => "multiple",
-                        'tag' => 'certificacion', "type" => "select", "class" => "multiselect"));
-                    ?>
-                </div>
-            </div> 
+         
 
       
 
@@ -191,11 +166,11 @@
         <div class="row"> 
             <div class="col-lg-4">
                 <?php
-                $options = array('label' => 'Guardar', 'type' => "submit", "id" => "btnGuaAgr", 'class' => 'btn btn-primary', 'div' => false);
+                $options = array('label' => 'Guardar', 'type' => "submit", "id" => "btnGuaEmpNac", 'class' => 'btn btn-primary', 'div' => false);
                 echo $this->Form->end($options);
                 ?> 
                 <?php
-                $options = array('label' => 'Cancelar', "id" => "btnCanGuaAgr", 'class' => 'btn btn-warning', 'div' => false);
+                $options = array('label' => 'Cancelar', "id" => "btnCanGuaEmpNac", 'class' => 'btn btn-warning', 'div' => false);
                 echo $this->Form->end($options);
                 ?>
             </div>
