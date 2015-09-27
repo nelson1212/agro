@@ -144,7 +144,7 @@ class AdministradorsController extends AppController {
         
         //ajaxAdd($userModel, $currentModel, $userData, $currentData)
                 
-        $this->ajaxAdd("User","Administrador");
+        $this->ajaxAdd("User","Administrador","adm");
     }
 
     /**

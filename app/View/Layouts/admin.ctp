@@ -41,7 +41,8 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
         echo $this->Html->css('daterangepicker-bs3');
         echo $this->Html->css('bootstrap3-wysihtml5.min');
         echo $this->Html->css('bootstrap-multiselect');
-        echo $this->Html->css('jasny-bootstrap');
+       // echo $this->Html->css('jasny-bootstrap');
+        
         echo $this->Html->css('jquery-confirm');
         echo $this->Html->css('bootstrap-tagsinput');
         echo $this->Html->css('jquery-ui.css');
@@ -142,7 +143,9 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
         echo $this->Html->script('fastclick.min');
         echo $this->Html->script('app.min');
         echo $this->Html->script('bootstrap-multiselect');
-        echo $this->Html->script('jasny-bootstrap');
+        //echo $this->Html->script('jasny-bootstrap');
+        echo $this->Html->script('bootstrap-filestyle');
+       // echo $this->Html->script('bootstrap-filestyle.min');
         echo $this->Html->script('bootstrap-tagsinput');
         echo $this->Html->script('jquery-ui.min');
         echo $this->Html->script('evol.colorpicker.min.js');

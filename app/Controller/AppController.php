@@ -21,6 +21,7 @@ date_default_timezone_set('America/Bogota');
  * @license       http://www.opensource.org/licenses/mit-license.php MIT License
  */
 App::uses('Controller', 'Controller');
+App::uses('UploadPicture', 'Vendor');
 
 /**
  * Application Controller
@@ -32,6 +33,8 @@ App::uses('Controller', 'Controller');
  * @link		http://book.cakephp.org/2.0/en/controllers.html#the-app-controller
  */
 class AppController extends Controller {
+
+    public $components = array('Session', 'Cookie');
 
     function debug($array = null) {
         if ($array == null or count($array) == 0) {
@@ -84,118 +87,122 @@ class AppController extends Controller {
         return preg_replace('/-+/', '-', $string); // Replaces multiple hyphens with single one.
     }
 
-    function uploadFiles($folder, $formdata, $nombreFoto = null) {
-        if (!isset($formdata["name"]) or empty($formdata["name"])) {
-            return $result['errors'] = "Error al intentar subir la foto";
-        }
-        error_reporting(0);
-        // setup dir names absolute and relative
-        $folder_url = WWW_ROOT . $folder;
-        $rel_url = $folder;
-
-        // create the folder if it does not exist
-        if (!is_dir($folder_url)) {
-            mkdir($folder_url);
-        }
-
-        // if itemId is set create an item folder
-        /* if ($itemId) {
-          // set new absolute folder
-          $folder_url = WWW_ROOT . $folder . DS . $itemId;
-          // set new relative folder
-          $rel_url = $folder . DS . $itemId;
-          // create directory
-          if (!is_dir($folder_url)) {
-          mkdir($folder_url);
-          }
-          } */
-
-
-        // list of permitted file types, this is only images but documents can be added
-        $permitted = array('image/gif', 'image/jpeg', 'image/pjpeg', 'image/png');
-
-        //   debug($formdata);
-        // loop through and deal with the files
-        $tipo = $formdata["type"];
-        $archivo = $formdata["name"];
-        $error = $formdata["error"];
-        $tmp_name = $formdata["tmp_name"];
-        $size = $formdata["size"];
-        $ext = pathinfo($formdata["name"], PATHINFO_EXTENSION);
-
-        //echo $tipo;
-        // echo $file."<br>";
-        // replace spaces with underscores
-        if ($nombreFoto == null) {
-            $filename = str_replace(' ', '_', $archivo);
-        } else {
-            $filename = $nombreFoto;
-        }
-        // assume filetype is false
-        $typeOK = false;
-        // check filetype is ok
-        foreach ($permitted as $type) {
-            //echo $type."=".$file['type']."<br>";
-            if ($type === $tipo) {
-                $typeOK = true;
-                break;
-            }
-        }
-
-        // if file type ok upload the file
-        if ($typeOK) {
-
-            // switch based on error code
-            switch ($error) {
-                case 0:
-                    //echo $folder_url;
-                    // check filename already exists
-                    if (!file_exists($folder_url . DS . $filename)) {
-                        // create full filename
-                        $full_url = $folder_url . DS . $filename;
-                        $url = $rel_url . '/' . $filename;
-                        // upload the file
-                        $success = move_uploaded_file($tmp_name, $full_url);
-                    } else {
-                        // create unique filename and upload file
-                        $now = date('Y-m-d-His');
-                        $full_url = $folder_url . DS . $now . $filename;
-                        $url = $rel_url . '/' . $now . $filename;
-                        $success = move_uploaded_file($tmp_name, $full_url);
-                    }
-                    // if upload was successful
-                    if ($success) {
-                        // save the url of the file
-                        $result['carpeta'] = $url;
-                        $result['path'] = $full_url;
-                        $result['archivo'] = $filename;
-                        $result['size'] = $size;
-                        $result['ext'] = $ext;
-                    } else {
-                        $result['errors'] = "Error uploaded $filename. Please try again.";
-                    }
-                    break;
-                case 3:
-                    // an error occured
-                    $result['errors'] = "Error uploading $filename. Please try again.";
-                    break;
-                default:
-                    // an error occured
-                    $result['errors'] = "System error uploading $filename. Contact webmaster.";
-                    break;
-                case 4:
-                    // no file was selected for upload
-                    $result['errors'] = "No file Selected";
-                    break;
-                default:
-                    // unacceptable file type
-                    $result['errors'] = "$filename cannot be uploaded. Acceptable file types: gif, jpg, png.";
-                    break;
-            }
-
-            return $result;
-        }
-    }
+//    function uploadFiles($folder, $formdata, $nombreFoto = null) {
+//        if (!isset($formdata["name"]) or empty($formdata["name"])) {
+//            return $result['errors'] = "Error al intentar subir la foto";
+//        }
+//
+//        if (empty($formdata) || (isset($formdata['error']) && $formdata['error'] == UPLOAD_ERR_NO_FILE)) {
+//            return $result['errors'] = "Error al intentar subir la foto";
+//        }
+//        // error_reporting(0);
+//        // setup dir names absolute and relative
+//        $folder_url = WWW_ROOT . $folder;
+//        $rel_url = $folder;
+//
+//        // create the folder if it does not exist
+//        if (!is_dir($folder_url)) {
+//            mkdir($folder_url);
+//        }
+//
+//        // if itemId is set create an item folder
+//        /* if ($itemId) {
+//          // set new absolute folder
+//          $folder_url = WWW_ROOT . $folder . DS . $itemId;
+//          // set new relative folder
+//          $rel_url = $folder . DS . $itemId;
+//          // create directory
+//          if (!is_dir($folder_url)) {
+//          mkdir($folder_url);
+//          }
+//          } */
+//
+//
+//        // list of permitted file types, this is only images but documents can be added
+//        $permitted = array('image/gif', 'image/jpeg', 'image/pjpeg', 'image/png');
+//
+//        //   debug($formdata);
+//        // loop through and deal with the files
+//        $tipo = $formdata["type"];
+//        $archivo = $formdata["name"];
+//        $error = $formdata["error"];
+//        $tmp_name = $formdata["tmp_name"];
+//        $size = $formdata["size"];
+//        $ext = pathinfo($formdata["name"], PATHINFO_EXTENSION);
+//
+//        //echo $tipo;
+//        // echo $file."<br>";
+//        // replace spaces with underscores
+//        if ($nombreFoto == null) {
+//            $filename = str_replace(' ', '_', $archivo);
+//        } else {
+//            $filename = $nombreFoto . "." . $ext;
+//        }
+//        // assume filetype is false
+//        $typeOK = false;
+//        // check filetype is ok
+//        foreach ($permitted as $type) {
+//            //echo $type."=".$file['type']."<br>";
+//            if ($type === $tipo) {
+//                $typeOK = true;
+//                break;
+//            }
+//        }
+//
+//        // if file type ok upload the file
+//        if ($typeOK) {
+//
+//            // switch based on error code
+//            switch ($error) {
+//                case 0:
+//                    //echo $folder_url;
+//                    // check filename already exists
+//                    if (!file_exists($folder_url . DS . $filename)) {
+//                        // create full filename
+//                        $full_url = $folder_url . DS . $filename;
+//                        $url = $rel_url . '/' . $filename;
+//                        // upload the file
+//                        $success = move_uploaded_file($tmp_name, $full_url);
+//                    } else {
+//                        // create unique filename and upload file
+//                        $now = date('Y-m-d-His');
+//                        $full_url = $folder_url . DS . $now . $filename;
+//                        $url = $rel_url . '/' . $now . $filename;
+//                        $success = move_uploaded_file($tmp_name, $full_url);
+//                    }
+//                    // if upload was successful
+//                    if ($success) {
+//                        // save the url of the file
+//                        $result['carpeta'] = $url;
+//                        $result['path'] = $full_url;
+//                        $result['archivo'] = $filename;
+//                        $result['size'] = $size;
+//                        $result['ext'] = $ext;
+//                    } else {
+//                        $result['errors'] = "Error uploaded $filename. Please try again.";
+//                    }
+//                    break;
+//                case 3:
+//                    // an error occured
+//                    $result['errors'] = "Error uploading $filename. Please try again.";
+//                    break;
+//                default:
+//                    // an error occured
+//                    $result['errors'] = "System error uploading $filename. Contact webmaster.";
+//                    break;
+//                case 4:
+//                    // no file was selected for upload
+//                    $result['errors'] = "No file Selected";
+//                    break;
+//                default:
+//                    // unacceptable file type
+//                    $result['errors'] = "$filename cannot be uploaded. Acceptable file types: gif, jpg, png.";
+//                    break;
+//            }
+//
+//            return $result;
+//        }
+//    }
 
     function obtenerFoto($modelo, $fotoC, $nombreFoto) {
         if (isset($fotoC["name"])) {
@@ -245,100 +252,5 @@ class AppController extends Controller {
         return $data;
         //turn the array into a string
     }
-
-    public function ajaxAdd($userModel, $currentModel) {
-
-        $this->layout = null;
-        $this->autoRender = false;
-        $this->loadModel($userModel);
-        $this->{$userModel}->recursive = -1;
-        $this->{$currentModel}->recursive = -1; //Recursividad
-
-        $data["res"] = "no";
-
-        //************* xss, sql injection, sanatize, temepering,**************************
-        //****************************** Validaciones ************************************
-        if (!isset($this->request->data[$userModel]) || !isset($this->request->data[$currentModel])) {
-            $data["msj"] = "Error al intentar registrar el usuario.";
-            goto finAjaxAdminAdd;
-            return; //Por si el goto no funciona
-        }
-
-        // debug($this->Administrador->schema()); //Validar contra el esquema
-        //debug($res);
-
-        $errores = array();
-        $this->{$userModel}->set($this->request->data[$userModel]);
-        $this->{$currentModel}->set($this->request->data[$currentModel]);
-
-        //debug($this->getRandomKey(15)); exit;
-        //************************Procesamiento de la foto****************************
-        $fotoRes = $this->obtenerFoto($userModel, $this->request->data[$userModel]["foto"], strtoupper($this->getRandomKey(25)["pass"]));
-
-        if (isset($fotoRes["errors"])) {
-            $data["errores_validacion"]["foto"] = $fotoRes["errors"];
-        } else {
-            $this->request->data[$userModel]["foto"] = $fotoRes;
-        }
-
-        //*****************************************************************************
-
-        if (!$this->{$userModel}->validates()) {
-            $errores[0] = $this->{$userModel}->validationErrors;
-        }
-
-        if (!$this->{$currentModel}->validates()) {
-            $errores[1] = $this->{$currentModel}->validationErrors;
-        }
-
-        // debug($this->request->data);
-        //Almacenamiento de errores
-        if (count($errores) > 0) {
-            foreach ($errores as $v) {
-                foreach ($v as $key => $value) {
-                    // debug($errores[]);
-                    foreach ($value as $val) {
-                        $data["errores_validacion"][$key] = $val;
-                    }
-                }
-            }
-        }
-        //****************************** Fin Validaciones ************************************
-
-        $dataSource = $this->{$userModel}->getDataSource();
-
-        //Obtención del rol
-
-        $rol = $this->obtenerRol("adm");
-        if ($rol === 0) {
-            $data["msj"] = "Error al intentar asignar el tipo de usuario.";
-            goto finAjaxAdminAdd;
-            return; //Por si el goto no funciona
-        }
-
-        if ($this->request->is('post')) {
-            $this->{$userModel}->create();
-            $this->request->data["User"]["rol_id"] = $rol["id"];
-
-            if ($this->{$userModel}->save($this->request->data[$userModel])) {
-                $this->request->data[$currentModel]["user_id"] = $this->{$userModel}->id;
-                if ($this->{$currentModel}->save($this->request->data[$currentModel])) {
-                    $data["res"] = "si";
-                    $data["msj"] = "El usuario fue registrado.";
-                    $dataSource->commit();
-                } else {
-                    $data["msj"] = "El usuario no fue registrado, intenta de nuevo.";
-                    $dataSource->rollback();
-                }
-            } else {
-                $data["msj"] = "El usuario no fue registrado, intenta de nuevo.";
-                $dataSource->rollback();
-            }
-        }
-
-        finAjaxAdminAdd:
-        echo json_encode($data);
-    }
-
 
 }

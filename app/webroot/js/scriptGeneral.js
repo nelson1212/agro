@@ -107,12 +107,26 @@ $(document).ready(function () {
                 contentType: false,
                 success: function (data) {
                     if (data.res === "no") {
-
-                        $("#flashMessage").remove();
-                        $("#divPanel").before('<div id="flashMessage" class="message error">' + data.msj + '</div>');
+                        /// console.log("Entro aqui");
+                       /* $("#flashMessage").remove();
+                        $("#divPanel").before('<div id="flashMessage" class="message error">' + data.msj + '</div>');*/
+                        
+                         $.alert({
+                            title: 'Atención',
+                            content: '' + data.msj,
+                            confirmButton: 'Aceptar',
+                            confirmButtonClass: 'btn-primary',
+                            icon: 'fa fa-info',
+                            animation: 'zoom',
+                            confirm: function () {
+                                //window.document.location.reload(true);
+                            }
+                        });
+                        
                         $(".error-message").remove();
                         $.each(data.errores_validacion, function (i, val) {
-                            // console.log(i)
+                            //console.log("Entro aqui");
+                            //  console.log(val);
                             if (val !== "undefined") {
                                 $('input[tag="' + i + '"]').after('<div class="error-message">' + val + '</div>');
                                 $('select[tag="' + i + '"]').after('<div class="error-message">' + val + '</div>');
@@ -139,8 +153,6 @@ $(document).ready(function () {
                             }
                         });
                         return false;
-                        //alert("registro insertado");
-                        // 
                     }
                 },
                 error: {}
@@ -334,7 +346,7 @@ $(document).ready(function () {
 
     //Ciudades - Corregimientos
     cboComboChanged("#cboCiudad", "cboCorregimientos", "ciudad_id", "Corregimiento", "corregimientos/ajaxGetValoresCombo");
-    
+
     //Departamentos - Ciudades
     cboComboChanged("#cboDepartamentos", "cboCiudades", "departamento_id", "Ciudad", "corregimientos/ajaxGetValoresCombo");
 
@@ -349,7 +361,7 @@ $(document).ready(function () {
     //******************************** FORM REGISTRO DE AGRICULTORES *****************************
     //Agricultores
     ajaxUserAdd("#formAgr", "#btnGuaAgr", "agricultors", "ajaxAgrAdd");
-     //******************************** FORM REGISTRO DE AGRICULTORES *****************************
+    //******************************** FORM REGISTRO DE AGRICULTORES *****************************
     //Empresa nacional
     ajaxUserAdd("#formEmpNac", "#btnGuaEmpNac", "EmpresaNacionals", "ajaxEmpNacAdd");
 
@@ -380,6 +392,7 @@ $(document).ready(function () {
     //Indicar el tipo de ubicación de la empresa
     //cboSeleccionOpcionCombos("#cboSetDivUbiEmp", "#formSetDivUbiEmp", "setDivUbiEmp","emp");
 
-
+    $("#foto").filestyle('buttonText', 'Buscar');
+    $("#foto").filestyle('placeholder', 'Presiona el boton buscar');
 
 });

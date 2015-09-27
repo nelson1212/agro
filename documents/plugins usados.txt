@@ -1,1 +1,2 @@
-https://github.com/kartik-v/bootstrap-fileinput
+For fileinput
+http://markusslima.github.io/bootstrap-filestyle/#Downloads

@@ -50,8 +50,8 @@ class AppModel extends Model {
             //'required' => false,
             //'last' => false, // Stop validation after this rule
             //'on' => 'create', // Limit validation to 'create' or 'update' operations
-            ), 'validateUsername' => array(
-                'rule' => array('validateUsername'),
+            ), 'isUnique' => array(
+                'rule' => array('isUnique'),
                 'message' => 'Este nombre de usuario ya esta registrado',
                 'allowEmpty' => false,
             //'required' => false,
@@ -87,8 +87,8 @@ class AppModel extends Model {
             //'required' => false,
             //'last' => false, // Stop validation after this rule
             //'on' => 'create', // Limit validation to 'create' or 'update' operations
-            ), 'validateEmail' => array(
-                'rule' => array('validateEmail'),
+            ), 'isUnique' => array(
+                'rule' => array('isUnique'),
                 'message' => 'Este email ya esta en uso',
                 'allowEmpty' => false,
             //'required' => false,
@@ -165,14 +165,17 @@ class AppModel extends Model {
               'rule' => array('validarVacia'),
               'message' => 'Debes ingresar una foto',
               ), */
-            'validarSize' => array(
-                'rule' => array('validarSize'),
-                'message' => "La foto excede el tamaño permitido (1MB), intenta con una foto mas pequeña",
-            ),
-            'extension' => array(
-                'rule' => array('extension', array('jpg', 'jpeg', 'png')),
-                'message' => "Solo puedes subir imagenes con las siguientes extensiones: 'jpg','jpeg','png'",
-            ),
+
+//            'extension' => array(
+//                'rule' => array('extension', array('jpg', 'jpeg', 'png')),
+//                'message' => "Solo puedes subir imagenes con las siguientes extensiones: 'jpg','jpeg','png'",
+//            ),
+            'foto' => array(
+                'fileSize' => array('fileSize', '<=', '1MB'),
+                'message' => 'La foto debe ser menor o igual a 1MB.',
+                'required' => FALSE,
+                'allowEmpty' => TRUE,
+            )
         ),
 //        'direccion' => array(
 //            'notBlank' => array(
@@ -184,7 +187,7 @@ class AppModel extends Model {
 //            //'on' => 'create', // Limit validation to 'create' or 'update' operations
 //            ),
 //        ),  
-            'genero' => array(
+        'genero' => array(
             'validarGenero' => array(
                 'rule' => array('validarGenero'),
                 'message' => 'Debes seleccionar un genero',
@@ -193,13 +196,13 @@ class AppModel extends Model {
             //'last' => false, // Stop validation after this rule
             //'on' => 'create', // Limit validation to 'create' or 'update' operations
             ),
-        ),   'ciudad_id' => array(
+        ), 'ciudad_id' => array(
             'validarCiudad' => array(
                 'rule' => array('validarCiudad'),
-                'message' => 'Debes seleccionar una municipio'),
+                'message' => 'Debes seleccionar una ciudad/municipio'),
             'numeric' => array(
                 'rule' => array('numeric'),
-                'message' => 'Debes seleccionar un municipio',
+                'message' => 'Debes seleccionar una ciudad/municipio',
             //'allowEmpty' => false,
             //'required' => false,
             //'last' => false, // Stop validation after this rule
@@ -231,11 +234,113 @@ class AppModel extends Model {
             //'last' => false, // Stop validation after this rule
             //'on' => 'create', // Limit validation to 'create' or 'update' operations
             ),
+        ), 'nit' => array(
+            'numeric' => array(
+                'rule' => array('numeric'),
+                'message' => 'Debes ingresar un número NIT valido y sin guiones',
+            //'allowEmpty' => false,
+            //'required' => false,
+            //'last' => false, // Stop validation after this rule
+            //'on' => 'create', // Limit validation to 'create' or 'update' operations
+            ), 'isUnique' => array(
+                'rule' => array('isUnique'),
+                'message' => 'Este número ya esta esta registrado',
+                'allowEmpty' => false,
+            //'required' => false,
+            //'last' => false, // Stop validation after this rule
+            //'on' => 'create', // Limit validation to 'create' or 'update' operations
+            ),
         ),
+        'rut' => array(
+            'numeric' => array(
+                'rule' => array('numeric'),
+                'message' => 'Debes llenar este campo',
+            //'allowEmpty' => false,
+            //'required' => false,
+            //'last' => false, // Stop validation after this rule
+            //'on' => 'create', // Limit validation to 'create' or 'update' operations
+            ), 'isUnique' => array(
+                'rule' => array('isUnique'),
+                'message' => 'Este número ya esta esta registrado',
+                'allowEmpty' => false,
+            //'required' => false,
+            //'last' => false, // Stop validation after this rule
+            //'on' => 'create', // Limit validation to 'create' or 'update' operations
+            ),
+        ),
+        'razon_social' => array(
+            'notBlank' => array(
+                'rule' => array('notBlank'),
+                'message' => 'Debes llenar este campo',
+            //'allowEmpty' => false,
+            //'required' => false,
+            //'last' => false, // Stop validation after this rule
+            //'on' => 'create', // Limit validation to 'create' or 'update' operations
+            ),
+        ),
+        'representante_legal' => array(
+            'notBlank' => array(
+                'rule' => array('notBlank'),
+                'message' => 'Debes llenar este campol',
+            //'allowEmpty' => false,
+            //'required' => false,
+            //'last' => false, // Stop validation after this rule
+            //'on' => 'create', // Limit validation to 'create' or 'update' operations
+            ),
+        ),
+        'persona_contacto' => array(
+            'notBlank' => array(
+                'rule' => array('notBlank'),
+                'message' => 'Debes llenar este campo',
+            //'allowEmpty' => false,
+            //'required' => false,
+            //'last' => false, // Stop validation after this rule
+            //'on' => 'create', // Limit validation to 'create' or 'update' operations
+            ),
+        ), 'telefono' => array(
+            'numeric' => array(
+                'rule' => array('numeric'),
+                'message' => 'Debes llenar este campo',
+            //'allowEmpty' => false,
+            //'required' => false,
+            //'last' => false, // Stop validation after this rule
+            //'on' => 'create', // Limit validation to 'create' or 'update' operations
+            ),
+        ),
+        'celular' => array(
+            'numeric' => array(
+                'rule' => array('numeric'),
+                'message' => 'Debes llenar este campo',
+            //'allowEmpty' => false,
+            //'required' => false,
+            //'last' => false, // Stop validation after this rule
+            //'on' => 'create', // Limit validation to 'create' or 'update' operations
+            ),
+        ),
+        'direccion' => array(
+            'notBlank' => array(
+                'rule' => array('notBlank'),
+                'message' => 'Debes llenar este campo',
+            //'allowEmpty' => false,
+            //'required' => false,
+            //'last' => false, // Stop validation after this rule
+            //'on' => 'create', // Limit validation to 'create' or 'update' operations
+            ),
+        ),
+        'departamento_id' => array(
+            'validarSelDep' => array(
+                'rule' => array('validarSelDep'),
+                'message' => 'Debes seleccionar un departamento',
+            //'allowEmpty' => false,
+            //'required' => false,
+            //'last' => false, // Stop validation after this rule
+            //'on' => 'create', // Limit validation to 'create' or 'update' operations
+            ),
+        )
     );
 
     public function validarGenero($opcion = array()) {
-       // debug($opcion);
+        // debug($opcion);
         if (intVal($opcion["genero_id"]) === 0 || empty($opcion["genero_id"])) {
 
             return false;
@@ -252,28 +357,6 @@ class AppModel extends Model {
         // debug($uploadData);
         // Basic checks
         if ($uploadData['size'] == 0 || $uploadData['error'] !== 0) {
-            return false;
-        }
-
-
-        return true;
-    }
-
-    public function validarSize($opcion) {
-        // Shift the array to easily acces $_POST
-        //debug($opcion);
-        $uploadData = array_shift($opcion);
-
-        // debug($uploadData);
-        // Basic checks
-        if ($uploadData['size'] == 0 || $uploadData['error'] !== 0) {
-            return false;
-        }
-
-
-        //echo $size = $uploadData["size"];
-
-        if ($uploadData["size"] > 1024000) {
             return false;
         }
 
@@ -370,6 +453,16 @@ class AppModel extends Model {
         return true;
     }
 
+    public function validarSelDep($opcion = array()) {
+        //debug($opcion);
+        if ($opcion["departamento_id"] === 0 || empty($opcion["departamento_id"])) {
+
+            return false;
+        }
+        //echo "Entro aqio";
+        return true;
+    }
+
     public function validateIdentification($identificacion) {
         $count = $this->find('count', array(
             'conditions' => array(
@@ -395,6 +488,21 @@ class AppModel extends Model {
                 'email' => $this->data[$this->alias]['email'])
         ));
         return $count == 0;
+    }
+
+    function begin() {
+        $db = ConnectionManager::getDataSource($this->useDbConfig);
+        $db->begin($this);
+    }
+
+    function commit() {
+        $db = ConnectionManager::getDataSource($this->useDbConfig);
+        $db->commit($this);
+    }
+
+    function rollback() {
+        $db = ConnectionManager::getDataSource($this->useDbConfig);
+        $db->rollback($this);
     }
 
 }

@@ -501,7 +501,7 @@ class UsersController extends AppController {
         $this->Departamento->recursive = -1;
         $departamentos = $this->Departamento->find('list');
         $this->unshift($departamentos, 0, "Seleccione una opción");
-        
+
 //        
         $this->loadModel("Paiss");
         $this->Paiss->recursive = -1;
@@ -513,15 +513,15 @@ class UsersController extends AppController {
         $this->loadModel("Ciudad");
         $this->Ciudad->recursive = -1;
         $ciudads = $this->Ciudad->find('list', array("conditions" => array("Ciudad.departamento_id" => 30))); //Valle
-       // debug($ciudads);
+        // debug($ciudads);
         $this->unshift($ciudads, 0, "Seleccione una opción");
-        
-       // debug($ciudads);
+
+        // debug($ciudads);
         //$this->loadModel("Corregimiento");
         //$this->Corregimiento->recursive = -1;
-       //  $corregimientos = $this->Corregimiento->find('list',array("conditions"=>array("Corregimiento.ciudad_id"=>'1062')));
-         //$this->unshift($corregimientos, 0, "Seleccione una opción");
-         //debug($corregimientos);
+        //  $corregimientos = $this->Corregimiento->find('list',array("conditions"=>array("Corregimiento.ciudad_id"=>'1062')));
+        //$this->unshift($corregimientos, 0, "Seleccione una opción");
+        //debug($corregimientos);
 
         $this->loadModel("TipoAgricultura");
         $this->TipoAgricultura->recursive = -1;
@@ -546,11 +546,11 @@ class UsersController extends AppController {
         $this->loadModel("Genero");
         $this->Genero->recursive = 0;
         $generos = $this->Genero->find("list", array('order' => array(
-                                                    'Genero.id ASC'
-                                            )));
+                'Genero.id ASC'
+        )));
         $this->unshift($generos, 0, "Seleccione una opción");
-        
-       
+
+
 
         if ($this->request->is('post')) {
 
@@ -581,9 +581,9 @@ class UsersController extends AppController {
             }
 
             $accion = $this->request->data["accion"];
-           // echo $this->request->data["tipo_usuario"];
+            // echo $this->request->data["tipo_usuario"];
             $tipoUsuario = $this->obtenerRol($this->request->data["tipo_usuario"]);
-           //  exit;
+            //  exit;
             switch ($accion) {
                 case "setFormTipoUsuario":
                     $response = $this->getRolCodeAndTitle($tipoUsuario["abr"]);
@@ -593,7 +593,6 @@ class UsersController extends AppController {
                     $titulo = $response["title"];
                     $nombre = $response["name"];
                     break;
-               
             }
         }
 
@@ -671,7 +670,6 @@ class UsersController extends AppController {
                     $element = "empresa_preregistro";
                     $titulo = "Empresa";
                     break;
-                 
             }
 
 
@@ -976,7 +974,7 @@ class UsersController extends AppController {
                 $element = "subadministradores";
                 $name = "Sub-Administradores";
                 break;
-            
+
             case "empnac":
                 $titulo = "Listado de Empresas nacionales";
                 $element = "empresanacional";
@@ -1104,8 +1102,6 @@ class UsersController extends AppController {
         echo json_encode($data);
     }
 
-   
-
     function admin_ajaxGetDivUbicacion() {
 
         $this->autoRender = false;
@@ -1166,6 +1162,106 @@ class UsersController extends AppController {
 
         finAjaxGetDivUbicacion:
         return '<div class="alert alert-warning" role="alert">Opción incorrecta</div>';
+    }
+
+    public function ajaxAdd($currentModel, $userData, $currentData, $tipoUsuario) {
+
+        $this->layout = null;
+        $this->autoRender = false;
+        $this->User->recursive = -1;
+        $this->loadModel($currentModel);
+        $this->{$currentModel}->recursive = -1; //Recursividad
+        $data["res"] = "no";
+
+        //$dataCurrentModel = new stdClass();
+
+
+        $errores = array();
+        $this->User->set($userData);
+        $this->{$currentModel}->set($currentData);
+
+        $fotoRes = "";
+        try {
+
+            if ($userData["foto"]) {
+                if (!empty(trim($userData["foto"]["name"])) && !trim($userData["foto"]["name"]) !== 'e') {
+
+                    $upload = new UploadPicture();
+                    $upload->setSavePath("img/fotos");
+                    $name = strtoupper($this->getRandomKey(25)["pass"]);
+                    $foto = $userData["foto"];
+                    $fotoRes = $upload->savePicture($foto, $name);
+                } else {
+                    $this->User->validator()->remove('foto');
+                }
+            } else {
+                $this->User->validator()->remove('foto');
+            }
+        } catch (Exception $ex) {
+            $data["msj"] = $ex->getMessage();
+            goto finAjaxAdminAdd;
+        }
+
+        $userData["foto"] = $fotoRes;
+        //*****************************************************************************
+
+        if (!$this->User->validates()) {
+            $errores[0] = $this->User->validationErrors;
+        }
+
+        if (!$this->{$currentModel}->validates()) {
+            $errores[1] = $this->{$currentModel}->validationErrors;
+        }
+
+        // debug($this->request->data);
+        //Almacenamiento de errores
+        if (count($errores) > 0) {
+            foreach ($errores as $v) {
+                foreach ($v as $key => $value) {
+                    // debug($errores[]);
+                    foreach ($value as $val) {
+                        $data["errores_validacion"][$key] = $val;
+                    }
+                }
+            }
+
+            $data["msj"] = "El usuario no fue registrado, intenta de nuevo.";
+            goto finAjaxAdminAdd;
+            return; //Por si el goto no funciona
+        }
+        //****************************** Fin Validaciones ************************************
+        //Obtención del rol
+
+        $rol = $this->obtenerRol($tipoUsuario);
+        if ($rol === 0) {
+            $data["msj"] = "Error al intentar asignar el tipo de usuario.";
+            goto finAjaxAdminAdd;
+            return; //Por si el goto no funciona
+        }
+
+
+
+        //$this->{$userModel}->create();
+        $userData["rol_id"] = $rol["id"];
+        $userData["foto"] = "";
+
+        
+        $d["User"] = $userData;
+        $d[$currentModel] = $currentData;
+        
+       // debug($d); exit;
+        
+        if ($this->{$currentModel}->saveAll($d)) {
+            $data["res"] = "si";
+            $data["msj"] = "El usuario fue registrado.";
+        } else {
+            //debug($this->{$userModel}->getDataSource()->getLog(false, false)); //show last sql query
+            $data["msj"] = "El usuario no fue registrado, intenta de nuevo.";
+            //  $this->{$userModel}->rollback();
+        }
+
+        finAjaxAdminAdd:
+        echo json_encode($data);
     }
 
 }

@@ -162,7 +162,7 @@ class AgricultorsController extends AppController {
         //ajaxAdd($userModel, $currentModel, $userData, $currentData)
        // debug($this->request->data); 
 
-        $this->ajaxAdd("User", "Agricultor");
+        $this->ajaxAdd("User", "Agricultor","agr");
     }
 
     /**
