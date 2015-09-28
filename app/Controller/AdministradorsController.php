@@ -152,6 +152,19 @@ class AdministradorsController extends AppController {
         $user->ajaxAdd("Administrador", $this->request->data["User"], $this->request->data["Administrador"], "adm");
     }
 
+    public function ajaxSubAdminAdd() {
+
+        //ajaxAdd($userModel, $currentModel, $userData, $currentData)
+        
+      //  debug($this->request->data); exit;
+        $this->layout = null;
+        $this->autoRender = false;
+        // $this->Session->write("data", $this->request->data);
+        App::uses('UsersController', 'Controller');
+        $user = new UsersController();
+        $user->ajaxAdd("Administrador", $this->request->data["User"], $this->request->data["Administrador"], "subadmin");
+    }
+
     /**
      * admin_edit method
      *

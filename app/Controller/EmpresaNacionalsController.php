@@ -160,7 +160,7 @@ class EmpresaNacionalsController extends AppController {
     public function ajaxEmpNacAdd() {
 
         //ajaxAdd($userModel, $currentModel, $userData, $currentData)
-       //debug($this->request->data); 
+        debug($this->request->data);
         $this->layout = null;
         $this->autoRender = false;
        // $this->Session->write("data", $this->request->data);

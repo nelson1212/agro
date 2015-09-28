@@ -4,13 +4,13 @@
         <h3 class="panel-title"><b>Datos del usuario tipo sub-administrador </b></h3>
     </div>
     <div class="panel-body">
-        <?php echo $this->Form->create('Administrador', array('id' => "formAdmin", 'type' => 'file', "novalidate" => "novalidate")); ?>
+        <?php echo $this->Form->create('Administrador', array('id' => "formSubAdmin", 'type' => 'file', "novalidate" => "novalidate")); ?>
 
         <div class="row">
             <!-- IDENTIFICACIÓN -->
             <div class="col-lg-4" >
                 <div class="form-group">
-                    <?php echo $this->Form->input('identificacion', array("div" => false, "id" => "txtIdentificacion", "label" => "Identificación*", "maxlength" => 25, 'tag' => 'identificacion', "class" => "form-control")); ?>
+                    <?php echo $this->Form->input('identificacion', array("name" => "data[User][identificacion]", "div" => false, "id" => "txtIdentificacion", "label" => "Identificación*", "maxlength" => 25, 'tag' => 'identificacion', "class" => "form-control")); ?>
                 </div>
             </div>
 
@@ -121,7 +121,7 @@
              <!-- CIUDAD -->
             <div class="col-lg-4">
                 <div class="form-group">
-                    <?php echo $this->Form->input('ciudad_id', array("div" => false, "options" => $ciudads, "id" => "cboCiudades", "label" => "Municipios *", 'tag' => 'ciudad_id', "type" => "select", "class" => "form-control")); ?>
+                    <?php echo $this->Form->input('ciudad_id', array("div" => false, "options" => $ciudads, "id" => "cboCiudad", "label" => "Municipios *", 'tag' => 'ciudad_id', "type" => "select", "class" => "form-control")); ?>
 
                 </div>
 
@@ -133,15 +133,7 @@
         <div class="row">
            
 
-            <!-- CORREGIMIENTOS -->
-            <div class="col-lg-4" id="">
-                <div class="form-group">
-                    <?php echo $this->Form->input('corregimiento_id', array("div" => false, "options" => array(), "id" => "cboCorregimientos", 'tag' => 'ciudad_id', "label" => "Corregimiento, Vereda o Resguardo*", "type" => "select", "class" => "form-control")); ?>
-
-                </div>
-
-            </div>
-
+ 
        
             <!-- FOTO -->
             <div class="col-lg-4">

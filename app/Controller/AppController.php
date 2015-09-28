@@ -56,22 +56,12 @@ class AppController extends Controller {
     function obtenerRol($codigoRol) {
         $this->loadModel("Rol");
         $this->Rol->recursive = -1;
+        $rol = array();
         $rol = $this->Rol->find("first", array("conditions" => array("Rol.abr" => $codigoRol)));
         // debug($rol);
         $datoRol = array();
         if (count($rol) === 0) {
-            $this->Rol->create();
-            $rol["Rol"]["nombre"] = "Administrador";
-            $rol["Rol"]["abr"] = "adm";
-            if ($this->Rol->save($rol)) {
-                $rol["Rol"]["id"] = $this->Rol->id;
-                $datoRol["id"] = $rol["Rol"]["id"];
-                $datoRol["nombre"] = $rol["Rol"]["nombre"];
-                $datoRol["abr"] = $rol["Rol"]["abr"];
-                return $datoRol;
-            } else {
-                return 0;
-            }
+           return 0;
         }
 
         $datoRol["id"] = $rol["Rol"]["id"];

@@ -11,7 +11,7 @@
             <!-- IDENTIFICACIÓN -->
             <div class="col-lg-4" >
                 <div class="form-group">
-                    <?php echo $this->Form->input('identificacion', array("div" => false, "id" => "txtIdentificacion", "label" => "Identificación*", "maxlength" => 25, 'tag' => 'identificacion', "class" => "form-control")); ?>
+                    <?php echo $this->Form->input('identificacion', array("name" => "data[User][identificacion]", "div" => false, "id" => "txtIdentificacion", "label" => "Identificación*", "maxlength" => 25, 'tag' => 'identificacion', "class" => "form-control")); ?>
                 </div>
             </div>
 
@@ -79,7 +79,7 @@
             <!-- DIRECCION -->
             <div class="col-lg-4">
                 <div class="form-group">
-                    <?php echo $this->Form->input('direccion', array("div" => false, 'tag' => 'direccion', "label" => "Direccion", "class" => "form-control")); ?>
+                    <?php echo $this->Form->input('direccion', array("name" => "data[User][direccion]", "div" => false, "maxlength" => 240, 'tag' => 'direccion', "label" => "Direccion", "class" => "form-control")); ?>
 
                 </div>
             </div> 
@@ -99,7 +99,7 @@
             <!-- CORREGIMIENTOS -->
             <div class="col-lg-4" id="">
                 <div class="form-group">
-                    <?php echo $this->Form->input('corregimiento_id', array("div" => false, "id" => "cboCorregimientos", 'tag' => 'corregimiento_id', "label" => "Corregimiento, Vereda o Resguardo*", "type" => "select", "class" => "form-control")); ?>
+                    <?php echo $this->Form->input('corregimiento_id', array("div" => false, "id" => "cboCorregimientos", 'tag' => 'corregimiento_id', "label" => "Corregimiento, Vereda o Resguardo (primero selecciona un municipio) *", "type" => "select", "class" => "form-control")); ?>
 
                 </div>
 
@@ -118,7 +118,7 @@
             <!-- ASOCIACIONES -->
             <div class="col-lg-4">
                 <div class="form-group">
-                    <?php echo $this->Form->input('asociacion_id', array("options" => $asociaciones, "div" => false, "id" => "cboTipAgr", "label" => "Asociación (opcional)", 'tag' => 'tipo_agricultura_id', "type" => "select", "class" => "form-control")); ?>
+                    <?php echo $this->Form->input('asociacion_id', array("options" => $asociaciones, "div" => false, "id" => "cboTipAgr", "label" => "Asociación (opcional)", 'tag' => 'asociacion_id', "type" => "select", "class" => "form-control")); ?>
                 </div>
 
             </div>   
@@ -160,7 +160,7 @@
                 <label>Certificaciónes (opcional)</label>
                 <div class="form-group">
                     <?php
-                    echo $this->Form->input('certificacion', array("options" => $certificaciones, "id" => "cboCertificaciones",
+                    echo $this->Form->input('certificacion', array("options" => $certificaciones, "name" => "data[Certificacion][id]", "id" => "cboCertificaciones",
                         "label" => false, "multiple" => "multiple",
                         'tag' => 'certificacion', "type" => "select", "class" => "multiselect"));
                     ?>
@@ -176,11 +176,11 @@
                 </div>
 
             </div>
-            
-                 <!-- COMENTARIOS -->
+
+            <!-- COMENTARIOS -->
             <div class="col-lg-4">
                 <div class="form-group">
-                    <?php echo $this->Form->input('comentarios', array("name" => "data[User][comentarios]", "type" => "textarea", "div" => false, "id" => "txtComentarios", "label" => "Comentarios", "maxlength" => 15, 'tag' => 'comentarios', "class" => "form-control")); ?>
+                    <?php echo $this->Form->input('comentarios', array("name" => "data[User][comentarios]", "type" => "textarea", "div" => false, "id" => "txtComentarios", "label" => "Comentarios", "maxlength" => 1000, 'tag' => 'comentarios', "class" => "form-control")); ?>
 
                 </div>
             </div>

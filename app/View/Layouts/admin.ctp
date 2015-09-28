@@ -101,7 +101,7 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
 "skin-purple-light",
 "skin-green-light"
     -->
-    <body class="hold-transition skin-green sidebar-mini">
+    <body class="hold-transition skin-green sidebar-mini" ng-app="MyApp"  >
         <div class="wrapper">
 
             <?php echo $this->element("header"); ?>
@@ -157,6 +157,8 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
         //echo $this->fetch('css');
         //echo $this->fetch('script');
         ?>
+       
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.min.js"></script>
         <?php echo $this->element('sql_dump'); ?>
     </body>
 </html>

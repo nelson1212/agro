@@ -35,8 +35,14 @@ class User extends AppModel {
      *
      * @var array
      */
+    var $inserted_ids = array();
 
-    
+    function afterSave($created, $options = array()) {
+        if ($created) {
+            $this->inserted_ids[] = $this->getInsertID();
+        }
+        return true;
+    }
 
     //The Associations below have been created with all possible keys, those that are not needed can be removed
 

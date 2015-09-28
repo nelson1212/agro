@@ -45,10 +45,11 @@ $(document).ready(function () {
     function cboComboChanged(comboOrigen, comboDestino, _filtro, _modelo, ruta) {
 
         $('body').on('change', comboOrigen, function () {
-
+          // console.log("Entro aqui");
             var elemento = $(this).attr("id");
             var _id = $(this).val();
             var elemento = comboDestino;
+            // console.log("hola");
             $("#" + elemento).append('<option value="0">Seleccione una opción</option>');
             $.ajax({
                 type: "POST",
@@ -63,11 +64,10 @@ $(document).ready(function () {
                 success: function (data) {
                     if (data.res === "si") {
 
-
                         $("#" + elemento + " option").each(function (index, option) {
-
                             $(option).remove();
                         });
+
                         if (data.res === "si") {
                             $.each(data.datos, function (i, item) {
 
@@ -79,12 +79,15 @@ $(document).ready(function () {
                             });
                         }
 
+
                     } else if (data.res === "si") {
                         ocultarDivUsuarios();
                     }
 
                 }
             });
+            
+            return false;
         });
     }
 
@@ -108,21 +111,23 @@ $(document).ready(function () {
                 success: function (data) {
                     if (data.res === "no") {
                         /// console.log("Entro aqui");
-                       /* $("#flashMessage").remove();
-                        $("#divPanel").before('<div id="flashMessage" class="message error">' + data.msj + '</div>');*/
-                        
-                         $.alert({
-                            title: 'Atención',
-                            content: '' + data.msj,
-                            confirmButton: 'Aceptar',
-                            confirmButtonClass: 'btn-primary',
-                            icon: 'fa fa-info',
-                            animation: 'zoom',
-                            confirm: function () {
-                                //window.document.location.reload(true);
-                            }
-                        });
-                        
+                        $("#flashMessage").remove();
+                        $("#divPanel").before('<div id="flashMessage" class="message error">' + data.msj + '</div>');
+
+//                        $.alert({
+//                            title: 'Atención',
+//                            content: '' + data.msj,
+//                            confirmButton: 'Aceptar',
+//                            confirmButtonClass: 'btn-primary',
+//                            icon: 'fa fa-info',
+//                            animation: 'zoom',
+//                            confirm: function () {
+//                                //window.document.location.reload(true);
+//                            }
+//                        });
+
+
+
                         $(".error-message").remove();
                         $.each(data.errores_validacion, function (i, val) {
                             //console.log("Entro aqui");
@@ -139,7 +144,7 @@ $(document).ready(function () {
 
                         $("#flashMessage").remove();
                         $(".error-message").remove();
-                        // $("#divPanel").before('<div id="flashMessage" class="message success">' + data.msj + '</div>');
+                        //$("#divPanel").before('<div id="flashMessage" class="message success">' + data.msj + '</div>');
 
                         $.alert({
                             title: 'Atención',
@@ -149,7 +154,7 @@ $(document).ready(function () {
                             icon: 'fa fa-info',
                             animation: 'zoom',
                             confirm: function () {
-                                window.document.location.reload(true);
+                                $("#cboRol").change();
                             }
                         });
                         return false;
@@ -348,27 +353,34 @@ $(document).ready(function () {
     cboComboChanged("#cboCiudades", "cboCorregimientos", "ciudad_id", "Corregimiento", "corregimientos/ajaxGetValoresCombo");
 
     //Departamentos - Ciudades
-    cboComboChanged("#cboDepartamentos", "cboCiudades", "departamento_id", "Ciudad", "corregimientos/ajaxGetValoresCombo");
+    cboComboChanged("#cboDepartementos", "cboCiudad", "departamento_id", "Ciudad", "corregimientos/ajaxGetValoresCombo");
+    
+    //Departamentos - Ciudades
+  //  cboComboChanged("#cboDepartementos", "cboCiudad", "departamento_id", "Ciudad", "corregimientos/ajaxGetValoresCombo");
+
+
+
 
     //******************************** SELECT TIPO DE USUARIO *****************************
     cboSeleccionTipoDeUsuario("#cboRol", "#formUserTipo", "setFormTipoUsuario");
-
-
     //******************************** FORM REGISTRO DE ADMINISTRADORES *****************************
     //Administradores
     ajaxUserAdd("#formAdmin", "#btnGuaAdmin", "administradors", "ajaxAdminAdd");
-
     //******************************** FORM REGISTRO DE AGRICULTORES *****************************
     //Agricultores
     ajaxUserAdd("#formAgr", "#btnGuaAgr", "agricultors", "ajaxAgrAdd");
     //******************************** FORM REGISTRO DE EMPRESAS NACIONALES *****************************
     //Empresa nacional
     ajaxUserAdd("#formEmpNac", "#btnGuaEmpNac", "EmpresaNacionals", "ajaxEmpNacAdd");
-    
+
     //******************************** FORM REGISTRO DE SUB-ADMINISTRADORES *****************************
     //Sub-Administradores
-    ajaxUserAdd("#formAdmin", "#btnGuaSubAdmin", "administradors", "ajaxSubAdminAdd");
-    
+    ajaxUserAdd("#formSubAdmin", "#btnGuaSubAdmin", "administradors", "ajaxSubAdminAdd");
+    //******************************** FORM REGISTRO DE SUB-ADMINISTRADORES *****************************
+    //Comprador 
+    ajaxUserAdd("#formComNac", "#btnGuaComNac", "CompradorNacionals", "ajaxComNacAdd");
+
+
 
 
 
@@ -400,4 +412,8 @@ $(document).ready(function () {
     $("#foto").filestyle('buttonText', 'Buscar');
     $("#foto").filestyle('placeholder', 'Presiona el boton buscar');
 
+    var app = angular.module('MyApp', []);
+    app.controller('myCtrl', function($scope) {
+        $scope.count = 0;
+    });
 });

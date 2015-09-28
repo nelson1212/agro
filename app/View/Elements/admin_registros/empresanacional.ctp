@@ -11,14 +11,14 @@
             <!-- NIT -->
             <div class="col-lg-4" >
                 <div class="form-group">
-                    <?php echo $this->Form->input('nit', array("div" => false, "id" => "txtNit", "label" => "NIT*", "maxlength" => 25, 'tag' => 'nit', "class" => "form-control")); ?>
+                    <?php echo $this->Form->input('nit', array("name" => "data[User][identificacion]","div" => false, "id" => "txtNit", "label" => "NIT*", "maxlength" => 25, 'tag' => 'nit', "class" => "form-control")); ?>
                 </div>
             </div>
 
             <!-- RUT -->
             <div class="col-lg-4">
                 <div class="form-group">
-                    <?php echo $this->Form->input('rut', array("div" => false, "id" => "txtRut", "label" => "RUT*", 'tag' => 'rut', "maxlength" => 80, "class" => "form-control")); ?>
+                    <?php echo $this->Form->input('rut', array("name" => "data[User][rut]","div" => false, "id" => "txtRut", "label" => "RUT*", 'tag' => 'rut', "maxlength" => 80, "class" => "form-control")); ?>
 
                 </div>
 
@@ -109,8 +109,8 @@
 
             <!-- CIUDAD -->
             <div class="col-lg-4" id="">
-                <div class="form-group">
-                    <?php echo $this->Form->input('ciudad_id', array("div" => false, "options" => array(), "id" => "cboCiudades", 'tag' => 'ciudad_id', "label" => "Ciudad o Municipio*", "type" => "select", "class" => "form-control")); ?>
+                <div class="form-group" ng-app="myApp" ng-controller="ciudadesCtrl">
+                    <?php echo $this->Form->input('ciudad_id', array("div" => false, "options" => array(), "id" => "cboCiudad", 'tag' => 'ciudad_id', "label" => "Ciudad o Municipio*", "type" => "select", "class" => "form-control")); ?>
 
                 </div>
 

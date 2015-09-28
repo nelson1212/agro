@@ -583,6 +583,11 @@ class UsersController extends AppController {
             $accion = $this->request->data["accion"];
             // echo $this->request->data["tipo_usuario"];
             $tipoUsuario = $this->obtenerRol($this->request->data["tipo_usuario"]);
+            
+            if($tipoUsuario===0){
+                $this->Flash->error(__('Error critico: El tipo de usuario especificado no existe, consulta al administrador'));
+                goto finAdminAddusuario;
+            }
             //  exit;
             switch ($accion) {
                 case "setFormTipoUsuario":
@@ -970,15 +975,33 @@ class UsersController extends AppController {
             //return $this->render("lst_empresas")->body();
 
             case "subadmin":
-                $titulo = "Listado de Sub-Administradores";
+                $titulo = "Listado de sub-administradores";
                 $element = "subadministradores";
                 $name = "Sub-Administradores";
                 break;
 
             case "empnac":
-                $titulo = "Listado de Empresas nacionales";
+                $titulo = "Listado de empresas nacionales";
                 $element = "empresanacional";
                 $name = "Empresa nacional";
+                break;
+
+            case "comnac":
+                $titulo = "Listado de compradores nacionales";
+                $element = "compradornacional";
+                $name = "Comprador nacional";
+                break;
+
+            case "comint":
+                $titulo = "Listado de compradores internacionales";
+                $element = "compradorinternacional";
+                $name = "Comprador internacional";
+                break;
+
+            case "empint":
+                $titulo = "Listado de empresas internacionales";
+                $element = "empresainternacional";
+                $name = "Empresa internacional";
                 break;
             //return $this->render("lst_subadministradores")->body();
         }
@@ -1164,7 +1187,7 @@ class UsersController extends AppController {
         return '<div class="alert alert-warning" role="alert">Opción incorrecta</div>';
     }
 
-    public function ajaxAdd($currentModel, $userData, $currentData, $tipoUsuario) {
+    public function ajaxAdd($currentModel, $userData, $currentData, $tipoUsuario, $currentData1 = null) {
 
         $this->layout = null;
         $this->autoRender = false;
@@ -1191,6 +1214,7 @@ class UsersController extends AppController {
                     $name = strtoupper($this->getRandomKey(25)["pass"]);
                     $foto = $userData["foto"];
                     $fotoRes = $upload->savePicture($foto, $name);
+                      //   debug($fotoRes);
                 } else {
                     $this->User->validator()->remove('foto');
                 }
@@ -1201,6 +1225,8 @@ class UsersController extends AppController {
             $data["msj"] = $ex->getMessage();
             goto finAjaxAdminAdd;
         }
+        
+       // debug($fotoRes);
 
         $userData["foto"] = $fotoRes;
         //*****************************************************************************
@@ -1243,21 +1269,56 @@ class UsersController extends AppController {
 
         //$this->{$userModel}->create();
         $userData["rol_id"] = $rol["id"];
-        $userData["foto"] = "";
+        //$userData["foto"] = "";
 
-        
+
         $d["User"] = $userData;
         $d[$currentModel] = $currentData;
-        
-       // debug($d); exit;
-        
+
+        //Insercción de certificaciones para el agricultor
+        if (count($currentData1) > 0 && isset($currentData1["id"])) {
+            $true = true;
+        } else {
+            $true = false;
+        }
+
+        //debug($d); exit;
+        $dataSource = $this->User->getDataSource();
+        $dataSource->begin();
+
         if ($this->{$currentModel}->saveAll($d)) {
-            $data["res"] = "si";
-            $data["msj"] = "El usuario fue registrado.";
+
+            //Certificaciones agricultor
+            if ($true === true) {
+                $this->loadModel("AgricultorCertificacion");
+                foreach ($currentData1["id"] as $value) {
+                    $this->AgricultorCertificacion->create();
+                    $agrCer = array();
+                    $agrCer["AgricultorCertificacion"]["agricultor_id"] = $this->{$currentModel}->getInsertID();
+                    $agrCer["AgricultorCertificacion"]["certificacion_id"] = $value;
+
+                    if ($this->AgricultorCertificacion->save($agrCer)) {
+                        $dataSource->commit();
+                        $data["res"] = "si";
+                        $data["msj"] = "El usuario fue registrado.";
+                    } else {
+                        //debug($agrCer);
+                        //debug($this->User->inserted_ids);
+                        $dataSource->rollback();
+                        $data["res"] = "no";
+                        $data["msj"] = "El usuario no fue registrado, error al intentar registrar las certificaciones";
+                    }
+                    //debug($agrCer);
+                }
+            } else {
+                $dataSource->commit();
+                $data["res"] = "si";
+                $data["msj"] = "El usuario fue registrado.";
+            }
         } else {
             //debug($this->{$userModel}->getDataSource()->getLog(false, false)); //show last sql query
             $data["msj"] = "El usuario no fue registrado, intenta de nuevo.";
-            //  $this->{$userModel}->rollback();
+            $dataSource->rollback();
         }
 
         finAjaxAdminAdd:
