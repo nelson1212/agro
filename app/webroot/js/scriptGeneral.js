@@ -351,12 +351,15 @@ $(document).ready(function () {
 
     //Ciudades - Corregimientos
     cboComboChanged("#cboCiudades", "cboCorregimientos", "ciudad_id", "Corregimiento", "corregimientos/ajaxGetValoresCombo");
-
-    //Departamentos - Ciudades
-    cboComboChanged("#cboDepartementos", "cboCiudad", "departamento_id", "Ciudad", "corregimientos/ajaxGetValoresCombo");
+    
+    //Ciudades - Corregimientos
+   // cboComboChanged("#cboCiuSubAdmin", "cboCorregimientos", "ciudad_id", "Corregimiento", "corregimientos/ajaxGetValoresCombo");
     
     //Departamentos - Ciudades
-  //  cboComboChanged("#cboDepartementos", "cboCiudad", "departamento_id", "Ciudad", "corregimientos/ajaxGetValoresCombo");
+    cboComboChanged("#cboDepEmpNac", "cboCiudad", "departamento_id", "Ciudad", "corregimientos/ajaxGetValoresCombo");
+    
+    //Departamentos - Ciudades
+    cboComboChanged("#cboDepComNac", "cboCiudad", "departamento_id", "Ciudad", "corregimientos/ajaxGetValoresCombo");
 
 
 
@@ -377,9 +380,11 @@ $(document).ready(function () {
     //Sub-Administradores
     ajaxUserAdd("#formSubAdmin", "#btnGuaSubAdmin", "administradors", "ajaxSubAdminAdd");
     //******************************** FORM REGISTRO DE SUB-ADMINISTRADORES *****************************
-    //Comprador 
+    //Comprador nacional
     ajaxUserAdd("#formComNac", "#btnGuaComNac", "CompradorNacionals", "ajaxComNacAdd");
-
+    //******************************** FORM REGISTRO COMPRADOR-INTERNACIONAL  *****************************
+    //Comprador internacional
+    ajaxUserAdd("#formComIntNac", "#btnGuaComIntNac", "CompradorInternacionals", "ajaxComIntAdd");
 
 
 
@@ -412,8 +417,4 @@ $(document).ready(function () {
     $("#foto").filestyle('buttonText', 'Buscar');
     $("#foto").filestyle('placeholder', 'Presiona el boton buscar');
 
-    var app = angular.module('MyApp', []);
-    app.controller('myCtrl', function($scope) {
-        $scope.count = 0;
-    });
 });

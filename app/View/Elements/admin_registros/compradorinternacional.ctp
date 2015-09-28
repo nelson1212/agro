@@ -1,16 +1,17 @@
 <!-- DATOS BASICOS -->
 <div class="panel panel-default" id="divPanel"> <!-- PANEL -->
     <div class="panel-heading">
-        <h3 class="panel-title"><b>Datos del usuario tipo sub-administrador </b></h3>
+        <h3 class="panel-title"><b>Datos del usuario tipo comprador internacional </b></h3>
     </div>
     <div class="panel-body">
-        <?php echo $this->Form->create('Administrador', array('id' => "formSubAdmin", 'type' => 'file', "novalidate" => "novalidate")); ?>
+        <?php echo $this->Form->create('CompradorInternacional', array('id' => "formComIntNac", 'type' => 'file', "novalidate" => "novalidate")); ?>
 
         <div class="row">
+            
             <!-- IDENTIFICACIÓN -->
             <div class="col-lg-4" >
                 <div class="form-group">
-                    <?php echo $this->Form->input('identificacion', array("name" => "data[User][identificacion]", "div" => false, "id" => "txtIdentificacion", "label" => "Identificación*", "maxlength" => 25, 'tag' => 'identificacion', "class" => "form-control")); ?>
+                    <?php echo $this->Form->input('identificacion', array("name" => "data[User][identificacion]","div" => false, "id" => "txtIdentificacion", "label" => "Identificación*", "maxlength" => 25, 'tag' => 'identificacion', "class" => "form-control")); ?>
                 </div>
             </div>
 
@@ -18,9 +19,7 @@
             <div class="col-lg-4">
                 <div class="form-group">
                     <?php echo $this->Form->input('nombres', array("div" => false, "id" => "txtNombres", "label" => "Nombres*", 'tag' => 'nombres', "maxlength" => 80, "class" => "form-control")); ?>
-
                 </div>
-
             </div>
 
             <!-- APELLIDOS -->
@@ -121,7 +120,7 @@
              <!-- CIUDAD -->
             <div class="col-lg-4">
                 <div class="form-group">
-                    <?php echo $this->Form->input('ciudad_id', array("div" => false, "options" => $ciudads, "id" => "cboCiuSubAdmin", "label" => "Municipios *", 'tag' => 'ciudad_id', "type" => "select", "class" => "form-control")); ?>
+                    <?php echo $this->Form->input('paiss_id', array("div" => false, "options" => $paises, "id" => "cboPaisComInt", "label" => "Pais *", 'tag' => 'pais_id', "type" => "select", "class" => "form-control")); ?>
 
                 </div>
 
@@ -133,7 +132,15 @@
         <div class="row">
            
 
- 
+            <!-- CORREGIMIENTOS -->
+            <div class="col-lg-4" id="">
+                <div class="form-group">
+                    <?php echo $this->Form->input('ciudad', array( "id" => "txtCiudad", 'tag' => 'ciudad', "label" => "Ciudad *", "type"=>"text", "class" => "form-control")); ?>
+
+                </div>
+
+            </div>
+
        
             <!-- FOTO -->
             <div class="col-lg-4">
@@ -160,12 +167,12 @@
             <div class="col-lg-4">
                 
                 <?php
-                $options = array('label' => 'Guardar', 'type' => "submit", "name" => "btnGuaSubAdmin", "id" => "btnGuaSubAdmin", 'class' => 'btn btn-primary', 'div' => false);
+                $options = array('label' => 'Guardar', 'type' => "submit", "name" => "btnGuaComIntNac", "id" => "btnGuaComIntNac", 'class' => 'btn btn-primary', 'div' => false);
                 echo $this->Form->end($options);
                 ?> 
                 
                 <?php
-                $options = array('label' => 'Cancelar', "id" => "btnCanGuaSubAdmin", 'class' => 'btn btn-warning', 'div' => false);
+                $options = array('label' => 'Cancelar', "id" => "btnCanGuaComIntNac", 'class' => 'btn btn-warning', 'div' => false);
                 echo $this->Form->end($options);
                 ?>
                 

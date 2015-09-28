@@ -523,6 +523,12 @@ class UsersController extends AppController {
         //$this->unshift($corregimientos, 0, "Seleccione una opción");
         //debug($corregimientos);
 
+        $this->loadModel("Paiss");
+        $this->Paiss->recursive = -1;
+        $paises = $this->Paiss->find('list');
+        $this->unshift($paises, 0, "Seleccione una opción");
+        //debug($corregimientos);
+
         $this->loadModel("TipoAgricultura");
         $this->TipoAgricultura->recursive = -1;
         $tipoAgriculturas = $this->TipoAgricultura->find('list');
@@ -583,8 +589,8 @@ class UsersController extends AppController {
             $accion = $this->request->data["accion"];
             // echo $this->request->data["tipo_usuario"];
             $tipoUsuario = $this->obtenerRol($this->request->data["tipo_usuario"]);
-            
-            if($tipoUsuario===0){
+
+            if ($tipoUsuario === 0) {
                 $this->Flash->error(__('Error critico: El tipo de usuario especificado no existe, consulta al administrador'));
                 goto finAdminAddusuario;
             }
@@ -602,7 +608,7 @@ class UsersController extends AppController {
         }
 
         finAdminAddusuario:
-        $this->set(compact('asociaciones', 'rolId', 'elemento', 'ubicaciones', 'certificaciones', 'veredas', 'generos', 'departamentos', 'paisses', 'ciudads', 'corregimientos', 'tipoAgriculturas', 'rols', 'googleMaps'));
+        $this->set(compact('asociaciones', 'rolId', 'elemento', 'paises', 'ubicaciones', 'certificaciones', 'veredas', 'generos', 'departamentos', 'paisses', 'ciudads', 'corregimientos', 'tipoAgriculturas', 'rols', 'googleMaps'));
     }
 
     public function admin_preregistro() {
@@ -1214,7 +1220,7 @@ class UsersController extends AppController {
                     $name = strtoupper($this->getRandomKey(25)["pass"]);
                     $foto = $userData["foto"];
                     $fotoRes = $upload->savePicture($foto, $name);
-                      //   debug($fotoRes);
+                    //   debug($fotoRes);
                 } else {
                     $this->User->validator()->remove('foto');
                 }
@@ -1225,8 +1231,8 @@ class UsersController extends AppController {
             $data["msj"] = $ex->getMessage();
             goto finAjaxAdminAdd;
         }
-        
-       // debug($fotoRes);
+
+        // debug($fotoRes);
 
         $userData["foto"] = $fotoRes;
         //*****************************************************************************

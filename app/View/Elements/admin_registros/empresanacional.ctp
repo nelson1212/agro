@@ -101,7 +101,7 @@
             <!-- DEPARTAMENTO -->
             <div class="col-lg-4">
                 <div class="form-group">
-                    <?php echo $this->Form->input('departamento_id', array("div" => false, "options" => $departamentos, "id" => "cboDepartamentos", "label" => "Departamentos *", 'tag' => 'departamento_id', "type" => "select", "class" => "form-control")); ?>
+                    <?php echo $this->Form->input('departamento_id', array("div" => false, "options" => $departamentos, "id" => "cboDepEmpNac", "label" => "Departamentos *", 'tag' => 'departamento_id', "type" => "select", "class" => "form-control")); ?>
 
                 </div>
 

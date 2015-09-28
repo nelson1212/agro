@@ -158,7 +158,6 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
         //echo $this->fetch('script');
         ?>
        
-        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.min.js"></script>
         <?php echo $this->element('sql_dump'); ?>
     </body>
 </html>

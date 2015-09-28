@@ -157,6 +157,21 @@ class CompradorNacionalsController extends AppController {
         $this->set(compact('users', 'ciudads'));
     }
 
+    public function ajaxComNacAdd() {
+
+        //ajaxAdd($userModel, $currentModel, $userData, $currentData)
+
+        debug($this->request->data);
+        exit;
+
+        $this->layout = null;
+        $this->autoRender = false;
+        // $this->Session->write("data", $this->request->data);
+        App::uses('UsersController', 'Controller');
+        $user = new UsersController();
+        $user->ajaxAdd("CompradorNacional", $this->request->data["User"], $this->request->data["CompradorNacional"], "comnac");
+    }
+
     /**
      * admin_edit method
      *
