@@ -189,6 +189,7 @@ class ProductosController extends AppController {
         $brillos = $this->Producto->Brillo->find('list');
         $sanidads = $this->Producto->Sanidad->find('list');
         $madurezs = $this->Producto->Madurez->find('list');
+       // $variedades = $this->Producto->Madurez->find('list');
         $this->set(compact('lavados', 'embalajes', 'estados', 'colors', 'calidads', 'formas', 'firmezas', 'presentacions', 'brillos', 'sanidads', 'madurezs'));
     }
 

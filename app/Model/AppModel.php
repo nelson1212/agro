@@ -58,7 +58,48 @@ class AppModel extends Model {
             //'last' => false, // Stop validation after this rule
             //'on' => 'create', // Limit validation to 'create' or 'update' operations
             ),
-        ), 'password' => array(
+        ), 'nombre_comun' => array(
+            'notBlank' => array(
+                'rule' => array('notBlank'),
+                'message' => 'Debes llenar este campo',
+            //'allowEmpty' => false,
+            //'required' => false,
+            //'last' => false, // Stop validation after this rule
+            //'on' => 'create', // Limit validation to 'create' or 'update' operations
+            ), 'isUnique' => array(
+                'rule' => array('isUnique'),
+                'message' => 'Este nombre ya esta registrado',
+                'allowEmpty' => false,
+            //'required' => false,
+            //'last' => false, // Stop validation after this rule
+            //'on' => 'create', // Limit validation to 'create' or 'update' operations
+            ),
+        ),'nombre_cientifico' => array(
+            'notBlank' => array(
+                'rule' => array('notBlank'),
+                'message' => 'Debes llenar este campo',
+            //'allowEmpty' => false,
+            //'required' => false,
+            //'last' => false, // Stop validation after this rule
+            //'on' => 'create', // Limit validation to 'create' or 'update' operations
+            ), 'isUnique' => array(
+                'rule' => array('isUnique'),
+                'message' => 'Este nombre ya esta registrado',
+                'allowEmpty' => false,
+            //'required' => false,
+            //'last' => false, // Stop validation after this rule
+            //'on' => 'create', // Limit validation to 'create' or 'update' operations
+            ),
+        ), 'variedades' => array(
+            'notBlank' => array(
+                'rule' => array('notBlank'),
+                'message' => 'Debes llenar este campo',
+            //'allowEmpty' => false,
+            //'required' => false,
+            //'last' => false, // Stop validation after this rule
+            //'on' => 'create', // Limit validation to 'create' or 'update' operations
+            ), 
+        ),'password' => array(
             'length' => array(
                 'rule' => array('between', 8, 15),
                 'message' => 'La contraseña debe estar 8 y 15 caracteres.',

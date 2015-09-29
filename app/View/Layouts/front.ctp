@@ -195,7 +195,7 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
         echo $this->Html->script('jquery-ui.min');
         echo $this->Html->script('evol.colorpicker.min.js');
         echo $this->Html->script('scripts');
-
+ echo $this->Html->script('bootstrap-filestyle');
         echo $this->Html->script('scriptGeneral');
 
         //echo $this->fetch('meta');

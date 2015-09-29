@@ -64,6 +64,7 @@ class UsersController extends AppController {
 
             //No es guardar usuarios
             if (!isset($this->request->data["btnFrontGuaAgr"])) {
+              
                 $elemento = "";
                 $this->Session->write("elemento", $elemento);
 
@@ -82,23 +83,35 @@ class UsersController extends AppController {
                 $this->Preregistro->recursive = -1;
 
                 $novedad = $this->Preregistro->find("first", array("conditions" => array("Preregistro.codigo" => $codigo)));
-
+                
+                  // debug($novedad);
+                //exit;
                 if (count($novedad) > 0) {
 
                     switch ($novedad["Preregistro"]["tipo"]) {
                         case "agr":
                             $this->Session->write("tipoFrontUser", $novedad["Preregistro"]["tipo"]);
-                            $elemento = "front_reg_agricultores";
+                            $elemento = "admin_registros/agricultores"; 
+                            break;
+                        
+                         case "empint":
+                            $this->Session->write("tipoFrontUser", $novedad["Preregistro"]["tipo"]);
+                            $elemento = "admin_registros/empresainternacional"; 
+                            break;
+                        
+                        case "empnac":
+                            $this->Session->write("tipoFrontUser", $novedad["Preregistro"]["tipo"]);
+                            $elemento = "admin_registros/empresanacional";
                             break;
 
-                        case "emp":
+                        case "comint":
                             $this->Session->write("tipoFrontUser", $novedad["Preregistro"]["tipo"]);
-                            $elemento = "front_reg_empresas";
+                            $elemento = "admin_registros/compradorinternacional";
                             break;
-
-                        case "com":
+                        
+                         case "comnac":
                             $this->Session->write("tipoFrontUser", $novedad["Preregistro"]["tipo"]);
-                            $elemento = "front_reg_compradores";
+                            $elemento = "admin_registros/compradornacional";
                             break;
 
                         default:
@@ -140,24 +153,40 @@ class UsersController extends AppController {
         $this->loadModel("Certificacion");
         $this->Certificacion->recursive = 0;
         $certificaciones = $this->Certificacion->find("list");
-
-        $ciudads = $this->User->Ciudad->find('list');
+        
+        $this->loadModel("Ciudad");
+        $this->Ciudad->recursive = 0;
+        $ciudads = $this->Ciudad->find('list');
         $this->unshift($ciudads, 0, "Seleccione una opción");
-
-        $corregimientos = $this->User->Corregimiento->find('list');
+        
+        $this->loadModel("Corregimiento");
+        $this->Corregimiento->recursive = 0;
+        $corregimientos = $this->Corregimiento->find('list');
         $this->unshift($corregimientos, 0, "Seleccione una opción");
-
-        $tipoAgriculturas = $this->User->TipoAgricultura->find('list');
+        
+        $this->loadModel("Departamento");
+        $this->Departamento->recursive = 0;
+        $departamentos = $this->Departamento->find('list');
+        $this->unshift($departamentos, 0, "Seleccione una opción");
+        
+        $this->loadModel("Paiss");
+        $this->Paiss->recursive = 0;
+        $paises = $this->Paiss->find('list');
+        $this->unshift($paises, 0, "Seleccione una opción");
+        
+         $this->loadModel("TipoAgricultura");
+        $this->TipoAgricultura->recursive = 0;
+        $tipoAgriculturas = $this->TipoAgricultura->find('list');
         $this->unshift($tipoAgriculturas, 0, "Seleccione una opción");
 
-        $ubicaciones = $this->User->Ubicacion->find('list', array("fields" => array("abr", "nombre")));
-        unset($ubicaciones["reg"]);
-        $this->unshift($ubicaciones, 0, "Seleccione una opción");
+//        $ubicaciones = $this->User->Ubicacion->find('list', array("fields" => array("abr", "nombre")));
+//        unset($ubicaciones["reg"]);
+//        $this->unshift($ubicaciones, 0, "Seleccione una opción");
 
 
         //$rols = $this->User->Rol->find('list');
         // $googleMaps = $this->User->GoogleMap->find('list');
-        $this->set(compact('veredas', 'generos', 'ubicaciones', 'asociaciones', 'certificaciones', 'elemento', 'departamentos', 'paisses', 'ciudads', 'corregimientos', 'tipoAgriculturas'));
+        $this->set(compact('veredas', 'generos', 'ubicaciones', 'paises', 'departamentos', 'asociaciones', 'certificaciones', 'elemento', 'departamentos', 'paisses', 'ciudads', 'corregimientos', 'tipoAgriculturas'));
     }
 
     /**

@@ -38,7 +38,7 @@
                 <div class="col-lg-4">
                     <label>Variedades*</label>
                     <div class="form-group">
-                        <?php echo $this->Form->input('variedades', array("div" => false, "id" => "txtVariedades", "label" => false, "maxlength" => 15, 'tag' => 'variedades', "data-role" => "tagsinput", "type" => "text", "class" => "form-control")); ?>
+                        <?php echo $this->Form->input('variedad_id', array("div" => false, "options"=>array(), "id" => "cboVariedades", "label" => false, "maxlength" => 15, 'tag' => 'variedades', "data-role" => "tagsinput", "type" => "select", "class" => "form-control")); ?>
 
                     </div>
 
@@ -179,18 +179,27 @@
                     </div>
 
                 </div>
+                  <!-- LAVADO -->
+                <div class="col-lg-4">
+                    <div class="form-group">
+                        <?php echo $this->Form->input('agricultor_id', array("div" => false, "id" => "cboAgricultor", "label" => "Agricultor de este producto *", "maxlength" => 15, 'tag' => 'agricultor_id', "type" => "select", "class" => "form-control")); ?>
+
+                    </div>
+
+                </div>
             </div>
 
             <div class="row">
                  <!-- FOTO -->
-    <div class="col-lg-6">
-        <label>Selecciona una foto (opcional)</label>
-        <div class="fileinput fileinput-new input-group" tag="foto" data-provides="fileinput">
-            <div class="form-control" data-trigger="fileinput"><i class="glyphicon glyphicon-file fileinput-exists"></i> <span class="fileinput-filename"></span></div>
-            <span class="input-group-addon btn btn-default btn-file"><span class="fileinput-new"><b>Buscar foto</b></span><span class="fileinput-exists"><b>Cambiar</b></span><input type="file"  name="data[User][foto]"></span>
-            <a href="#" class="input-group-addon btn btn-default fileinput-exists" data-dismiss="fileinput"><b>Remover</b></a>
-        </div>
-    </div> 
+     <!-- FOTO -->
+            <div class="col-lg-4">
+                <label>Selecciona una foto (opcional)</label>
+                <div class="form-group">
+                    <input type="file" name="data[Productobase][foto]" id="foto" tag="foto" class="filestyle" />
+
+                </div>
+
+            </div>
             </div>
 
 

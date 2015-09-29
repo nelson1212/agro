@@ -8,7 +8,7 @@ echo $this->element("front_perfil/encabezado_agricultor");
     </div>
     <div class="panel-body">
         <?php echo $this->Form->create('User', array('id' => "formUser", 'type' => 'file', "novalidate" => "novalidate")); ?>
-        <input type="hidden" name="data[User][rol_id]" value="<?php echo $rolId; ?>" />
+       
         <div class="row">
     <!-- IDENTIFICACIÓN -->
     <div class="col-lg-4" >
@@ -38,7 +38,7 @@ echo $this->element("front_perfil/encabezado_agricultor");
     <!-- GENERO -->
     <div class="col-lg-4">
         <div class="form-group">
-            <?php echo $this->Form->input('genero', array("div" => false, "label" => "Genero*", "id" => "cboGenero", 'tag' => 'genero', "type" => "select", "options" => $generos, "class" => "form-control")); ?>
+            <?php echo $this->Form->input('genero_id', array("div" => false, "label" => "Genero*", "id" => "cboGenero", 'tag' => 'genero', "type" => "select",  "class" => "form-control")); ?>
 
         </div>
 
@@ -79,13 +79,13 @@ echo $this->element("front_perfil/encabezado_agricultor");
     </div>
     
   <!-- UBICACIÓN -->
-    <div class="col-lg-4">
+<!--    <div class="col-lg-4">
         <div class="form-group">
-            <?php echo $this->Form->input('ubicacion', array("div" => false, "options"=>$ubicaciones, "id" => "cboUbicacion", "label" => "Ubicación*", 'tag' => 'ubicacion', "type" => "select", "class" => "form-control")); ?>
+            <?php ///echo $this->Form->input('ubicacion', array("div" => false, "options"=>$ubicaciones, "id" => "cboUbicacion", "label" => "Ubicación*", 'tag' => 'ubicacion', "type" => "select", "class" => "form-control")); ?>
 
         </div>
 
-    </div>
+    </div>-->
 <!-- <input type="file" id="foto" name="data[User][foto]"> -->
         </div>
         

@@ -415,5 +415,6 @@ $(document).ready(function () {
 
     $("#foto").filestyle('buttonText', 'Buscar');
     $("#foto").filestyle('placeholder', 'Presiona el boton buscar');
+    $("#txtVariedades").tagsinput();
 
 });

@@ -141,18 +141,54 @@ class ProductobasesController extends AppController {
      * @return void
      */
     public function admin_add() {
-        $this->layout="admin";
+        $this->layout = "admin";
         if ($this->request->is('post')) {
-            $this->Productobase->create();
-            if ($this->Productobase->save($this->request->data)) {
-                $this->Flash->success(__('The productobase has been saved.'));
-                return $this->redirect(array('action' => 'index'));
+
+
+            $fotoRes = "";
+            try {
+
+                if ($this->request->data["Productobase"]["foto"]) {
+                    if (!empty(trim($this->request->data["Productobase"]["foto"]["name"])) && !trim($this->request->data["Productobase"]["foto"]["name"]) !== 'e') {
+
+                        $upload = new UploadPicture();
+                        $upload->setSavePath("img/fotos");
+                        $name = strtoupper($this->getRandomKey(25)["pass"]);
+                        $foto = $this->request->data["Productobase"]["foto"];
+                        $fotoRes = $upload->savePicture($foto, $name);
+                        //   debug($fotoRes);
+                    } else {
+                        $this->Productobase->validator()->remove('foto');
+                    }
+                } else {
+                    $this->Productobase->validator()->remove('foto');
+                }
+            } catch (Exception $ex) {
+                $this->Flash->error(__('El producto no fue guardado1.'));
+                return;
+            }
+
+            //Agregar transacciń
+            $this->request->data["Productobase"]["foto"] = $fotoRes;
+            $variedades = $this->request->data["Productobase"]["variedades"];
+            $variedades = explode(",", $variedades);
+            $va = array();
+            foreach ($variedades as $variedad) {
+                $va["Variedad"]["nombre"] = $variedad;
+            }
+            $va["Productobase"] = $this->request->data["Productobase"];
+            //debug($va);
+           // exit;
+            //$this->Productobase->create();
+            if ($this->Productobase->saveAll($va)) {
+                $this->Flash->success(__('El producto fue guardado.'));
+                //return $this->redirect(array('action' => 'index'));
             } else {
-                $this->Flash->error(__('The productobase could not be saved. Please, try again.'));
+                $this->Flash->error(__('El producto no fue guardado.'));
             }
         }
         $variedads = $this->Productobase->Variedad->find('list');
-        
+
         $this->set(compact('variedads'));
     }
 
