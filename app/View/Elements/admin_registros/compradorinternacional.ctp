@@ -6,81 +6,93 @@
     <div class="panel-body">
         <?php echo $this->Form->create('CompradorInternacional', array('id' => "formComIntNac", 'type' => 'file', "novalidate" => "novalidate")); ?>
 
+         <div class="row">
+          
+            <!-- RAZÓN SOCIAL -->
+            <div class="col-lg-4">
+                <div class="form-group">
+                    <?php echo $this->Form->input('razon_social', array("div" => false, "id" => "txtRazonSocial", "label" => "Razon social *", 'tag' => 'razon_social', "maxlength" => 80, "class" => "form-control")); ?>
+
+                </div>
+
+            </div>
+        </div>
+
         <div class="row">
-            
-            <!-- IDENTIFICACIÓN -->
-            <div class="col-lg-4" >
+          
+
+            <!-- PERSONA DE CONTACTO -->
+            <div class="col-lg-4">
                 <div class="form-group">
-                    <?php echo $this->Form->input('identificacion', array("name" => "data[User][identificacion]","div" => false, "id" => "txtIdentificacion", "label" => "Identificación*", "maxlength" => 25, 'tag' => 'identificacion', "class" => "form-control")); ?>
+                    <?php echo $this->Form->input('persona_contacto', array( "div" => false, "label" => "Persona de contacto*", "id" => "txtPerCon", 'tag' => 'persona_contacto', "maxlength" => 254, "class" => "form-control")); ?>
+
                 </div>
             </div>
 
-            <!-- NOMBRES -->
+            <!-- TELEFONO -->
             <div class="col-lg-4">
                 <div class="form-group">
-                    <?php echo $this->Form->input('nombres', array("div" => false, "id" => "txtNombres", "label" => "Nombres*", 'tag' => 'nombres', "maxlength" => 80, "class" => "form-control")); ?>
-                </div>
-            </div>
-
-            <!-- APELLIDOS -->
-            <div class="col-lg-4">
-                <div class="form-group">
-                    <?php echo $this->Form->input('apellidos', array("div" => false, "id" => "txtApellidos", "label" => "Apellidos*", 'tag' => 'apellidos', "maxlength" => 80, "class" => "form-control")); ?>
+                    <?php echo $this->Form->input('telefono', array("name" => "data[User][telefono]", "div" => false, "id" => "txtTelCon", 'tag' => 'telefono', "maxlength" => 15, "label" => "Telefono de contacto", "class" => "form-control")); ?>
 
                 </div>
-
             </div>
 
 
         </div>
+
         <div class="row">
 
-            <!-- GENERO -->
+
+            <!-- CELULAR -->
             <div class="col-lg-4">
                 <div class="form-group">
-                    <?php echo $this->Form->input('genero_id', array("div" => false, "label" => "Genero*", "id" => "cboGenero", 'tag' => 'genero_id', "type" => "select", "options" => $generos, "class" => "form-control")); ?>
+                    <?php echo $this->Form->input('celular', array("name" => "data[User][celular]", "div" => false, "id" => "txtCelCon", "label" => "Celular de contacto", "maxlength" => 15, 'tag' => 'celular', "class" => "form-control")); ?>
 
                 </div>
-
             </div>
+
+
+            <!-- DIRECCION -->
+            <div class="col-lg-4">
+                <div class="form-group">
+                    <?php echo $this->Form->input('direccion', array("name" => "data[User][direccion]", "div" => false, 'tag' => 'direccion', "label" => "Direccion", "class" => "form-control")); ?>
+
+                </div>
+            </div> 
 
 
             <!-- EMAIL -->
             <div class="col-lg-4">
                 <div class="form-group">
-                    <?php echo $this->Form->input('email', array("name" => "data[User][email]", "div" => false, "label" => "Email*", "id" => "txtEmail", 'tag' => 'email', "maxlength" => 254, "class" => "form-control")); ?>
-
-                </div>
-            </div>
-
-            <!-- CELULAR DE CONTACTO -->
-            <div class="col-lg-4">
-                <div class="form-group">
-                    <?php echo $this->Form->input('celular', array("name" => "data[User][celular]", "div" => false, "id" => "txtCelCon", 'tag' => 'celular', "maxlength" => 15, "label" => "Celular de contacto", "class" => "form-control")); ?>
-
-                </div>
-            </div>
-
-
-
-        </div>
-        <div class="row">
-
-            <!-- TELEFONO DE CONTACTO -->
-            <div class="col-lg-4">
-                <div class="form-group">
-                    <?php echo $this->Form->input('telefono', array("name" => "data[User][telefono]", "div" => false, "id" => "txtTelCon", "label" => "Telefono de contacto", "maxlength" => 15, 'tag' => 'telefono', "class" => "form-control")); ?>
-
-                </div>
-            </div>
-
-            <!-- DIRECCION -->
-            <div class="col-lg-4">
-                <div class="form-group">
-                    <?php echo $this->Form->input('direccion', array("name" => "data[User][direccion]","div" => false, 'tag'=>'direccion',"label" => "Direccion", "class" => "form-control")); ?>
+                    <?php echo $this->Form->input('email', array("name" => "data[User][email]", "div" => false, 'tag' => 'email', "label" => "Email*", "class" => "form-control")); ?>
 
                 </div>
             </div> 
+
+
+        </div>
+
+
+        <div class="row">
+    
+                <!-- PAIS -->
+            <div class="col-lg-4">
+                <div class="form-group">
+                    <?php echo $this->Form->input('paiss_id', array("div" => false, "options" => $paises, "id" => "cboPaisComInt", "label" => "Pais *", 'tag' => 'pais_id', "type" => "select", "class" => "form-control")); ?>
+
+                </div>
+
+            </div>
+                
+                
+            <!-- CIUDAD -->
+            <div class="col-lg-4" id="">
+                <div class="form-group">
+                    <?php echo $this->Form->input('ciudad', array( "id" => "txtCiudad", 'tag' => 'ciudad', "label" => "Ciudad *", "type"=>"text", "class" => "form-control")); ?>
+
+                </div>
+
+            </div>
 
 
             <!-- USERNAME -->
@@ -115,34 +127,8 @@
                 </div>
 
             </div>
-
-
-             <!-- CIUDAD -->
-            <div class="col-lg-4">
-                <div class="form-group">
-                    <?php echo $this->Form->input('paiss_id', array("div" => false, "options" => $paises, "id" => "cboPaisComInt", "label" => "Pais *", 'tag' => 'pais_id', "type" => "select", "class" => "form-control")); ?>
-
-                </div>
-
-            </div>
-
-<!-- <input type="file" id="foto" name="data[User][foto]"> -->
-        </div>
-        
-        <div class="row">
-           
-
-            <!-- CORREGIMIENTOS -->
-            <div class="col-lg-4" id="">
-                <div class="form-group">
-                    <?php echo $this->Form->input('ciudad', array( "id" => "txtCiudad", 'tag' => 'ciudad', "label" => "Ciudad *", "type"=>"text", "class" => "form-control")); ?>
-
-                </div>
-
-            </div>
-
-       
-            <!-- FOTO -->
+            
+              <!-- FOTO -->
             <div class="col-lg-4">
                 <label>Selecciona una foto (opcional)</label>
                 <div class="form-group">
@@ -151,33 +137,49 @@
                 </div>
 
             </div>
+
+
+        </div>
+        <div class="row">
+
+          
             
-                  <!-- COMENTARIOS -->
+              <!-- COMENTARIOS -->
             <div class="col-lg-4">
                 <div class="form-group">
                     <?php echo $this->Form->input('comentarios', array("name" => "data[User][comentarios]", "type" => "textarea", "div" => false, "id" => "txtComentarios", "label" => "Comentarios", "maxlength" => 15, 'tag' => 'comentarios', "class" => "form-control")); ?>
 
                 </div>
             </div>
-        </div>
 
+            <!-- <label>Selecciona una foto (opcional)</label>
+             <div class="form-group">
+                 <span class="btn btn-default btn-file">
+                     Buscar foto <input type="file">
+                 </span>
+     dasdasd
+           <  </div> -->
+            <!-- <label>Selecciona una foto (opcional)</label>
+             <div class="fileinput fileinput-new input-group" tag="foto" data-provides="fileinput">
+                 <div class="form-control" data-trigger="fileinput"><i class="glyphicon glyphicon-file fileinput-exists"></i> <span class="fileinput-filename"></span></div>
+                 <span class="input-group-addon btn btn-default btn-file"><span class="fileinput-new"><b>Buscar foto</b></span><span class="fileinput-exists"><b>Cambiar</b></span><input type="file" name="data[User][foto]"></span>
+                 <a href="#" class="input-group-addon btn btn-default fileinput-exists" data-dismiss="fileinput"><b>Remover</b></a>
+             </div>-->
+        </div>  
 
         <br>
         <div class="row"> 
             <div class="col-lg-4">
-                
                 <?php
-                $options = array('label' => 'Guardar', 'type' => "submit", "name" => "btnGuaComIntNac", "id" => "btnGuaComIntNac", 'class' => 'btn btn-primary', 'div' => false);
+                $options = array('label' => 'Guardar', 'type' => "submit", "id" => "btnGuaEmpNac", 'class' => 'btn btn-primary', 'div' => false);
                 echo $this->Form->end($options);
                 ?> 
-                
                 <?php
-                $options = array('label' => 'Cancelar', "id" => "btnCanGuaComIntNac", 'class' => 'btn btn-warning', 'div' => false);
+                $options = array('label' => 'Cancelar', "id" => "btnCanGuaEmpNac", 'class' => 'btn btn-warning', 'div' => false);
                 echo $this->Form->end($options);
                 ?>
-                
             </div>
         </div> 
-        </form>
+  
     </div>
 </div>  

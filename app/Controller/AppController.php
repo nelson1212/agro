@@ -61,7 +61,7 @@ class AppController extends Controller {
         // debug($rol);
         $datoRol = array();
         if (count($rol) === 0) {
-           return 0;
+            return 0;
         }
 
         $datoRol["id"] = $rol["Rol"]["id"];
@@ -75,6 +75,13 @@ class AppController extends Controller {
         $string = preg_replace('/[^A-Za-z0-9\-]/', '', $string); // Removes special chars.
 
         return preg_replace('/-+/', '-', $string); // Replaces multiple hyphens with single one.
+    }
+
+    function setUnbindModel($currentModel, $models) {
+        foreach ($models as $key => $value) {
+            //echo "aqui";
+            $this->{$currentModel}->unbindModel(array('belongsTo' => array($value)), true);
+        }
     }
 
 //    function uploadFiles($folder, $formdata, $nombreFoto = null) {
@@ -241,6 +248,45 @@ class AppController extends Controller {
         $data["pass"] = implode($pass);
         return $data;
         //turn the array into a string
+    }
+
+    public function ajaxBorrarGeneral($modelo = null, $idModelo = null) {
+
+        $data["res"] = "no";
+
+        if ($modelo === null || $idModelo === null) {
+            $data["res"] = "no";
+            $data["msj"] = "Error al intentar borrar este registro";
+            goto finAjaxBorrarGeneral;
+        }
+
+        $this->loadModel($modelo);
+        $this->{$modelo}->recursive = -1;
+
+        $res = $this->{$modelo}->checkForeignKeys($this->{$modelo}->table, $idModelo);
+
+        if ($res > 0) {
+            $data["res"] = "no";
+            $data["msj"] = "No puedes borrar este registro porque esta asociado a registros de otra tabla";
+            goto finAjaxBorrarGeneral;
+        }
+        $this->{$modelo}->id = $idModelo;
+
+        if ($this->{$modelo}->delete()) {
+            $this->Session->delete('numRows' . strtolower($modelo[0]));
+            $data["res"] = "si";
+            $data["msj"] = "Registro borrado correctamente " . $idModelo;
+        } else {
+
+            $data["res"] = "no";
+            $data["msj"] = "No puedes borrar este registro porque esta asociado a registros de otra tabla";
+        }
+        /* 	} else {
+          $data["msj"] = "El registro que intentas borrar no existe";
+          } */
+
+        finAjaxBorrarGeneral:
+        return $data;
     }
 
 }

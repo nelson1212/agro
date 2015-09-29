@@ -19,13 +19,8 @@ $(document).ready(function () {
     function cboSeleccionTipoDeUsuario(combo, form, accion, tipoUser) {
         $(combo).change(function (e) {
             var elemento = "#" + $(this).attr("id");
-            var textRol = $(elemento + " option:selected").val();
-            if (typeof tipoUser === "undefined") {
-                $(form).append('<input type="hidden" name="tipo_usuario" value="' + textRol + '" /> ');
-            } else {
-                $(form).append('<input type="hidden" name="tipo_usuario" value="' + tipoUser + '" /> ');
-            }
-            $(form).append('<input type="hidden" name="accion" value="' + accion + '" /> ');
+            var valSelect = $(elemento + " option:selected").val();
+            $(form).append('<input type="hidden" name="data[User][abr]" value="' + valSelect + '" /> ');
             // console.log(textRol);
             $(form).submit();
             return false;
@@ -196,11 +191,11 @@ $(document).ready(function () {
 
 
 
-    function destruirDivElementos() {
-        if (parseInt($("#cboRolList option:selected").val()) === 0) {
-            $("#divElementos").remove();
-        }
-    }
+//    function destruirDivElementos() {
+//        if (parseInt($("#cboRolList option:selected").val()) === 0) {
+//            $("#divElementos").remove();
+//        }
+//    }
 
     function redirect() {
         $("#lnkVerUsuarios").click(function () {
@@ -385,6 +380,10 @@ $(document).ready(function () {
     //******************************** FORM REGISTRO COMPRADOR-INTERNACIONAL  *****************************
     //Comprador internacional
     ajaxUserAdd("#formComIntNac", "#btnGuaComIntNac", "CompradorInternacionals", "ajaxComIntAdd");
+     //******************************** FORM REGISTRO EMPRESA-INTERNACIONAL  *****************************
+    //Comprador internacional
+    ajaxUserAdd("#formEmpInt", "#btnGuaEmpIntNac", "EmpresaInternacionals", "ajaxEmpIntAdd");
+    
 
 
 
@@ -399,7 +398,7 @@ $(document).ready(function () {
     seleccionarTemas();
     buttonSearch("#btnBusAdm", "formBusAdmin");
     redirect();
-    destruirDivElementos();
+    //destruirDivElementos();
     argegarTemaForo();
     removerTemaForo();
     menuActivo();

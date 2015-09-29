@@ -118,8 +118,15 @@ class CompradorInternacionalsController extends AppController {
      * @return void
      */
     public function admin_index() {
+              
+        $this->layout = "admin";
         $this->CompradorInternacional->recursive = 0;
-        $this->set('compradorInternacionals', $this->Paginator->paginate());
+        $this->loadModel("Rol");
+        $this->Rol->recursive = -1;
+        $rols = $this->Rol->find('list', array("fields" => array("abr", "nombre")));
+        $compradorInternacionals = $this->Paginator->paginate();
+        // debug($empresaNacionals); exit;
+        $this->set(compact('compradorInternacionals', 'rols'));
     }
 
     /**
@@ -161,7 +168,7 @@ class CompradorInternacionalsController extends AppController {
 
         //ajaxAdd($userModel, $currentModel, $userData, $currentData)
         
-        debug($this->request->data); exit;
+        //debug($this->request->data); exit;
         
         $this->layout = null;
         $this->autoRender = false;

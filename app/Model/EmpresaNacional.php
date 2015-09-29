@@ -39,7 +39,7 @@ class EmpresaNacional extends AppModel {
 		),
 		'Ciudads' => array(
 			'className' => 'Ciudads',
-			'foreignKey' => 'ciudads_id',
+			'foreignKey' => 'ciudad_id',
 			'conditions' => '',
 			'fields' => '',
 			'order' => ''

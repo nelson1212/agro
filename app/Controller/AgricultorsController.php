@@ -118,8 +118,15 @@ class AgricultorsController extends AppController {
      * @return void
      */
     public function admin_index() {
+
+        $this->layout = "admin";
         $this->Agricultor->recursive = 0;
-        $this->set('agricultors', $this->Paginator->paginate());
+        $this->loadModel("Rol");
+        $this->Rol->recursive = -1;
+        $rols = $this->Rol->find('list', array("fields" => array("abr", "nombre")));
+        $agricultors = $this->Paginator->paginate();
+        //debug($administradors);
+        $this->set(compact('agricultors', 'rols'));
     }
 
     /**
@@ -160,21 +167,16 @@ class AgricultorsController extends AppController {
     public function ajaxAgrAdd() {
 
         //ajaxAdd($userModel, $currentModel, $userData, $currentData)
-       // debug($this->request->data);  exit;
+        // debug($this->request->data);  exit;
 
         $this->layout = null;
         $this->autoRender = false;
         // $this->Session->write("data", $this->request->data);
-       // $this->Agricultor->bindModel(array('hasMany'=>array('AgricultorCertificacion')));
-        
+        // $this->Agricultor->bindModel(array('hasMany'=>array('AgricultorCertificacion')));
         //debug($this->request->data); exit;
         App::uses('UsersController', 'Controller');
         $user = new UsersController();
-        $user->ajaxAdd("Agricultor", 
-                    $this->request->data["User"], 
-                    $this->request->data["Agricultor"], 
-                    "agr", 
-                    $this->request->data["Certificacion"]);
+        $user->ajaxAdd("Agricultor", $this->request->data["User"], $this->request->data["Agricultor"], "agr", $this->request->data["Certificacion"]);
     }
 
     /**

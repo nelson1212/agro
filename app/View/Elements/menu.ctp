@@ -75,7 +75,7 @@
                     <li><a href="<?php echo $this->webroot; ?>admin/users/addusuario"><i class="fa fa-circle-o"></i> Agregar</a></li>
                     <li><a id="lnkVerUsuarios" href="#"><i class="fa fa-circle-o"></i> Ver usuarios</a></li>
                     <li><a href="<?php echo $this->webroot; ?>admin/users/preregistro"><i class="fa fa-circle-o"></i> Pre-registro</a></li>
-                     <li><a href="<?php echo $this->webroot; ?>admin/preregistros/index"><i class="fa fa-circle-o"></i>Ver Pre-registros</a></li>
+                     <!-- <li><a href="<?php echo $this->webroot; ?>admin/preregistros/index"><i class="fa fa-circle-o"></i>Ver Pre-registros</a></li> -->
 
                 </ul>
             </li>
@@ -87,9 +87,9 @@
                     <i class="fa fa-angle-left pull-right"></i>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a href="<?php echo $this->webroot; ?>admin/productos/add"><i class="fa fa-circle-o"></i>  Registrar producto base</a></li>
-                    <li><a href="<?php echo $this->webroot; ?>admin/productos/add"><i class="fa fa-circle-o"></i>  Registrar productos</a></li>
-                    <li><a href="<?php echo $this->webroot; ?>admin/productos/index"><i class="fa fa-circle-o"></i> Ver listado</a></li>
+                    <li><a href="<?php echo $this->webroot; ?>admin/productobases/add"><i class="fa fa-circle-o"></i>  Registrar producto base</a></li>
+                    <li><a href="<?php echo $this->webroot; ?>admin/productos/add"><i class="fa fa-circle-o"></i>  Asociar productos</a></li>
+                    <li><a href="<?php echo $this->webroot; ?>admin/productos/index"><i class="fa fa-circle-o"></i> Ver productos</a></li>
 
                 </ul>
             </li>

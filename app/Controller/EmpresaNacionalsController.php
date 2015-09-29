@@ -118,8 +118,14 @@ class EmpresaNacionalsController extends AppController {
      * @return void
      */
     public function admin_index() {
+        $this->layout = "admin";
         $this->EmpresaNacional->recursive = 0;
-        $this->set('empresaNacionals', $this->Paginator->paginate());
+        $this->loadModel("Rol");
+        $this->Rol->recursive = -1;
+        $rols = $this->Rol->find('list', array("fields" => array("abr", "nombre")));
+        $empresaNacionals = $this->Paginator->paginate();
+       // debug($empresaNacionals); exit;
+        $this->set(compact('empresaNacionals', 'rols'));
     }
 
     /**

@@ -7,17 +7,7 @@
 
         <div class="row">     
 
-            <!-- TIPO DE USUARIO -->
-            <div class="col-lg-4">
-                <div class="form-group">
-                    <?php echo $this->Form->create('User', array('id' => "formUserList")); ?>
-                    <input type="hidden" name="data[User][busIndex]" value="busIndex" />
-                  
-                    <?php echo $this->Form->input('rol_id', array("div" => false, "id" => "cboRolList", 'tag' => 'rol_id', "label" => "Tipo de usuario*", "type" => "select", "class" => "form-control", "default"=>$rolSeleccionado)); ?>
-                    </form>
-                </div>
-
-            </div>  
+            <?php echo $this->element("admin_lst/lst_tipo_usuario"); ?>
         </div>
     </div>
 </div>

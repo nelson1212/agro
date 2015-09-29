@@ -60,6 +60,8 @@ class UsersController extends AppController {
 
         if ($this->request->is('post')) {
 
+
+
             //No es guardar usuarios
             if (!isset($this->request->data["btnFrontGuaAgr"])) {
                 $elemento = "";
@@ -218,125 +220,177 @@ class UsersController extends AppController {
      * @return void
      */
     public function admin_index() {
+
         $this->layout = "admin";
-        //$this->User->recursive = -1;
-        //$url = $this->webroot . "admin/index";
         $rolSeleccionado = 0;
         $element = "";
-        //$conditions = array();
-        //debug($this->request->params);
+
         if ($this->request->is('post')) {
 
-            //debug($this->request->data);
-
-            if (isset($this->request->data["User"]["busqueda"])) {
-                $filter_url['controller'] = $this->request->params['controller'];
-                $filter_url['action'] = $this->request->params['action'];
-                // We need to overwrite the page every time we change the parameters
-                $filter_url['page'] = 1;
-
-                // for each filter we will add a GET parameter for the generated url
-                foreach ($this->request->data as $name => $value) {
-                    if ($value) {
-                        // You might want to sanitize the $value here
-                        // or even do a urlencode to be sure
-                        $filter_url[$name] = urlencode($value);
-                    }
-                }
-                return $this->redirect($filter_url);
-            }
-
             if (isset($this->request->data["User"]["busIndex"])) {
-                $this->Session->write("rolSeleccionado", $this->request->data["User"]["rol_id"]);
+                $this->Session->write("rolSeleccionado", $this->request->data["User"]["abr"]);
             }
 
-            if (!isset($this->request->data["User"]["rol_id"])) {
+            if (!isset($this->request->data["User"]["abr"])) {
                 $this->Flash->error(__('Debes seleccionar un tipo de usuario'));
                 goto finAdminIndex;
             }
 
-            if ($this->request->data["User"]["rol_id"] === 0 || empty($this->request->data["User"]["rol_id"])) {
+            if ($this->request->data["User"]["abr"] === 0 || empty($this->request->data["User"]["abr"])) {
                 $this->Flash->error(__('Debes seleccionar un tipo de usuario'));
                 goto finAdminIndex;
             }
 
-            //     debug($this->request->data);
-            $this->User->Rol->recursive = -1;
-            $codRol = $this->User->Rol->find("first", array("conditions" => array("Rol.id" => $this->request->data["User"]["rol_id"])));
-            $titulo = "";
-            //debug($codRol);
-            //$this->set();
-            //$this->viewPath = 'Elements';
-            //  $this->render("Elements/lst_administradores");
-            switch ($codRol["Rol"]["abr"]) {
+            $controlador = "";
+
+            switch ($this->request->data["User"]["abr"]) {
                 case "adm":
-                    $titulo = "Listado de administradores";
-                    $element = "lst_administradores";
+                    $this->Session->write("titulo", "Listado de administradores");
+                    $controlador = "administradors";
                     break;
-                // $this->render("lst_administradores");
-
-                case "com":
-                    $titulo = "Listado de compradores";
-                    $element = "lst_compradores";
-                    break;
-                // return $this->render("lst_compradores")->body();
 
                 case "agr":
-                    $titulo = "Listado de agricultores";
-                    $element = "lst_agricultores";
+                    $this->Session->write("titulo", "Listado de agricultores");
+                    $controlador = "agricultors";
                     break;
-                //return $this->render("lst_agricultores")->body();
 
-                case "emp":
-                    $titulo = "Listado de empresas";
-                    $element = "lst_empresas";
+                case "empnac":
+                    $this->Session->write("titulo", "Listado de empresas nacionales");
+                    $controlador = "EmpresaNacionals";
                     break;
-                //return $this->render("lst_empresas")->body();
 
-                case "subadm":
-                    $titulo = "Listado de Sub-Administradores";
-                    $element = "lst_subadministradores";
+                case "empint":
+                    $this->Session->write("titulo", "Listado de empresas internacionales");
+                    $controlador = "EmpresaInternacionals";
                     break;
-                //return $this->render("lst_subadministradores")->body();
+
+                case "comint":
+                    $this->Session->write("titulo", "Listado de compradores internacionales");
+                    $controlador = "CompradorInternacionals";
+                    break;
+
+                case "comnac":
+                    $this->Session->write("titulo", "Listado de compradores nacionales");
+                    $controlador = "CompradorNacionals";
+                    break;
+
+
+                case "subadmin":
+                    $this->Session->write("titulo", "Listado de Sub-Administradores");
+                    $controlador = "administradors";
+                    break;
             }
 
-            $this->Session->write("elemento", $element);
-            $this->Session->write("titulo", $titulo);
-        } else {
-            // debug($this->request->params);
-            //if (count($this->request->params["named"]) > 0) {
-            $element = $this->Session->read("elemento");
-            $titulo = $this->Session->read("titulo");
-//            } else {
-//            $element = $this->Session->read("elemento");
-//            $titulo = $this->Session->read("titulo");
-            ///}
+            // echo $controlador; exit;
+            //  debug($this->request->data); exit;
+
+            return $this->redirect(array('action' => 'index', "controller" => $controlador));
+
+            // debug($this->request->data);
+//            if (isset($this->request->data["User"]["busqueda"])) {
+//                $filter_url['controller'] = $this->request->params['controller'];
+//                $filter_url['action'] = $this->request->params['action'];
+//                // We need to overwrite the page every time we change the parameters
+//                $filter_url['page'] = 1;
+//
+//                // for each filter we will add a GET parameter for the generated url
+//                foreach ($this->request->data as $name => $value) {
+//                    if ($value) {
+//                        // You might want to sanitize the $value here
+//                        // or even do a urlencode to be sure
+//                        $filter_url[$name] = urlencode($value);
+//                    }
+//                }
+//                return $this->redirect($filter_url);
+//            }
+//
+//            if (isset($this->request->data["User"]["busIndex"])) {
+//                $this->Session->write("rolSeleccionado", $this->request->data["User"]["abr"]);
+//            }
+//
+//            if (!isset($this->request->data["User"]["abr"])) {
+//                $this->Flash->error(__('Debes seleccionar un tipo de usuario'));
+//                goto finAdminIndex;
+//            }
+//
+//            if ($this->request->data["User"]["abr"] === 0 || empty($this->request->data["User"]["abr"])) {
+//                $this->Flash->error(__('Debes seleccionar un tipo de usuario'));
+//                goto finAdminIndex;
+//            }
+//
+//
+//            $modeloAsoc = "";
+//            switch ($this->request->data["User"]["abr"]) {
+//                case "adm":
+//
+//                  
+//
+//                    //echo "entro aqio";
+//                  //  $models = array("CompradorInternacional", "CompradorNacional", "Agricultor", "EmpresaNacional", "EmpresaInternacional");
+//                  //  $this->setUnbindModel("User", $models);
+//                    $modeloAsoc = "Administrador";
+//                    $titulo = "Listado de administradores";
+//                    $element = "lst_administradores";
+//                    break;
+//                // $this->render("lst_administradores");
+//
+//                case "com":
+//                    $titulo = "Listado de compradores";
+//                    $element = "lst_compradores";
+//                    break;
+//                // return $this->render("lst_compradores")->body();
+//
+//                case "agr":
+//                    $titulo = "Listado de agricultores";
+//                    $element = "lst_agricultores";
+//                    break;
+//                //return $this->render("lst_agricultores")->body();
+//
+//                case "emp":
+//                    $titulo = "Listado de empresas";
+//                    $element = "lst_empresas";
+//                    break;
+//                //return $this->render("lst_empresas")->body();
+//
+//                case "subadm":
+//                    $titulo = "Listado de Sub-Administradores";
+//                    $element = "lst_subadministradores";
+//                    break;
+//                //return $this->render("lst_subadministradores")->body();
+//            }
+//
+//            $this->Session->write("elemento", $element);
+//            $this->Session->write("titulo", $titulo);
+//
+//            $filtros = array("filIde" => "identificacion",
+//                "filNom" => "nombres",
+//                "filApe" => "apellidos",
+//                "filEmail" => "email");
+//
+//            $conditions = $this->adminSearchParameters("User", $filtros);
+//
+//            $settings = array('order' => array('User.id' => 'DESC'),
+//                'limit' => 10, 'conditions' => $conditions);
+//            
+//            $this->loadModel($modeloAsoc);
+//            $this->{$modeloAsoc}->Paginator->settings = $settings;
+//
+//            $users = $this->Paginator->paginate();
+//
+//            debug($users);
+//            exit;
+//
+//            finAdminIndex:
         }
-        //$rol=1;
-        // $res = $this->getRolCodeAndTitle();
-        $filtros = array("filIde" => "identificacion",
-            "filNom" => "nombres",
-            "filApe" => "apellidos",
-            "filEmail" => "email");
-
-        $conditions = $this->adminSearchParameters("User", $filtros);
-
-        $settings = array('order' => array('User.id' => 'DESC'),
-            'limit' => 10, 'conditions' => $conditions);
-
-        $this->Paginator->settings = $settings;
-
-        $users = $this->Paginator->paginate();
-
         finAdminIndex:
-        $rols = $this->User->Rol->find('list');
+        $rols = $this->User->Rol->find('list', array("fields" => array("abr", "nombre")));
         $this->unshift($rols, 0, "Seleccione una opción");
 
         if (!($this->Session->read("rolSeleccionado") === null)) {
             $rolSeleccionado = $this->Session->read("rolSeleccionado");
         }
 
-        $this->set(compact('rols', 'users', 'rolSeleccionado', 'element', 'titulo'));
+        $this->set(compact('rols', 'users', 'modeloAsoc', 'rolSeleccionado', 'element', 'titulo'));
     }
 
 //    
@@ -516,12 +570,6 @@ class UsersController extends AppController {
         // debug($ciudads);
         $this->unshift($ciudads, 0, "Seleccione una opción");
 
-        // debug($ciudads);
-        //$this->loadModel("Corregimiento");
-        //$this->Corregimiento->recursive = -1;
-        //  $corregimientos = $this->Corregimiento->find('list',array("conditions"=>array("Corregimiento.ciudad_id"=>'1062')));
-        //$this->unshift($corregimientos, 0, "Seleccione una opción");
-        //debug($corregimientos);
 
         $this->loadModel("Paiss");
         $this->Paiss->recursive = -1;
@@ -536,9 +584,6 @@ class UsersController extends AppController {
 
         $rols = $this->User->Rol->find('list', array("fields" => array("abr", "nombre")));
         $this->unshift($rols, 0, "Seleccione una opción");
-        // unset($rols[4]); //Removemos empresa
-        //debug($rols);
-        //$googleMaps = $this->User->GoogleMap->find('list');
 
         $this->loadModel("Certificacion");
         $this->Certificacion->recursive = 0;
@@ -559,52 +604,20 @@ class UsersController extends AppController {
 
 
         if ($this->request->is('post')) {
-
-            //debug($this->request->data);
-            //Acciones permitidas
-            $acciones = array("setFormTipoUsuario");
-
-            //Validaciones de que exista la acción
-            if (!isset($this->request->data["accion"])) {
-                $this->Flash->error(__('Error al intentar registrar el usuario'));
-                goto finAdminAddusuario;
-            }
-
-            if (!in_array($this->request->data["accion"], $acciones)) {
-                $this->Flash->error(__('Error al intentar registrar el usuario'));
-                goto finAdminAddusuario;
-            }
-
+            //Agregar mas validaciones
             //Validaciones de que exista el tipo de usuario
-            if (!isset($this->request->data["tipo_usuario"])) {
-                $this->Flash->error(__('Error al intentar registrar el usuario'));
+            if (!isset($this->request->data["User"]["abr"])) {
+                $this->Flash->error(__('Error al intentar registrar el usuario3'));
                 goto finAdminAddusuario;
             }
 
-            if (!array_key_exists($this->request->data["tipo_usuario"], $rols)) {
-                $this->Flash->error(__('Error al intentar registrar el usuario'));
-                goto finAdminAddusuario;
-            }
 
-            $accion = $this->request->data["accion"];
-            // echo $this->request->data["tipo_usuario"];
-            $tipoUsuario = $this->obtenerRol($this->request->data["tipo_usuario"]);
-
-            if ($tipoUsuario === 0) {
-                $this->Flash->error(__('Error critico: El tipo de usuario especificado no existe, consulta al administrador'));
-                goto finAdminAddusuario;
-            }
-            //  exit;
-            switch ($accion) {
-                case "setFormTipoUsuario":
-                    $response = $this->getRolCodeAndTitle($tipoUsuario["abr"]);
-                    $this->request->data["User"]["rol_id"];
-                    //$rolId = $this->request->data["User"]["rol_id"];
-                    $elemento = $response["element"];
-                    $titulo = $response["title"];
-                    $nombre = $response["name"];
-                    break;
-            }
+            $response = $this->getRolCodeAndTitle($this->request->data["User"]["abr"]);
+            $this->request->data["User"]["rol_id"];
+            //$rolId = $this->request->data["User"]["rol_id"];
+            $elemento = $response["element"];
+            $titulo = $response["title"];
+            $nombre = $response["name"];
         }
 
         finAdminAddusuario:
@@ -620,7 +633,7 @@ class UsersController extends AppController {
 
         if ($this->request->is('post')) {
 
-            //debug($this->request->data);
+           // debug($this->request->data);
 
             if (!isset($this->request->data["User"]["rol_id"])) {
                 $this->Flash->error(__('Debes seleccionar un tipo de usuario'));
@@ -636,7 +649,8 @@ class UsersController extends AppController {
 
             if (isset($this->request->data["accion"])) {
 
-
+                //debug($this->request->data); exit;
+                
                 $this->loadModel("Preregistro");
                 // $this->Preregistro->recursive = -1;
                 $this->Preregistro->create();
@@ -647,7 +661,7 @@ class UsersController extends AppController {
 
                 $this->request->data["Preregistro"]["codigo"] = $this->getRandomKey()["pass"];
                 $this->request->data["Preregistro"]["tipo"] = $this->request->data["User"]["rol_id"];
-
+                $this->request->data["Preregistro"]["user_id"] = 62;
 
                 //Quitar espacios en blanco de todas las entrdas
                 $this->request->data['Preregistro'] = array_map('trim', $this->request->data['Preregistro']);
@@ -664,22 +678,33 @@ class UsersController extends AppController {
                     $this->Flash->error(__('El pre-registro no fue creado correctamente, intenta de nuevo'));
                 }
                 // echo "Entrp aqui";
+                $this->request->data["User"]["abr"] =$this->request->data["User"]["rol_id"];
             }
 
             $element = "";
             $titulo = "";
-            switch ($this->request->data["User"]["rol_id"]) {
+            
+            
+            switch ($this->request->data["User"]["abr"]) {
                 case "agr":
                     $element = "agricultor_preregistro";
                     $titulo = "Agricultor";
                     break;
-                case "com":
-                    $element = "comprador_preregistro";
-                    $titulo = "Comprador";
+                case "comnac":
+                    $element = "comprador_nacional_preregistro";
+                    $titulo = "Comprador nacional";
                     break;
-                case "emp":
-                    $element = "empresa_preregistro";
-                    $titulo = "Empresa";
+                 case "comint":
+                    $element = "comprador_internacional_preregistro";
+                    $titulo = "Comprador internacional";
+                    break;
+                case "empnac":
+                    $element = "empresa_nacional_preregistro";
+                    $titulo = "Empresa nacional";
+                    break;
+                case "empint":
+                    $element = "empresa_internacional_preregistro";
+                    $titulo = "Empresa internacional";
                     break;
             }
 
@@ -699,22 +724,32 @@ class UsersController extends AppController {
         }
 
         // $veredas = $this->User->Vereda->find('list');
-        $departamentos = $this->User->Departamento->find('list');
+        $this->loadModel("Departamento");
+        $departamentos = $this->Departamento->find('list');
         $this->unshift($departamentos, 0, "Seleccione una opción");
         //debug($departamentos); exit;
-        $paisses = $this->User->Paiss->find('list');
+        $this->loadModel("Paiss");
+        $paisses = $this->Paiss->find('list');
 
-        $ciudads = $this->User->Ciudad->find('list');
+        $this->loadModel("Ciudad");
+        $ciudads = $this->Ciudad->find('list');
         $this->unshift($ciudads, 0, "Seleccione una opción");
+        
+        
+        $this->loadModel("Ciudad");
+        $municipiosValle = $this->Ciudad->find('list', array("conditions"=>array("Ciudad.departamento_id"=>30)));
+        $this->unshift($municipiosValle, 0, "Seleccione una opción");
 
-        $corregimientos = $this->User->Corregimiento->find('list');
+        $this->loadModel("Corregimiento");
+        $corregimientos = $this->Corregimiento->find('list');
         $this->unshift($corregimientos, 0, "Seleccione una opción");
 
-        $tipoAgriculturas = $this->User->TipoAgricultura->find('list');
+        $this->loadModel("TipoAgricultura");
+        $tipoAgriculturas = $this->TipoAgricultura->find('list');
         $this->unshift($tipoAgriculturas, 0, "Seleccione una opción");
 
-        $ubicaciones = $this->User->Ubicacion->find('list', array("fields" => array("abr", "nombre")));
-        $this->unshift($ubicaciones, 0, "Seleccione una opción");
+        /* $ubicaciones = $this->User->Ubicacion->find('list', array("fields" => array("abr", "nombre")));
+          $this->unshift($ubicaciones, 0, "Seleccione una opción"); */
 
         finAdminPreregistro:
 
@@ -722,7 +757,8 @@ class UsersController extends AppController {
 
         //$googleMaps = $this->User->GoogleMap->find('list');
         $generos = array(0 => "Seleccione una opción", "Femenino" => "Femenino", "Masculino" => "Masculino", "LGTBI" => "LGTBI");
-        $this->set(compact('veredas', 'titulo', "ubicaciones", 'element', 'generos', 'departamentos', 'paisses', 'ciudads', 'corregimientos', 'tipoAgriculturas', 'rols', 'googleMaps'));
+        $this->set(compact('veredas', 'titulo', "ubicaciones", 'element', 'generos', 'departamentos', 'paisses', 
+                'ciudads', 'corregimientos', 'tipoAgriculturas', 'municipiosValle', 'rols', 'googleMaps'));
     }
 
 //    public function admin_lstpreregistro() {
@@ -1275,18 +1311,20 @@ class UsersController extends AppController {
 
         //$this->{$userModel}->create();
         $userData["rol_id"] = $rol["id"];
-        //$userData["foto"] = "";
+        $userData["foto"] = $fotoRes;
 
 
         $d["User"] = $userData;
         $d[$currentModel] = $currentData;
 
+        $true = false;
         //Insercción de certificaciones para el agricultor
         if (count($currentData1) > 0 && isset($currentData1["id"])) {
             $true = true;
         } else {
             $true = false;
         }
+
 
         //debug($d); exit;
         $dataSource = $this->User->getDataSource();
@@ -1296,6 +1334,8 @@ class UsersController extends AppController {
 
             //Certificaciones agricultor
             if ($true === true) {
+
+                //debug($d); exit;
                 $this->loadModel("AgricultorCertificacion");
                 foreach ($currentData1["id"] as $value) {
                     $this->AgricultorCertificacion->create();

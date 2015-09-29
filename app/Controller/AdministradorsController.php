@@ -116,8 +116,14 @@ class AdministradorsController extends AppController {
      * @return void
      */
     public function admin_index() {
-        $this->Administrador->recursive = 0;
-        $this->set('administradors', $this->Paginator->paginate());
+        $this->layout="admin";
+        $this->Administrador->recursive = 0;     
+        $this->loadModel("Rol");
+        $this->Rol->recursive = -1;    
+        $rols = $this->Rol->find('list', array("fields" => array("abr", "nombre")));
+        $administradors = $this->Paginator->paginate();
+        //debug($administradors);
+        $this->set(compact('administradors','rols'));
     }
 
     /**

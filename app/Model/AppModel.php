@@ -160,33 +160,7 @@ class AppModel extends Model {
             //'last' => false, // Stop validation after this rule
             //'on' => 'create', // Limit validation to 'create' or 'update' operations
             ),
-        ), 'foto' => array(
-            /* 'validarVacia' => array(
-              'rule' => array('validarVacia'),
-              'message' => 'Debes ingresar una foto',
-              ), */
-
-//            'extension' => array(
-//                'rule' => array('extension', array('jpg', 'jpeg', 'png')),
-//                'message' => "Solo puedes subir imagenes con las siguientes extensiones: 'jpg','jpeg','png'",
-//            ),
-            'foto' => array(
-                'fileSize' => array('fileSize', '<=', '1MB'),
-                'message' => 'La foto debe ser menor o igual a 1MB.',
-                'required' => FALSE,
-                'allowEmpty' => TRUE,
-            )
         ),
-//        'direccion' => array(
-//            'notBlank' => array(
-//                'rule' => array('notBlank'),
-//            //'message' => 'Your custom message here',
-//            //'allowEmpty' => false,
-//            //'required' => false,
-//            //'last' => false, // Stop validation after this rule
-//            //'on' => 'create', // Limit validation to 'create' or 'update' operations
-//            ),
-//        ),  
         'genero' => array(
             'validarGenero' => array(
                 'rule' => array('validarGenero'),
@@ -208,6 +182,10 @@ class AppModel extends Model {
             //'last' => false, // Stop validation after this rule
             //'on' => 'create', // Limit validation to 'create' or 'update' operations
             ),
+        ), 'ciudad' => array(
+            'notBlank' => array(
+                'rule' => array('notBlank'),
+                'message' => 'Debes llenar el campo ciudad'),
         ),
         'corregimiento_id' => array(
             'validarCorregimiento' => array(
@@ -331,6 +309,15 @@ class AppModel extends Model {
             'validarSelDep' => array(
                 'rule' => array('validarSelDep'),
                 'message' => 'Debes seleccionar un departamento',
+            //'allowEmpty' => false,
+            //'required' => false,
+            //'last' => false, // Stop validation after this rule
+            //'on' => 'create', // Limit validation to 'create' or 'update' operations
+            ),
+        ), 'paiss_id' => array(
+            'validarSelPais' => array(
+                'rule' => array('validarSelPais'),
+                'message' => 'Debes seleccionar un pais',
             //'allowEmpty' => false,
             //'required' => false,
             //'last' => false, // Stop validation after this rule
@@ -463,6 +450,16 @@ class AppModel extends Model {
         return true;
     }
 
+    public function validarSelPais($opcion = array()) {
+        //debug($opcion);
+        if ($opcion["paiss_id"] === 0 || empty($opcion["paiss_id"])) {
+
+            return false;
+        }
+        //echo "Entro aqio";
+        return true;
+    }
+
     public function validateIdentification($identificacion) {
         $count = $this->find('count', array(
             'conditions' => array(
@@ -503,6 +500,60 @@ class AppModel extends Model {
     function rollback() {
         $db = ConnectionManager::getDataSource($this->useDbConfig);
         $db->rollback($this);
+    }
+
+    function checkForeignKeys($table, $id = 0) {
+
+
+        $sql = "SELECT 
+                    `TABLE_SCHEMA`,                          -- Foreign key schema
+                    `TABLE_NAME`,                            -- Foreign key table
+                    `COLUMN_NAME`,                           -- Foreign key column
+                    `REFERENCED_TABLE_SCHEMA`,               -- Origin key schema
+                    `REFERENCED_TABLE_NAME`,                 -- Origin key table
+                    `REFERENCED_COLUMN_NAME`                 -- Origin key column
+                  FROM
+                    `INFORMATION_SCHEMA`.`KEY_COLUMN_USAGE`  -- Will fail if user don't have privilege
+                  WHERE
+                    `TABLE_SCHEMA` = SCHEMA()                -- Detect current schema in USE 
+                    AND `REFERENCED_TABLE_NAME` = '" . $table . "'";
+
+        $query = $this->query($sql);
+
+        //  debug($query); exit;
+        // echo "<pre>";
+        //   print_r($query); exit;
+        //$i = 0;
+        //  $info = array();
+        $totalRef = 0;
+
+        for ($i = 0; $i < count($query); $i++) {
+
+
+
+            //echo "<br>";
+            $query_str = "SELECT * FROM " . $query[$i]["KEY_COLUMN_USAGE"]["TABLE_NAME"] . " WHERE " . $query[$i]["KEY_COLUMN_USAGE"]["COLUMN_NAME"] . "=" . $id;
+            //   echo $query_str;
+            $query = $this->query($query_str);
+            // $info[$row->TABLE_NAME] = [$query->num_rows()];
+            //debug($query);
+            $totalRef = $totalRef + count($query);
+
+            //if ($i === 0) {
+            //$tablas.="No puedes borrar este registro porque esta asociado a (".$query->num_rows().") registro(s) de la tabla " . $row->TABLE_NAME;
+            // } else {
+            //  $tablas.=", " . $row->TABLE_NAME." (".$query->num_rows().")";
+            //}
+            // $i++;
+        }
+        //echo "Conteo". $totalRef;
+        //exit;
+        //   $info["conteo"] = $totalRef;
+        // $tablas="No puedes borrar este registro porque esta asociado a registros de otra tabla ";
+        // echo "dadas".count($info); exit;
+        // $info["msj"] = "No puedes borrar este registro porque esta asociado a registros de otra tabla ";
+        //echo $totalRef;
+        return $totalRef;
     }
 
 }

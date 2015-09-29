@@ -118,8 +118,18 @@ class CompradorNacionalsController extends AppController {
      * @return void
      */
     public function admin_index() {
+       
+        
+      
+        $this->layout = "admin";
         $this->CompradorNacional->recursive = 0;
-        $this->set('compradorNacionals', $this->Paginator->paginate());
+        $this->loadModel("Rol");
+        $this->Rol->recursive = -1;
+        $rols = $this->Rol->find('list', array("fields" => array("abr", "nombre")));
+        $compradorNacionals = $this->Paginator->paginate();
+        // debug($empresaNacionals); exit;
+        $this->set(compact('compradorNacionals', 'rols'));
+    
     }
 
     /**
@@ -161,8 +171,8 @@ class CompradorNacionalsController extends AppController {
 
         //ajaxAdd($userModel, $currentModel, $userData, $currentData)
 
-        debug($this->request->data);
-        exit;
+       // debug($this->request->data);
+       // exit;
 
         $this->layout = null;
         $this->autoRender = false;
@@ -220,16 +230,16 @@ class CompradorNacionalsController extends AppController {
         return $this->redirect(array('action' => 'index'));
     }
 
-    public function ajaxComNacAdd() {
-
-        //ajaxAdd($userModel, $currentModel, $userData, $currentData)
-        //debug($this->request->data); 
-        $this->layout = null;
-        $this->autoRender = false;
-        // $this->Session->write("data", $this->request->data);
-        App::uses('UsersController', 'Controller');
-        $user = new UsersController();
-        $user->ajaxAdd("CompradorNacional", $this->request->data["User"], $this->request->data["CompradorNacional"], "comnac");
-    }
+//    public function ajaxComNacAdd() {
+//
+//        //ajaxAdd($userModel, $currentModel, $userData, $currentData)
+//        //debug($this->request->data); 
+//        $this->layout = null;
+//        $this->autoRender = false;
+//        // $this->Session->write("data", $this->request->data);
+//        App::uses('UsersController', 'Controller');
+//        $user = new UsersController();
+//        $user->ajaxAdd("CompradorNacional", $this->request->data["User"], $this->request->data["CompradorNacional"], "comnac");
+//    }
 
 }
